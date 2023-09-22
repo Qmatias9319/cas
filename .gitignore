@@ -1,3 +1,4 @@
 /api/config/database.php
+!/api/config/.gitkeep
 /api/documents/*
 !/api/documents/.gitkeep
