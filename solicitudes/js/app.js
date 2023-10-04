@@ -31,7 +31,7 @@ $("#formSoli").submit(async (e)=>{
             cancelButtonText: 'Cerrar'
           })
           if(swalWin.isConfirmed){
-            window.open(`../formsPdf/solicitudPrestamoEmergenciaPDF.php?pres=${res.id}`, '_blank')
+            window.open(`../formsPdf/form.php?nid=${res.id}`, '_blank')
           }
           window.location.href = './';
         }else{

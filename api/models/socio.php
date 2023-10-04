@@ -2,6 +2,7 @@
 require_once('./config/database.php');
 class SocioModel{
   private $pdo;
+  private $table = "tblSocio";
 
   public function __construct(){
     $this->pdo = connectToDatabase();
@@ -9,10 +10,16 @@ class SocioModel{
 
   public function createSocio($data){
     try {
-      $vals = self::cadenaInsert($data);
-      $sql = "INSERT INTO tblCliente".$vals[0]." VALUES".$vals[1];
+      //$vals = self::cadenaInsert($data);
+      //$sql = "INSERT INTO tblSocio ".$vals[0]." VALUES".$vals[1];
+      $sql = "INSERT INTO tblSocio 
+              (nombre,paterno,materno,ci,idExpedicion,fechaNacimiento,idEstadoCivil,celular,correo,password)
+              VALUES
+              ('".$data['nombres']."','".$data['paterno']."','".$data['materno']."','".$data['ci']."',".$data['expedido'].",'".$data['fechaNac']."',
+              ".$data['estadoCivil'].",'".$data['celular']."','".$data['correoElec']."','".$data['password']."');";
       $stmt = $this->pdo->prepare($sql);
-      $stmt->execute($vals[2]);
+      //$stmt->execute($vals[2]);
+      $stmt->execute();
       $lastInsert = $this->pdo->lastInsertId();
       if($lastInsert != false){
         return $lastInsert;
@@ -43,9 +50,55 @@ class SocioModel{
   public function getSocio($correo, $pass){
     $res = null;
     try {
-      $sql = "SELECT * FROM tblCliente WHERE correoElec = ? AND password = ?";
+      $sql = "SELECT * FROM $this->table WHERE correo = ? AND password = ?";
       $stmt = $this->pdo->prepare($sql);
       $stmt->execute([$correo, $pass]);
+      $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }catch (\Throwable $th) {
+      print_r($th);
+    }
+    return $res;
+  }
+
+  public function getAllData($id){
+    $res = null;
+    try {
+      $sql = "SELECT ts.*, te.detalle as expedido, tec.detalle as estadoCivil, tv.*, td.*, tf.detalle as fuerza, tg.detalle as grado, tp.*
+              FROM $this->table ts
+              LEFT JOIN tblExpedicion te ON te.idExpedicion = ts.idExpedicion
+              LEFT JOIN tblEstadoCivil tec ON tec.idEstadoCivil = ts.idEstadoCivil
+              LEFT JOIN tblVivienda tv ON tv.idSocio = ts.idSocio
+              LEFT JOIN tblDetalleMilitar td ON td.idSocio = ts.idSocio
+              LEFT JOIN tblFuerza tf ON tf.idFuerza = td.idFuerza
+              LEFT JOIN tblGrado tg ON tg.idFuerza = tf.idFuerza
+              LEFT JOIN tblRegistro tr ON tr.idSocio = ts.idSocio
+              LEFT JOIN tblPrestamo tp ON tp.idSocio = ts.idSocio
+              WHERE ts.idSocio = ? ;";
+      $stmt = $this->pdo->prepare($sql);
+      $stmt->execute([$id]);
+      $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }catch (\Throwable $th) {
+      print_r($th);
+    }
+    return $res;
+  }
+
+  public function getAllDataPrestamo($id){
+    $res = null;
+    try {
+      $sql = "SELECT ts.*, te.detalle as expedido, tec.detalle as estadoCivil, tv.*, td.*, tf.detalle as fuerza, tg.detalle as grado, tp.*
+              FROM $this->table ts
+              LEFT JOIN tblExpedicion te ON te.idExpedicion = ts.idExpedicion
+              LEFT JOIN tblEstadoCivil tec ON tec.idEstadoCivil = ts.idEstadoCivil
+              LEFT JOIN tblVivienda tv ON tv.idSocio = ts.idSocio
+              LEFT JOIN tblDetalleMilitar td ON td.idSocio = ts.idSocio
+              LEFT JOIN tblFuerza tf ON tf.idFuerza = td.idFuerza
+              LEFT JOIN tblGrado tg ON tg.idFuerza = tf.idFuerza
+              LEFT JOIN tblRegistro tr ON tr.idSocio = ts.idSocio
+              LEFT JOIN tblPrestamo tp ON tp.idSocio = ts.idSocio
+              WHERE tp.prestamo = ? ;";
+      $stmt = $this->pdo->prepare($sql);
+      $stmt->execute([$id]);
       $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
     }catch (\Throwable $th) {
       print_r($th);

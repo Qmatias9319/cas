@@ -2,7 +2,7 @@
 //require('../panel/tcpdf/tcpdf.php');
 include('../api/config/database.php');
 // formulario para prestamo 
-if (!isset($_GET['nid'])) {
+if(!isset($_GET['nid'])){
   echo 'Id de prestamo invalido';
   die();
 }
@@ -61,33 +61,32 @@ if(count($res)>0){
   include('./solicitudPrestamoEmergenciaPDF.php');
 }*/
 
-$idPrestamo = $_GET['nid'];
-// DATOS DEL PRESTAMO
-session_start();
-$idSocio = $_SESSION['idUsuario'];
-$data = getAllDataSocio($idSocio, $idPrestamo)[0];
+  $idPrestamo = $_GET['nid'];
+  // DATOS DEL PRESTAMO
+  session_start();
+  $idSocio = $_SESSION['idUsuario'];
+  $data = getAllDataSocio($idSocio,$idPrestamo)[0];
 
-switch ($data['tipo']) {
-  case 'CONSUMO':
-    include('solicitudPrestamoConsumoPDF.php');
-    break;
-  case 'EMERGENCIA':
-    include('solicitudPrestamoEmergenciaPDF.php');
-    break;
-  case 'AUXILIO':
-    include('solicitudPrestamoAuxilioPDF.php');
-    break;
-  case 'REGULAR':
-    include('solicitudPrestamoRegularPDF.php');
-    break;
-}
+  switch($data['tipo']){
+    case 'CONSUMO':
+      include('solicitudPrestamoConsumoPDF.php');
+      break;
+    case 'EMERGENCIA':
+      include('solicitudPrestamoEmergenciaPDF.php');
+      break;
+    case 'AUXILIO':
+      include('solicitudPrestamoAuxilioPDF.php');
+      break;
+    case 'REGULAR':
+      include('solicitudPrestamoRegularPDF.php');
+      break;
+  }
 
-function getAllDataSocio($idSocio, $idPrestamo)
-{
-  $pdo = connectToDatabase();
-  $res = null;
-  try {
-    $sql = "SELECT ts.*, te.detalle as expedido, tec.detalle as estadoCivil, tv.*, td.*, tf.detalle as fuerza, tg.detalle as grado, tp.*
+  function getAllDataSocio($idSocio,$idPrestamo){
+    $pdo = connectToDatabase();
+    $res = null;
+    try {
+        $sql = "SELECT ts.*, te.detalle as expedido, tec.detalle as estadoCivil, tv.*, td.*, tf.detalle as fuerza, tg.detalle as grado, tp.*
                 FROM tblSocio ts
                 LEFT JOIN tblExpedicion te ON te.idExpedicion = ts.idExpedicion
                 LEFT JOIN tblEstadoCivil tec ON tec.idEstadoCivil = ts.idEstadoCivil
@@ -99,13 +98,13 @@ function getAllDataSocio($idSocio, $idPrestamo)
                 LEFT JOIN tblPrestamo tp ON tp.idSocio = ts.idSocio
                 WHERE ts.idSocio = ? 
                     AND tp.idPrestamo = ? ;";
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([$idSocio, $idPrestamo]);
-    $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
-  } catch (\Throwable $th) {
-    print_r($th);
-  }
-  return $res;
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$idSocio,$idPrestamo]);
+        $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }catch (\Throwable $th) {
+        print_r($th);
+    }
+    return $res;
 }
 
 ?>
