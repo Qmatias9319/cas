@@ -13,9 +13,9 @@ class PrestamoModel{
       session_start();
       $id = $_SESSION['idUsuario'];
       if($id != $data['idg2'] && $id != $data['idg1']){
-        $sql = "INSERT INTO $this->table (idCliente, tipoPrestamo, monto, motivo, plazo, nroCuenta, garante1, garante2, estado) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO $this->table (idSocio, tipo, monto, motivo, plazo, numeroCuenta, estado) VALUES(?, ?, ?, ?, ?, ?, ?)";
         $stmt = $this->pdo->prepare($sql);
-        $stmt->execute([$id, $data['tipoPrestamo'], $data['monto'], $data['motivo'], $data['plazo'], $data['nroCta'], $data['idg1'], $data['idg2'], 'SOLICITUD']);
+        $stmt->execute([$id, $data['tipoPrestamo'], $data['monto'], $data['motivo'], $data['plazo'], $data['nroCta'], 'SOLICITUD']);
         $lastInsert = $this->pdo->lastInsertId();
         if($lastInsert != false){
           return $lastInsert;

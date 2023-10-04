@@ -1,12 +1,12 @@
 <?php
-require('../panel/tcpdf/tcpdf.php');
+//require('../panel/tcpdf/tcpdf.php');
 include('../api/config/database.php');
 // formulario para prestamo 
 if(!isset($_GET['nid'])){
   echo 'Id de prestamo invalido';
   die();
 }
-$sql = "SELECT * FROM 
+/*$sql = "SELECT * FROM 
 tblCliente as tc
 INNER JOIN tblPRestamo as tp
 ON tp.idCliente = tc.idUsuario
@@ -59,8 +59,52 @@ if(count($res)>0){
   $nombreFirma = $res[0]->paterno.' '.$res[0]->materno.' '.$res[0]->nombres;
   $ciFirma = $res[0]->ci .' '.$res[0]->expedido;
   include('./solicitudPrestamoEmergenciaPDF.php');
-}
+}*/
 
-// echo $_GET['nid'];
+  $idPrestamo = $_GET['nid'];
+  // DATOS DEL PRESTAMO
+  session_start();
+  $idSocio = $_SESSION['idUsuario'];
+  $data = getAllDataSocio($idSocio,$idPrestamo)[0];
+
+  switch($data['tipo']){
+    case 'CONSUMO':
+      include('solicitudPrestamoConsumoPDF.php');
+      break;
+    case 'EMERGENCIA':
+      include('solicitudPrestamoEmergenciaPDF.php');
+      break;
+    case 'AUXILIO':
+      include('solicitudPrestamoAuxilioPDF.php');
+      break;
+    case 'REGULAR':
+      include('solicitudPrestamoRegularPDF.php');
+      break;
+  }
+
+  function getAllDataSocio($idSocio,$idPrestamo){
+    $pdo = connectToDatabase();
+    $res = null;
+    try {
+        $sql = "SELECT ts.*, te.detalle as expedido, tec.detalle as estadoCivil, tv.*, td.*, tf.detalle as fuerza, tg.detalle as grado, tp.*
+                FROM tblSocio ts
+                LEFT JOIN tblExpedicion te ON te.idExpedicion = ts.idExpedicion
+                LEFT JOIN tblEstadoCivil tec ON tec.idEstadoCivil = ts.idEstadoCivil
+                LEFT JOIN tblVivienda tv ON tv.idSocio = ts.idSocio
+                LEFT JOIN tblDetalleMilitar td ON td.idSocio = ts.idSocio
+                LEFT JOIN tblFuerza tf ON tf.idFuerza = td.idFuerza
+                LEFT JOIN tblGrado tg ON tg.idFuerza = tf.idFuerza
+                LEFT JOIN tblRegistro tr ON tr.idSocio = ts.idSocio
+                LEFT JOIN tblPrestamo tp ON tp.idSocio = ts.idSocio
+                WHERE ts.idSocio = ? 
+                    AND tp.idPrestamo = ? ;";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$idSocio,$idPrestamo]);
+        $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }catch (\Throwable $th) {
+        print_r($th);
+    }
+    return $res;
+}
 
 ?>

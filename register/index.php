@@ -106,15 +106,6 @@ Our Professionals, ​Start using Our App for free">
                           <div class="input-group-text p-0" style="width:70px;">
                             <select id="extension_ci" title="Extendido en..." name="expedido" class="form-select px-1" required style="border:none">
                               <option value="" title="extensión">S/E</option>
-                              <option value="LP">LP</option>
-                              <option value="OR">OR</option>
-                              <option value="PT">PT</option>
-                              <option value="CB">CB</option>
-                              <option value="SC">SC</option>
-                              <option value="BN">BN</option>
-                              <option value="PA">PA</option>
-                              <option value="TJ">TJ</option>
-                              <option value="CH">CH</option>
                             </select>
                           </div>  
                         </div>
@@ -130,11 +121,7 @@ Our Professionals, ​Start using Our App for free">
                         <div class="input-group flex-nowrap input-group-lg">
                           <span class="input-group-text"><i class="fas fa-ring"></i></span>
                           <select id="estado_civil" name="estadoCivil" class="form-select pl-2">
-                            <option value=""> Estado civil</option>
-                            <option value="SOLTERO (A)">SOLTERO (A)</option>
-                            <option value="CASADO (A)">CASADO (A)</option>
-                            <option value="VIUDO (A)">VIUDO (A)</option>
-                            <option value="DIVORCIADO (A)">DIVORCIADO (A)</option>
+                            <option value="">- Sel. estado civil -</option>
                           </select>
                         </div>
                       </div>
@@ -145,7 +132,36 @@ Our Professionals, ​Start using Our App for free">
                         </div>
                       </div>
                       <div class="row mb-4">
+                        <span style="color:#C0C0C0;">Lugar de nacimiento</span>
+                        <div class="input-group flex-nowrap input-group-lg">
+                          <span class="input-group-text" ><i class="fas fa-globe"></i></span>
+                          <select id="departamento" name="departamento" class="form-select pl-2" required>
+                            <option value="" disabled selected>- Sel. departamento -</option>
+                          </select>
+                          <select id="provincia" name="provincia" class="form-select pl-2" required>
+                            <option value="" disabled selected>- Sel. provincia -</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="row mb-4">
+                        <div class="input-group flex-nowrap input-group-lg">
+                          <span class="input-group-text" ><i class="fas fa-globe"></i></span>
+                          <select id="municipio" name="municipio" class="form-select pl-2" required>
+                            <option value="" disabled selected>- Sel. municipio -</option>
+                          </select>
+                          <select id="localidad" name="localidad_x" class="form-select pl-2" style="display:none;">
+                            <option value="" disabled selected>- Sel. localidad -</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="row mb-4">
                         <span style="color:#C0C0C0;">Su dirección actual</span>
+                        <div class="input-group flex-nowrap input-group-lg">
+                          <span class="input-group-text"><i class="fas fa-house-user"></i></span>
+                          <input type="text" class="form-control" name="ciudad" placeholder="Ciudad">
+                        </div>
+                      </div>
+                      <div class="row mb-4">
                         <div class="input-group flex-nowrap input-group-lg">
                           <span class="input-group-text"><i class="fas fa-house-user"></i></span>
                           <input type="text" class="form-control" name="localidad" placeholder="Localidad">
@@ -157,12 +173,6 @@ Our Professionals, ​Start using Our App for free">
                           <span class="input-group-text"><i class="fas fa-house-user"></i></span>
                           <input type="text" class="form-control" name="avenida" placeholder="Calle/Avenida">
                           <input type="text" class="form-control" name="nroDir" placeholder="Nro. de domicilio">
-                        </div>
-                      </div>
-                      <div class="row mb-4">
-                        <div class="input-group flex-nowrap input-group-lg">
-                          <span class="input-group-text" ><i class="fas fa-globe"></i></span>
-                          <input type="text" class="form-control" placeholder="Ciudad" name="ciudad" required />
                         </div>
                       </div>
                     </div>  
@@ -186,36 +196,16 @@ Our Professionals, ​Start using Our App for free">
                       <div class="row mb-4">
                         <div class="input-group flex-nowrap input-group-lg">
                           <span class="input-group-text"><i class="fa fa-solid fa-shield"></i></span>
-                          <select name="provieneFuerza" class="form-select pl-2" name="provieneFuerza" required>
-                            <option value=""> Seleccione Fuerza...</option>
-                            <option value="Ejército de Bolivia">EJÉRCITO DE BOLIVIA</option>
-                            <option value="Fuerza Aérea Boliviana">FUERZA AÉREA BOLIVIANA</option>
-                            <option value="Armada Boliviana">ARMADA BOLIVIANA</option>
+                          <select name="provieneFuerza" class="form-select pl-2" name="provieneFuerza" required id="fuerza">
+                            <option value="">- Sel. fuerza -</option>
                           </select>
                         </div>
                       </div>
                       <div class="row mb-4">
                         <div class="input-group flex-nowrap input-group-lg">
                           <span class="input-group-text"><i class="fa fa-solid fa-bolt-lightning"></i></span>
-                          <select name="grado" class="form-select pl-2">
-                            <option value=""> Seleccione Grado...</option>
-                            <option value="GRAL. FZA.">Gral. Fza. (Almte.)</option>
-                            <option value="GRAL. DIV.">Gral. Div. (V. Almte.)</option>
-                            <option value="GRAL. BRIG.">Gral. Brig. (C. Almte.)</option>
-                            <option value="CNL.">Cnl. (CN.)</option>
-                            <option value="TCNL.">Tcnl. (CF.)</option>
-                            <option value="MY.">My. (CC.)</option>
-                            <option value="CAP.">Cap. (TN.)</option>
-                            <option value="TTE.">Tte. (TF.)</option>
-                            <option value="SBTTE.">Sbtte. (Alf.)</option>
-                            <option value="SOF. MTRE.">Sof. Mtre.</option>
-                            <option value="SOF. MY.">Sof. My.</option>
-                            <option value="SOF. 1ro.">Sof. 1ro.</option>
-                            <option value="SOF. 2do.">Sof. 2do.</option>
-                            <option value="SOF. Incl.">Sof. Incl.</option>
-                            <option value="SGTO. 1ro.">Sgto. 1ro.</option>
-                            <option value="SGTO. 2do.">Sgto. 2do.</option>
-                            <option value="SGTO. Incl.">Sgto. Incl.</option>
+                          <select name="grado" class="form-select pl-2" id="grado">
+                            <option value="">- Sel. grado -</option>
                           </select>
                         </div>
                       </div>
@@ -347,6 +337,7 @@ Our Professionals, ​Start using Our App for free">
   <script src="../static/js/sweetalert2.min.js"></script>
   <script type="text/javascript" charset="utf8" src="../static/js/jquery.js"></script>
   <script src="./js/register.js"></script>
+  <script src="./js/load-resources.js"></script>
   <script src="../static/js/bootstrap.min.js"></script>
 </body>
 

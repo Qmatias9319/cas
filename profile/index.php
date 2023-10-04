@@ -173,7 +173,7 @@ Our Professionals, ​Start using Our App for free">
 					</form>
 				</div>
 				<div style="text-align:center;font-weight: bold">
-					<?=$dataUser['nombres'].' '.$dataUser['paterno'].' '.$dataUser['materno']?>
+					<?=$dataUser['nombre'].' '.$dataUser['paterno'].' '.$dataUser['materno']?>
 					<br>
 					<?=$dataUser['ci'].' '.$dataUser['expedido']?>
 				</div>
@@ -194,7 +194,7 @@ Our Professionals, ​Start using Our App for free">
 						<tr>
 							<th scope="row">1</th>
 							<td>Fecha Nacimiento</td>
-							<?php $fecha = new DateTime($dataUser['fechaNac']);?>
+							<?php $fecha = new DateTime($dataUser['fechaNacimiento']);?>
 							<td><?=$fecha->format('d-m-Y')?></td>
 						</tr>
 						<tr>
@@ -210,7 +210,7 @@ Our Professionals, ​Start using Our App for free">
 						<tr>
 							<th scope="row">4</th>
 							<td>Correo electrónico</td>
-							<td><?=$dataUser['correoElec']?></td>
+							<td><?=$dataUser['correo']?></td>
 						</tr>
 						<tr>
 							<th scope="row">5</th>
@@ -225,12 +225,12 @@ Our Professionals, ​Start using Our App for free">
 						<tr>
 							<th scope="row">7</th>
 							<td>Avenida|Calle - Nro.</td>
-							<td><?=$dataUser['avenida'].' - '.$dataUser['nroDir']?></td>
+							<td><?=$dataUser['calle'].' - '.$dataUser['numero']?></td>
 						</tr>
 						<tr>
 							<th scope="row">8</th>
 							<td>Fuerza</td>
-							<td><?=$dataUser['provieneFuerza']?></td>
+							<td><?=$dataUser['fuerza']?></td>
 						</tr>
 						<tr>
 							<th scope="row">9</th>
@@ -256,7 +256,7 @@ Our Professionals, ​Start using Our App for free">
 						<tr>
 							<th scope="row">13</th>
 							<td>Código Boleta</td>
-							<td><?=$dataUser['codBoleta']?></td>
+							<td><?=$dataUser['codigoBoleta']?></td>
 						</tr>
 					</tbody>
 				</table>

@@ -1,9 +1,9 @@
 <?php
-// ==============================================
-// REPORTE LIBRO MAYOR PARA UN RANGO DE CUENTAS
-// ==============================================
 
-require_once('Tcpdf/tcpdf.php');
+require('../panel/tcpdf/tcpdf.php');
+//require('../api/config/database.php');
+require('convertidorTexto.php');
+
 date_default_timezone_set('America/La_Paz');
 ob_start();
 error_reporting(E_ALL & ~E_NOTICE);
@@ -27,8 +27,8 @@ $pdf = new MYPDF('P', 'mm', $carta, true, 'UTF-8', false);
 // Configurar las propiedades del documento
 $pdf->SetCreator('STIS');
 $pdf->SetAuthor('STIS');
-$pdf->SetTitle('LIBRO MAYOR');
-$pdf->SetSubject('LIBRO MAYOR');
+$pdf->SetTitle('Prestamo Auxilio');
+$pdf->SetSubject('Prestamo Auxilio');
 
 // Establecer las dimensiones y la orientación del papel
 $pdf->setPrintHeader(true);
@@ -38,47 +38,52 @@ $pdf->SetAutoPageBreak(true, 13);
 
 // Agregar una página
 // $pdf->AddPage();
+    // DATOS DEL PRESTAMO
+    /*session_start();
+    $idSocio = $_SESSION['idUsuario'];
+    $idPrestamo = $_GET['pres'];
+    $data = getAllDataSocio($idSocio,$idPrestamo)[0];*/
     // CABECERA DEL DOCUMENTO
     $pdf->AddPage();
     /**
      * DATOS DE LA PRIMERA PAGINA
      */
     // Datos Cabecera
-    $nroFormulario = "123123123";
+    $nroFormulario = "_______________";
     // Datos de la solicitud
-    $grado = "asdasdasd";
-    $especialidad = "asdasdasddas";
-    $paterno = "FLORES";
-    $materno = "QUISBERT";
-    $nombres = "JOSÉ LUIS";
+    $grado = $data['grado'];
+    $especialidad = $data['arma'];
+    $paterno = $data['paterno'];
+    $materno = $data['materno'];
+    $nombres = $data['nombre'];
 
-    $arma = "asdasdasd";
-    $destino = "asdasdasd";
-    $tel = "222222";
+    $arma = $data['arma'];
+    $destino = $data['ciudad'];
+    $tel = $data['celular'];
 
-    $localidad = "asdasdasd";
-    $calle = "asdasdasdasd";
-    $numero = "dasda";
-    $zona = "asdasdasd";
-    $telefono = "22222222";
+    $localidad = $data['localidad'];
+    $calle = $data['calle'];
+    $numero = $data['numero'];
+    $zona = $data['zona'];
+    $telefono = $data['celular'];
 
-    $codigo = "asdasdasd";
-    $ci = "123456789";
-    $cm = "789456123";
+    $codigo = $data['codigoBoleta'];
+    $ci = $data['ci']." ".$data['expedido'];
+    $cm = $data['carnetMilitar'];
 
-    $sus = "321321654";
-    $plazo = "18";
+    $monto = number_format($data['monto'], 2);
+    $plazo = $data['plazo'];
 
-    $cuentaAbono = "123123123123";
+    $cuentaAbono = $data['numeroCuenta'];
 
     // Cuerpo Contrato
     $nombre = $nombres.' '.$paterno.' '.$materno;
-    $ci = "123123123 LP";
-    $suma = "123,123.00";
-    $sumaLiteral = "CIENTO VEITITRES MIL CIENTO VEINTITRES";
-    $nroComprobante = "123456";
-    $fecha = "31/08/2023";
-    $meses = "18";
+    $ci = $ci;
+    $suma = number_format($data['monto'], 2); // definir formato
+    $sumaLiteral = numtoletras($data['monto']); // definir literal
+    $nroComprobante = "___________";
+    $fecha = "________________";
+    $meses = $data['plazo'];
     $dia = "15";
     $mes = "Septiembre";
     $anio = "2023";
@@ -132,7 +137,7 @@ $pdf->SetAutoPageBreak(true, 13);
 
     $solicitud .= '<tr><td></td></tr><tr><td colspan="2">Cod. Pap. Pago: ' . $codigo . '</td><td colspan="2">C.I. ' . $ci . '</td><td colspan="2">C.M. ' . $cm . '</td></tr>';
 
-    $solicitud .= '<tr><td></td></tr><tr><td colspan="3">Préstamo Solicitado Bs. ' . $sus . ' </td><td colspan="3">Plazo: ' . $plazo . ' meses.</td></tr>';
+    $solicitud .= '<tr><td></td></tr><tr><td colspan="3">Préstamo Solicitado Bs. ' . $monto . ' </td><td colspan="3">Plazo: ' . $plazo . ' meses.</td></tr>';
 
     $solicitud .= '<tr><td></td></tr><tr><tdcolspan="6">Nro. Cuenta BANCO UNIÓN (Para Abono): ' . $cuentaAbono . '</td></tr>';
     
@@ -182,7 +187,7 @@ $pdf->SetAutoPageBreak(true, 13);
     $pdf->WriteHTMLCell(0, 0, '', '27', $textBody, 0, 0);
 
     ob_end_clean();
-    $pdf->output('LIBRO MAYOR.pdf', 'I');
+    $pdf->output('Prestamo Auxilio.pdf', 'I');
 
 
     function literalMonth($month){
@@ -204,3 +209,28 @@ $pdf->SetAutoPageBreak(true, 13);
 
         return $literal;
     }
+
+    /*function getAllDataSocio($idSocio,$idPrestamo){
+        $pdo = connectToDatabase();
+        $res = null;
+        try {
+            $sql = "SELECT ts.*, te.detalle as expedido, tec.detalle as estadoCivil, tv.*, td.*, tf.detalle as fuerza, tg.detalle as grado, tp.*
+                    FROM tblSocio ts
+                    LEFT JOIN tblExpedicion te ON te.idExpedicion = ts.idExpedicion
+                    LEFT JOIN tblEstadoCivil tec ON tec.idEstadoCivil = ts.idEstadoCivil
+                    LEFT JOIN tblVivienda tv ON tv.idSocio = ts.idSocio
+                    LEFT JOIN tblDetalleMilitar td ON td.idSocio = ts.idSocio
+                    LEFT JOIN tblFuerza tf ON tf.idFuerza = td.idFuerza
+                    LEFT JOIN tblGrado tg ON tg.idFuerza = tf.idFuerza
+                    LEFT JOIN tblRegistro tr ON tr.idSocio = ts.idSocio
+                    LEFT JOIN tblPrestamo tp ON tp.idSocio = ts.idSocio
+                    WHERE ts.idSocio = ? 
+                        AND tp.idPrestamo = ? ;";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([$idSocio,$idPrestamo]);
+            $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }catch (\Throwable $th) {
+            print_r($th);
+        }
+        return $res;
+    }*/

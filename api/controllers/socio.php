@@ -1,5 +1,8 @@
 <?php
 require_once('./models/socio.php');
+require_once('./models/vivienda.php');
+require_once('./models/detalleMilitar.php');
+require_once('./models/registro.php');
 class Socio
 {
   public function __construct()
@@ -13,7 +16,18 @@ class Socio
     if ($id > 0) {
       $writeFiles = Socio::createDirSocio($id, $files);
       if ($writeFiles > 0) {
-        echo json_encode(array('status' => 'success', 'message' => 'Socio creado correctamente'));
+        $data['idSocio'] = $id;
+        $vivienda = new ViviendaModel();
+        $vResponse = $vivienda->create($data);
+        $detalle = new DetalleMilitarModel();
+        $dResponse = $detalle->create($data);
+        $registro = new RegistroModel();
+        $rResponse = $registro->create($data);
+        if($vResponse == -1 || $dResponse == -1 || $rResponse == -1){
+          echo json_encode(array('status' => 'error', 'message' => 'Ocurrio un error durante el registro'));
+        }else{
+          echo json_encode(array('status' => 'success', 'message' => 'Socio creado correctamente'));
+        }
       } else {
         echo json_encode(array('status' => 'error', 'message' => 'Error al crear archivos'));
       }
@@ -30,8 +44,9 @@ class Socio
       $socio = $socioModel->getSocio($data['correo'], $data['password']);
       if ($socio != null) {
         session_start();
-        $_SESSION['idUsuario'] = $socio[0]['idUsuario'];
-        $_SESSION['usuario'] = json_encode($socio[0]);
+        $data = $socioModel->getAllData($socio[0]['idSocio']);
+        $_SESSION['idUsuario'] = $socio[0]['idSocio'];
+        $_SESSION['usuario'] = json_encode($data[0]);
         echo json_encode(array('status' => 'success', 'message' => 'Sesión iniciada'));
       } else {
         echo json_encode(array('status' => 'error', 'message' => 'Correo o contraseña incorrectos'));
