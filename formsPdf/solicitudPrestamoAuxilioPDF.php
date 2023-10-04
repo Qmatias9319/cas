@@ -3,7 +3,7 @@
 // REPORTE LIBRO MAYOR PARA UN RANGO DE CUENTAS
 // ==============================================
 
-require_once('Tcpdf/tcpdf.php');
+require('../panel/tcpdf/tcpdf.php');
 date_default_timezone_set('America/La_Paz');
 ob_start();
 error_reporting(E_ALL & ~E_NOTICE);
