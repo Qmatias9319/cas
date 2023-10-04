@@ -1,4 +1,10 @@
 <?php
+
+require('../panel/tcpdf/tcpdf.php');
+//require('../api/config/database.php');
+require('convertidorTexto.php');
+
+
 ob_start();
 error_reporting(E_ALL & ~E_NOTICE);
 ini_set('display_errors', 0);
@@ -21,8 +27,8 @@ $pdf = new MYPDF('P', 'mm', $carta, true, 'UTF-8', false);
 // Configurar las propiedades del documento
 $pdf->SetCreator('STIS');
 $pdf->SetAuthor('STIS');
-$pdf->SetTitle('LIBRO MAYOR');
-$pdf->SetSubject('LIBRO MAYOR');
+$pdf->SetTitle('Prestamo Emergencia');
+$pdf->SetSubject('Prestamo Emergencia');
 
 // Establecer las dimensiones y la orientación del papel
 $pdf->setPrintHeader(true);
@@ -32,54 +38,55 @@ $pdf->SetAutoPageBreak(true, 13);
 
 // Agregar una página
 // $pdf->AddPage();
+    // DATOS DEL PRESTAMO
+    /*session_start();
+    $idSocio = $_SESSION['idUsuario'];
+    $idPrestamo = $_GET['pres'];
+    $data = getAllDataSocio($idSocio,$idPrestamo)[0];*/
     // CABECERA DEL DOCUMENTO
     $pdf->AddPage();
     /**
      * DATOS DE LA PRIMERA PAGINA
      */
     // Datos Cabecera
-    $nroFormulario = "123";
+    $nroFormulario = "_______________";
     // Datos de la solicitud
-    $grado = "asdasdasd";
-    $especialidad = "asdasdasddas";
-    $paterno = "asdasd";
-    $materno = "asdasdasd";
-    $nombres = "asdasd";
+    $grado = $data['grado'];
+    $especialidad = $data['arma'];
+    $paterno = $data['paterno'];
+    $materno = $data['materno'];
+    $nombres = $data['nombre'];
 
-    $arma = "asdasdasd";
-    $destino = "asdasdasd";
-    $tel = "222222";
+    $arma = $data['arma'];
+    $destino = $data['ciudad'];
+    $tel = $data['celular'];
 
-    $localidad = "asdasdasd";
-    $calle = "asdasdasdasd";
-    $numero = "dasda";
-    $zona = "asdasdasd";
-    $telefono = "22222222";
+    $localidad = $data['localidad'];
+    $calle = $data['calle'];
+    $numero = $data['numero'];
+    $zona = $data['zona'];
+    $telefono = $data['celular'];
 
-    $codigo = "asdasdasd";
-    $ci = "123456789";
-    $cm = "789456123";
+    $codigo = $data['codigoBoleta'];
+    $ci = $data['ci']." ".$data['expedido'];
+    $cm = $data['carnetMilitar'];
 
-    $sus = "321321654";
-    $plazo = "18";
+    $monto = number_format($data['monto'], 2);
+    $plazo = $data['plazo'];
 
-    $cuentaAbono = "123123123123";
+    $cuentaAbono = $data['numeroCuenta'];
 
     // Cuerpo Contrato
-    $nombre = "JOSE LUIS FLORES QUISBERT";
-    $ci = "123123123 LP";
-    $suma = "123,123.00";
-    $sumaLiteral = "CIENTO VEITITRES MIL CIENTO VEINTITRES";
-    $nroComprobante = "123456";
-    $fecha = "31/08/2023";
-    $meses = "18";
+    $nombre = $nombres.' '.$paterno.' '.$materno;
+    $ci = $ci;
+    $suma = number_format($data['monto'], 2); // definir formato
+    $sumaLiteral = numtoletras($data['monto']); // definir literal
+    $nroComprobante = "___________";
+    $fecha = "________________";
+    $meses = $data['plazo'];
     $dia = "15";
     $mes = "Septiembre";
     $anio = "2023";
-
-    // PIE FIRMA
-    $nombreFirma = "JOSE LUIS FLORES QUISBERT";
-    $ciFirma = "9987928 LP";
 
     // CUERPO DEL DOCUMENTO
     $image_file = './cas.jpg';
@@ -110,7 +117,7 @@ $pdf->SetAutoPageBreak(true, 13);
                         <td>NOMBRES</td>
                     </tr>';
 
-    $solicitud .= '<tr><td></td></tr><tr><td colspan="6">Arma: ' . $arma . ' Destino Actual: ' . $destino . ' Tel: ' . $tel . '</td></tr>';
+    $solicitud .= '<tr><td></td></tr><tr><td colspan="2">Arma: ' . $arma . ' </td><td colspan="2">Destino Actual: ' . $destino . ' </td><td colspan="2">Tel: ' . $tel . '</td></tr>';
 
     $solicitud .= '<tr><td></td></tr><tr align="justify">
                         <td rowspan="2">Domicilio:</td>
@@ -128,11 +135,11 @@ $pdf->SetAutoPageBreak(true, 13);
                         <td>TELEFONO</td>
                     </tr>';
 
-    $solicitud .= '<tr><td></td></tr><tr><td colspan="6">Cod. Pap. Pago: ' . $codigo . ' C.I. ' . $ci . ' C.M. ' . $cm . '</td></tr>';
+    $solicitud .= '<tr><td></td></tr><tr><td colspan="2">Cod. Pap. Pago: ' . $codigo . ' </td><td colspan="2">C.I. ' . $ci . ' </td><td colspan="2">C.M. ' . $cm . '</td></tr>';
 
-    $solicitud .= '<tr><td></td></tr><tr><tdcolspan="6">Préstamo Solicitado $us ' . $sus . ' Plazo: ' . $plazo . ' meses.</td></tr>';
+    $solicitud .= '<tr><td></td></tr><tr><td colspan="3">Préstamo Solicitado Bs. ' . $monto . ' </td><td>Plazo: ' . $plazo . ' meses.</td></tr>';
 
-    $solicitud .= '<tr><td></td></tr><tr><tdcolspan="6">Nro. Cuenta BANCO UNIÓN (Para Abono): ' . $cuentaAbono . '</td></tr>';
+    $solicitud .= '<tr><td></td></tr><tr><td colspan="6">Nro. Cuenta BANCO UNIÓN (Para Abono): ' . $cuentaAbono . '</td></tr>';
     
     $title = $solicitud;
 
@@ -142,8 +149,8 @@ $pdf->SetAutoPageBreak(true, 13);
 
     $textBody .= '<b>PRIMERA.- (Antecedentes)</b> El objetivo del presente Reglamento es el de establecer las directrices para la obtención de créditos a través de la otorgación de recursos económicos, para apoyar a los Asociados y sus familias a mejorar su calidad de vida.<br>';
 
-    $textBody .= '<b>SEGUNDA.- (Objeto)</b> El PRESTATARIO declara que debe y pagará a la orden del ACREEDOR la suma de $us ' . $suma . ' (' . $sumaLiteral . ' dólares americanos), que ha recibido a su entera satisfacción en moneda actual y corriente como consta en el COMPROBANTE DE PAGO&nbsp;&nbsp;del “C.A.S.” R.L. No. ' . $nroComprobante . ' de fecha ' . $fecha . '<br>';
-
+    $textBody .= '<b>SEGUNDA.- (Objeto)</b> El PRESTATARIO declara que debe y pagará a la orden del ACREEDOR la suma de Bs. ' . $suma . ' (' . $sumaLiteral . '), que ha recibido a su entera satisfacción en moneda actual y corriente como consta en el COMPROBANTE DE PAGO&nbsp;&nbsp;del “C.A.S.” R.L. No. ' . $nroComprobante . ' de fecha ' . $fecha . '<br>';
+    
     $textBody .= '<b>TERCERA.- (Interés)</b> El presente préstamo devengará al interés de 1 % mensual, sobre los saldos deudores, el mismo que será recargado con el interés penal de 2,5 % mensual, en caso de mora de una o más amortizaciones.<br>';
     
     $textBody .= '<b>CUARTA.- (Plazo)</b> La deuda será totalmente cancelada por el PRESTATARIO, en el plazo fijo e improrrogable de ' . $plazo . ' meses, mediante pagos o amortizaciones uniformes (Capital, Interés y Comisiones).<br>';
@@ -162,35 +169,70 @@ $pdf->SetAutoPageBreak(true, 13);
 
     $textBody .= '<b>NOVENA.- (Conformidad)</b> Nosotros, el “C.A.S.” R.L. como ACREEDOR y por otra el PRESTATARIO como DEUDOR, declaramos nuestra conformidad con todas y cada una de las cláusulas que anteceden.<br></p></td></tr>';
     
-    $textFecha = '<tr align="right"><td colspan="6">' . $dia . ' de ' . $mes . ' de ' . $anio . '</td></tr>';
+    $fecha = new DateTime();
+
+    $textFecha = '<tr align="right"><td colspan="6">' . $fecha->format('d') . ' de ' . literalMonth($fecha->format('m')) . ' de ' . $fecha->format('Y') . '</td></tr>';
 
     $firma = '<tr><br><br><br><br><td colspan="6">&nbsp;&nbsp;&nbsp;........................................................................&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.........................................................................</td></tr><tr>
     <td colspan="6">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PRESTATARIO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ACREEDOR</td></tr>
     <tr>
-        <td colspan="6">NOMBRE: ' . $nombreFirma . '</td>
+        <td colspan="6">NOMBRE: ' . $nombre . '</td>
     </tr>
     <tr>
-        <td colspan="6">C.I.: ' . $ciFirma . '</td>
+        <td colspan="6">C.I.: ' . $ci . '</td>
     </tr>';
-
-    $requisitos = '<tr><td colspan="6"><p style="line-height:1.73;"><br><b>REQUISITOS:</b><br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Form. “C.A.S.” R.L. 003 llenado a pulso letra imprenta con bolígrafo azul.<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;b)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Papeleta de pago del solicitante en copia legalizada, correspondiente al último mes de pago,<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rubricada.<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Form. “C.A.S.” R.L. 006 llenado a pulso letra imprenta, con bolígrafo azul, dando cumplimiento a<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;los requisitos del mismo. (en caso de que no haya regularizado su situación como asociado del<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;“C.A.S.” R.L).<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;d)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fotocopia de C.I. del Solicitante rubricada (vigente) para el préstamo.<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fotocopias de C.M. rubricada (vigente).<br>
-    </p></td></tr>';
 
     $endTable = '</table>';
 
-    $textBody = $table . $title . $textBody . $textFecha . $firma . $requisitos . $endTable;
+    $textBody = $table . $title . $textBody . $textFecha . $firma . $endTable;
     
     //$pdf->MultiCell(0,0,$textBody,0,'J',0,1,13.5,111,true, 0, true, true, 8, 'M');
     //$pdf->WriteHTMLCell(0, 0, '', '100.2', $textBody, 0, 0);
-    $pdf->WriteHTMLCell(0, 0, '', '30', $textBody, 0, 0);
+    $pdf->WriteHTMLCell(0, 0, '', '27', $textBody, 0, 0);
 
     ob_end_clean();
-    $pdf->output('prestamoEmergencia.pdf', 'I');
+    $pdf->output('Prestamo Emergencia.pdf', 'I');
+
+    function literalMonth($month){
+        $literal = "";
+        switch($month){
+            case '01': $literal = "Enero"; break;
+            case '02': $literal = "Febrero"; break;
+            case '03': $literal = "Marzo"; break;
+            case '04': $literal = "Abril"; break;
+            case '05': $literal = "Mayo"; break;
+            case '06': $literal = "Junio"; break;
+            case '07': $literal = "Julio"; break;
+            case '08': $literal = "Agosto"; break;
+            case '09': $literal = "Septiembre"; break;
+            case '10': $literal = "Octubre"; break;
+            case '11': $literal = "Noviembre"; break;
+            case '12': $literal = "Diciembre"; break;
+        }
+        return $literal;
+    }
+
+    /*function getAllDataSocio($idSocio,$idPrestamo){
+        $pdo = connectToDatabase();
+        $res = null;
+        try {
+            $sql = "SELECT ts.*, te.detalle as expedido, tec.detalle as estadoCivil, tv.*, td.*, tf.detalle as fuerza, tg.detalle as grado, tp.*
+                    FROM tblSocio ts
+                    LEFT JOIN tblExpedicion te ON te.idExpedicion = ts.idExpedicion
+                    LEFT JOIN tblEstadoCivil tec ON tec.idEstadoCivil = ts.idEstadoCivil
+                    LEFT JOIN tblVivienda tv ON tv.idSocio = ts.idSocio
+                    LEFT JOIN tblDetalleMilitar td ON td.idSocio = ts.idSocio
+                    LEFT JOIN tblFuerza tf ON tf.idFuerza = td.idFuerza
+                    LEFT JOIN tblGrado tg ON tg.idFuerza = tf.idFuerza
+                    LEFT JOIN tblRegistro tr ON tr.idSocio = ts.idSocio
+                    LEFT JOIN tblPrestamo tp ON tp.idSocio = ts.idSocio
+                    WHERE ts.idSocio = ? 
+                        AND tp.idPrestamo = ? ;";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([$idSocio,$idPrestamo]);
+            $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }catch (\Throwable $th) {
+            print_r($th);
+        }
+        return $res;
+    }*/
