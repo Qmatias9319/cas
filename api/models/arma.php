@@ -1,23 +1,19 @@
 <?php
 require_once('./config/database.php');
-class LocalidadModel{
+class ArmaModel{
   private $pdo;
-  private $table = "tblLocalidad"; 
+  private $table = "tblArma"; 
 
   public function __construct(){
     $this->pdo = connectToDatabase();
   }
 
-  public function createLocalidad($data){
-
-  }
-
-  public function getAllLocalidades($id){
+  public function getAllArmas($id){
     $res = null;
     try {
       $sql = "SELECT * 
               FROM $this->table
-              WHERE idMunicipio = ?;";
+              WHERE idFuerza = ? ;";
       $stmt = $this->pdo->prepare($sql);
       $stmt->execute([$id]);
       $res = $stmt->fetchAll(PDO::FETCH_ASSOC);

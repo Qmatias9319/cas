@@ -9,12 +9,14 @@ const cargarDepartamentos = () => {
         success: function(response) {
           if(response.status == 'success'){
             var select = document.getElementById('departamento');
+            var select2 = document.getElementById('departamento_actual');
             response.departamentos.forEach((departamento) => {
-                const option = document.createElement('option');
-                option.value = departamento.idDepartamento;
-                option.textContent = departamento.detalle;
-
-                select.appendChild(option);
+              const option = document.createElement('option');
+              option.value = departamento.idDepartamento;
+              option.textContent = departamento.detalle;
+              const option2 = option.cloneNode(true);
+              select.appendChild(option);
+              select2.appendChild(option2);
             });
 
           }else{
@@ -228,6 +230,34 @@ const cargarGrados = (id) => {
             console.log(ACCION, 'Ocurrió un error en el registro');
         }
     });
+};
+const cargarArmas = (id) => {
+  const ACCION = "CARGAR ARMAS";
+  $.ajax({
+    url: `../api/arma/getAllArmas/${id}`,
+    type: 'GET',
+    processData: false,
+    contentType: false,
+    dataType: 'JSON',
+    success: function(response) {
+      if(response.status == 'success'){
+        var select = document.getElementById('armas');
+        response.armas.forEach((arma) => {
+          const option = document.createElement('option');
+          option.value = arma.idArma;
+          option.textContent = arma.detalle;
+
+          select.appendChild(option);
+        });
+
+      }else{
+        console.log(ACCION, 'Ocurrió un error en el registro');
+      }
+    },
+    error: function(response) {
+      console.log(ACCION, 'Ocurrió un error en el registro');
+    }
+  });
 };
 
 cargarExpediciones();

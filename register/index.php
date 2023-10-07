@@ -114,7 +114,10 @@ Our Professionals, ​Start using Our App for free">
                         <span style="color:#a0a0a0;text-align:left">Fecha de nacimiento</span>
                         <div class="input-group flex-nowrap input-group-lg">
                           <span class="input-group-text"><i class="fas fa-regular fa-calendar"></i></span>
-                          <input type="date" class="form-control" placeholder="Fecha de nacimiento" name="fechaNac" required/>
+                          <input type="date" id="fecha_nac" class="form-control" placeholder="Fecha de nacimiento" name="fechaNac" required/>
+                          <div class="invalid-feedback">
+                            Fecha fuera del rango válido
+                          </div>
                         </div>
                       </div>
                       <div class="row mb-4">
@@ -158,7 +161,9 @@ Our Professionals, ​Start using Our App for free">
                         <span style="color:#C0C0C0;">Su dirección actual</span>
                         <div class="input-group flex-nowrap input-group-lg">
                           <span class="input-group-text"><i class="fas fa-house-user"></i></span>
-                          <input type="text" class="form-control" name="ciudad" placeholder="Ciudad">
+                          <select id="departamento_actual" name="departamento_actual" class="form-select pl-2" required>
+                            <option value="" disabled selected>- Sel. departamento -</option>
+                          </select>
                         </div>
                       </div>
                       <div class="row mb-4">
@@ -212,7 +217,9 @@ Our Professionals, ​Start using Our App for free">
                       <div class="row mb-4">
                         <div class="input-group flex-nowrap input-group-lg">
                           <span class="input-group-text"><i class="fa fa-solid fa-shield"></i></span>
-                          <input type="text" name="arma" class="form-control" placeholder="Arma" />
+                          <select name="arma" class="form-select pl-2" id="armas">
+                            <option value="">- Sel. Arma -</option>
+                          </select>
                         </div>
                       </div>
                       <div class="row mb-4">

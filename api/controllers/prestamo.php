@@ -15,7 +15,7 @@ class Prestamo
     } elseif($id == -10) {
       echo json_encode(array('status' => 'error', 'message' => 'No puede tener como garante a usted mismo'));
     }else{
-      echo json_encode(array('status' => 'error', 'message' => 'Error al crear socio'));
+      echo json_encode(array('status' => 'error', 'message' => 'Error al crear prestamo'));
     }
   }
 

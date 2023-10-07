@@ -36,11 +36,11 @@ class PrestamoModel{
     try {
       $sql = "SELECT  tp.idPrestamo, tp.tipoPrestamo, tp.monto, tp.plazo, tp.estado, tp.fechaSolicitud, tp.fechaPrestamo, tp.motivo,
       concat(tc.paterno,' ',tc.materno, ' ', tc.nombres) as g1, concat(tc1.paterno, ' ',tc1.materno, ' ',tc1.nombres) as g2 FROM $this->table as tp 
-      LEFT JOIN tblCliente as tc
+      LEFT JOIN tblSocio as tc
       ON tp.garante1 = tc.idUsuario
       LEFT JOIN tblCliente as tc1 
       ON tc1.idUsuario = tp.garante2
-      WHERE tp.idCliente = ?;";
+      WHERE tp.idSocio = ?;";
       $stmt = $this->pdo->prepare($sql);
       $stmt->execute([$idUser]);
       $res = $stmt->fetchAll(PDO::FETCH_ASSOC);

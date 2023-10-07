@@ -64,14 +64,13 @@ $("#formSoli").submit(async (e)=>{
 
 $('.cig').change(async (e) => {
   if($("#cig1").val() != $("#cig2").val()){
-    if(Number($(e.target).val().length) >= 5){
+    if(Number($(e.target).val().length) >= 3){
       try{
         const res = await $.ajax({
           url: `../api/socio/socioCI/${$(e.target).val()}`,
           method: 'GET',
           dataType: 'json'
         })
-        console.log(res)
         if(res.status === 'success'){
           $(e.target).addClass('is-valid')
           e.target.dataset.id = res.idUser;

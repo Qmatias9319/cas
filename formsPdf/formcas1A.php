@@ -34,7 +34,7 @@ $txt = 'El Presidente del Consejo Administrativo de la Cooperativa de Ahorro y C
 
 $pdf->MultiCell(0,6,$txt, 0, 'J',0,0,8,45,true, 0, false, true, 8, 'M');
 // $pdf->Cell(0,6,$txt, 1, 1, 'J', false, '', 0, false, 'C', 'M');
-$txt = '<p style="line-height: 2.5;">Caballería Apóstol Santiago” R.L., con atribuciones amplias y suficientes otorgadas por el Consejo de Administración, por otra parte, el señor (a): <b>'.strtoupper($user->nombres).' '.strtoupper($user->paterno).' '.strtoupper($user->materno).'</b>, mayor de edad, hábil por derecho con C.I. <b>'.$user->ci.'</b> expedido en '.FormA1::getCiudadExtension($user->expedido).'. Estado Civil '.ucfirst(strtolower($user->estadoCivil)).'. C.M. <u>'.$user->carnetMilitar.'.</u> C/COSSMIL. '.$user->carnetCossmil.'. Fecha de Nacimiento '.FormA1::getFechaLiteral($user->fechaNac).'. Dirección Actual Z. '.$user->zona.', '.$user->avenida.' Nro. '.$user->nroDir.'. Ciudad '.$user->ciudad.'. Proveniente del: <u>'.$user->provieneFuerza.'</u>. Grado: '.$user->grado.' con arma de '.$user->arma.' con fecha de Incorporación/Egreso '.FormA1::getFechaLiteral($user->fechaIncorporacion).'. Código de Boleta '.$user->codBoleta.' Telef. y/o Cel. '.$user->celular.', correo electrónico '.$user->correoElec.' que en adelante se denominará ASOCIADO o ASOCIADA, acordamos en forma conjunta lo siguiente:</p>';
+$txt = '<p style="line-height: 2.5;">Caballería Apóstol Santiago” R.L., con atribuciones amplias y suficientes otorgadas por el Consejo de Administración, por otra parte, el señor (a): <b>'.strtoupper($user->nombre).' '.strtoupper($user->paterno).' '.strtoupper($user->materno).'</b>, mayor de edad, hábil por derecho con C.I. <b>'.$user->ci.'</b> expedido en '.FormA1::getCiudadExtension($user->expedido).'. Estado Civil '.ucfirst(strtolower($user->estadoCivil)).'. C.M. <u>'.$user->carnetMilitar.'.</u> C/COSSMIL. '.$user->carnetCossmil.'. Fecha de Nacimiento '.FormA1::getFechaLiteral($user->fechaNacimiento).'. Dirección Actual Z. '.$user->zona.', '.$user->avenida.' Nro. '.$user->numero.'. Ciudad '.$user->ciudad.'. Proveniente del: <u>'.$user->fuerza.'</u>. Grado: '.$user->grado.' con arma de '.$user->arma.' con fecha de Incorporación/Egreso '.FormA1::getFechaLiteral($user->fechaIncorporacion).'. Código de Boleta '.$user->codigoBoleta.' Telef. y/o Cel. '.$user->celular.', correo electrónico '.$user->correo.' que en adelante se denominará ASOCIADO o ASOCIADA, acordamos en forma conjunta lo siguiente:</p>';
 // echo $txt;
 $pdf->setCellMargins(30,0,0,0);
 $pdf->setCellPaddings(0,0,0.5,0);
@@ -92,7 +92,7 @@ $pdf->setCellMargins(20,0,0,0);
 $pdf->MultiCell(0,8,'MANIFESTACIÓN DE CONFORMIDAD AL PAGO DEL',0,'C',0,0,8,35,true, 0, false, true, 8, 'M');
 $pdf->MultiCell(0,8,'FONDO VOLUNTARIO SOLIDARIO POR FALLECIMIENTO',0,'C',0,0,8,40,true, 0, false, true, 8, 'M');
 
-$txt = '<p style="line-height: 1.5;">La Cooperativa de Ahorro y Crédito de Vínculo Laboral Oficiales de Caballería “Apóstol Santiago R.L.” representado legalmente por el Presidente del Consejo de Administración y el Asociado <b>'.strtoupper($user->nombres).' '.strtoupper($user->paterno).' '.strtoupper($user->materno).'</b> con C.I. '.$user->ci.'	'.$user->expedido.'. acuerdan voluntariamente el descuento mensual individual de $us 2 (Dos 00/100 Dólares americanos), aporte destinado al fondo solidario, para que, en caso de FALLECIMIENTO, los herederos legales sean beneficiados con un monto único, previa verificación del vínculo.</p>';
+$txt = '<p style="line-height: 1.5;">La Cooperativa de Ahorro y Crédito de Vínculo Laboral Oficiales de Caballería “Apóstol Santiago R.L.” representado legalmente por el Presidente del Consejo de Administración y el Asociado <b>'.strtoupper($user->nombre).' '.strtoupper($user->paterno).' '.strtoupper($user->materno).'</b> con C.I. '.$user->ci.'	'.$user->expedido.'. acuerdan voluntariamente el descuento mensual individual de $us 2 (Dos 00/100 Dólares americanos), aporte destinado al fondo solidario, para que, en caso de FALLECIMIENTO, los herederos legales sean beneficiados con un monto único, previa verificación del vínculo.</p>';
 $pdf->setCellMargins(20,0,0,0);
 $pdf->SetFont('helvetica', '', 10);
 $pdf->MultiCell(0, 40, $txt, 0, 'J',false, 1, 8, 50,true,0,true, true);
@@ -100,7 +100,7 @@ $pdf->MultiCell(0, 40, $txt, 0, 'J',false, 1, 8, 50,true,0,true, true);
 $pdf->setCellMargins(7,0,0,0);
 $tabla = '
 <table border="1" cellpadding="2" cellspacing="0">
-  <tr style="font-weight:bold;text-align:center;padding-top:5px;">
+  <tr style="font-weight:bold;text-align:center;line-height:20px">
     <td style="height:25px;border-left:1px solid #000">Nº</td>
     <td style="height:25px;border-left:1px solid #000"colspan="4">NOMBRES Y APELLIDOS</td>
     <td style="height:25px;border-left:1px solid #000"colspan="3">C.I.</td>
@@ -130,7 +130,7 @@ $pdf->setCellMargins(20,0,0,0);
 $pdf->MultiCell(0,8,'DECLINACIÓN AL PAGO DEL FONDO VOLUNTARIO',0,'C',0,0,8,173,true, 0, false, true, 8, 'M');
 $pdf->MultiCell(0,8,'SOLIDARIO POR FALLECIMIENTO',0,'C',0,0,8,177,true, 0, false, true, 8, 'M');
 
-$txt = 'Yo, '.$user->nombres.' '.$user->paterno.' '.$user->materno.', hábil por derecho, como asociado de la Cooperativa Apóstol Santiago, declaro haber sido informado de este beneficio y no autorizo el descuento de $us 2 (Dos 00/100 Dólares americanos), aceptando y reconociendo que en caso de fallecimiento mis herederos legales no recibirán el beneficio del pago único por el Fondo Voluntario Solidario.';
+$txt = 'Yo, '.$user->nombre.' '.$user->paterno.' '.$user->materno.', hábil por derecho, como asociado de la Cooperativa Apóstol Santiago, declaro haber sido informado de este beneficio y no autorizo el descuento de $us 2 (Dos 00/100 Dólares americanos), aceptando y reconociendo que en caso de fallecimiento mis herederos legales no recibirán el beneficio del pago único por el Fondo Voluntario Solidario.';
 $pdf->SetFont('helvetica', '', 11);
 $pdf->MultiCell(0, 40, $txt, 0, 'J',false, 1, 8, 184,true,0,true, true);
 $pdf->SetFont('helvetica', '', 10);
@@ -144,7 +144,7 @@ $pdf->AddPage('L');
 $tabla = '
 <table border="1" cellpadding="2" cellspacing="0">
   <tr>
-    <td rowspan="4" style="width:25px;text-align:center">N°</td>
+    <td rowspan="4" style="width:25px;text-align:center;line-height:60px;">N°</td>
     <td colspan="12" style="text-align:center">DENOMINACIÓN: COOPERATIVA DE AHORRO Y CRÉDITO DE VINCULO LABORAL "OFICIALES DE CABALLERIA APOSTOL SANTIAGO" R.L.
     </td>
   </tr>
@@ -154,7 +154,7 @@ $tabla = '
   <tr style="text-align:center;display:flex;">
     <td colspan="7">DATOS DE LA ASOCIADA o ASOCIADO</td>
     <td colspan="3"> CERTIFICADO DE APORTACION</td>
-    <td rowspan="2" style="align-items:center;">FIRMA</td>
+    <td rowspan="2" style="align-items:center;line-height:45px">FIRMA</td>
     <td rowspan="2">HUELLA DIGITAL PULGAR DERECHO</td>
   </tr>
   <tr style="text-align:center">

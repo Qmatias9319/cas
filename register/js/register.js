@@ -16,12 +16,14 @@ $(document).ready(() => {
 
     // Verificar si todos los campos requeridos están completados
     form.find(':input[required], form select[required]').each(function() {
-      console.log($(this).val());
       if ($(this).val() === '') {
         isFormValid = false;
-        return false; // Salir del bucle cuando se encuentra un campo vacío
+        return false; 
       }
     });
+    if(form.find('.is-invalid').length > 0){
+      isFormValid = false;
+    }
 
     // Habilitar o deshabilitar el botón de envío según la validación
     if (isFormValid) {
@@ -128,6 +130,28 @@ $("#form_register").on('submit', (e)=>{
 $(".filePdf").on('change', (e) => {
   $(e.target).addClass('is-valid');
 })
+$("#fecha_nac").on('change', (e) => {
+  const hoy = new Date();
+  const fechaNac = new Date(e.target.value);
+  var añoNacimiento = fechaNac.getFullYear();
+  var mesNacimiento = fechaNac.getMonth();
+  var diaNacimiento = fechaNac.getDate() + 1;
+  var añoActual = hoy.getFullYear();
+  var mesActual = hoy.getMonth();
+  var diaActual = hoy.getDate();
+  var diff = añoActual - añoNacimiento;
+  if (mesActual < mesNacimiento) {
+    diff--;
+  } else if (mesActual == mesNacimiento && diaActual < diaNacimiento) {
+    diff--;
+  }
+
+  if(diff < 45 && diff > 23){
+    $(e.target).removeClass('is-invalid');
+  }else{
+    $(e.target).addClass('is-invalid');
+  }
+});
 
 
 function tieneExtencion(){
@@ -211,12 +235,23 @@ document.getElementById('municipio').onchange = () => {
 document.getElementById('fuerza').onchange = () => {
   var id = document.getElementById('fuerza').value;
   const select = document.getElementById('grado');
+  const select2 = document.getElementById('armas');
   select.innerHTML = '';
+  select2.innerHTML = '';
+  
   const option = document.createElement('option');
   option.value = "";
   option.disabled = "true";
   option.selected = "true";
   option.textContent = "- Sel. grado -";
+
+  const option2 = document.createElement('option');
+  option2.value = "";
+  option2.disabled = "true";
+  option2.selected = "true";
+  option2.textContent = "- Sel. arma -";
+  select2.appendChild(option2);
   select.appendChild(option);
   cargarGrados(id);
+  cargarArmas(id);
 };

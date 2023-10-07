@@ -149,7 +149,7 @@ $pdf->SetAutoPageBreak(true, 13);
 
     $textBody .= '<b>PRIMERA.- (Antecedentes)</b> La Cooperativa de Ahorro y Crédito de Vínculo Laboral "Oficiales de Caballería Apóstol Santiago" R.L., tendrá como objetivo único de realizar operaciones de ahorro y crédito únicamente con sus asociados y asociadas dentro del Ejercito Nacional de Bolivia y de acuerdo a reglamento de créditos del "C.A.S." R.L.<br>';
 
-    $textBody .= '<b>SEGUNDA.- (Objeto)</b> El PRESTATARIO declara que debe y pagará a la orden del ACREEDOR la suma de Bs. ' . $suma . ' (' . $sumaLiteral . ' Bolivianos), que ha sido girada a solicitud expresa del prestatario a favor del proveedor, como consta en el Comprobante de Pago No. ' . $nroComprobante . ' de fecha ' . $fecha . '<br>';
+    $textBody .= '<b>SEGUNDA.- (Objeto)</b> El PRESTATARIO declara que debe y pagará a la orden del ACREEDOR la suma de Bs. ' . $suma . ' (' . $sumaLiteral . '), que ha sido girada a solicitud expresa del prestatario a favor del proveedor, como consta en el Comprobante de Pago No. ' . $nroComprobante . ' de fecha ' . $fecha . '<br>';
 
     $textBody .= '<b>TERCERA.- (Interés)</b> El presente préstamo devengará al interés de 1 % mensual, sobre los saldos deudores, el mismo que será recargado con el interés penal de 2,5 % mensual, en caso de mora de una o más amortizaciones.<br>';
     

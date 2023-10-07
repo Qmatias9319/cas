@@ -11,9 +11,9 @@ class ViviendaModel{
   public function create($data){
     try {
         $sql = "INSERT INTO $this->table 
-                (calle,zona,numero,localidad,ciudad,idSocio)
+                (calle,zona,numero,localidad,idDepartamento,idSocio)
                 VALUES
-                ('".$data['avenida']."','".$data['zona']."','".$data['nroDir']."','".$data['localidad']."','".$data['ciudad']."',".$data['idSocio'].");";
+                ('".$data['avenida']."','".$data['zona']."','".$data['nroDir']."','".$data['localidad']."',".$data['departamento_actual'].",".$data['idSocio'].");";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute();
         $lastInsert = $this->pdo->lastInsertId();

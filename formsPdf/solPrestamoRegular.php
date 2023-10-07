@@ -26,44 +26,7 @@ $pdf->SetAutoPageBreak(true, 13);
 
 
 $pdf->AddPage();
-$nroFormulario = "123123123";
-// Datos de la solicitud
-$grado = "asdasdasd";
-$especialidad = "asdasdasddas";
-$paterno = "FLORES";
-$materno = "QUISBERT";
-$nombres = "JOSÉ LUIS";
 
-$arma = "asdasdasd";
-$destino = "asdasdasd";
-$tel = "222222";
-
-$localidad = "asdasdasd";
-$calle = "asdasdasdasd";
-$numero = "dasda";
-$zona = "asdasdasd";
-$telefono = "22222222";
-
-$codigo = "asdasdasd";
-$ci = "123456789";
-$cm = "789456123";
-
-$sus = "321321654";
-$plazo = "18";
-
-$cuentaAbono = "123123123123";
-
-// Cuerpo Contrato
-$nombre = $nombres . ' ' . $paterno . ' ' . $materno;
-$ci = "123123123 LP";
-$suma = "123,123.00";
-$sumaLiteral = "CIENTO VEITITRES MIL CIENTO VEINTITRES";
-$nroComprobante = "123456";
-$fecha = "31/08/2023";
-$meses = "18";
-$dia = "15";
-$mes = "Septiembre";
-$anio = "2023";
 
 // CUERPO DEL DOCUMENTO
 $image_file = './cas.jpg';

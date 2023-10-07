@@ -11,7 +11,7 @@ class DetalleMilitarModel{
   public function create($data){
     try {
       $sql = "INSERT INTO $this->table
-              (codigoBoleta,grado,carnetMilitar,carnetCossmil,arma,fechaIncorporacion,idFuerza,idSocio)
+              (codigoBoleta,grado,carnetMilitar,carnetCossmil,idArma,fechaIncorporacion,idFuerza,idSocio)
               VALUES
               ('".$data['codBoleta']."',".$data['grado'].",'".$data['carnetMilitar']."','".$data['carnetCossmil']."','".$data['arma']."','".$data['fechaIncorporacion']."',".$data['provieneFuerza'].",".$data['idSocio'].");";
       $stmt = $this->pdo->prepare($sql);

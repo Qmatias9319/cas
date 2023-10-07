@@ -78,7 +78,7 @@ if(count($res)>0){
       include('solicitudPrestamoAuxilioPDF.php');
       break;
     case 'REGULAR':
-      include('solicitudPrestamoRegularPDF.php');
+      include('solPrestamoRegular.php');
       break;
   }
 
