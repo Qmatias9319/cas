@@ -39,6 +39,13 @@ $(".login").on('submit', () =>{
           $("input").on("focus",()=>{
             $("input").css({ "border": "1px solid #bdbdbd" });
           })
+          //toast
+          Swal.fire({
+            icon: 'warning',
+            title: 'Error al ingresar al sistema',
+            text: 'Si tu usuario y correo son correctos, por favor, contacte al administrador para que acepte su solicitud',
+            showConfirmButton: true,
+          })
         }
       }, 1000);
     },

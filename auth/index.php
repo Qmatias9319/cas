@@ -45,6 +45,9 @@ Our Professionals, ​Start using Our App for free">
   <!-- MDB -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.css" rel="stylesheet" />
   <style>
+    h2:not(.u-subtitle) {
+      font-size: 1.9rem;
+    }
     @media (max-width: 720px){
       #authForm{
         width:100%;
@@ -54,6 +57,7 @@ Our Professionals, ​Start using Our App for free">
       }
     }
   </style>
+  <script src="../static/js/sweetalert2.min.js"></script>
 </head>
 
 <body data-home-page="../home/" class="u-body u-xl-mode" data-lang="es">
