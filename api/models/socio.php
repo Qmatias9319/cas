@@ -217,7 +217,9 @@ class SocioModel{
   public function getByCI($ci){
     $res = null;
     try {
-      $sql = "SELECT idSocio FROM $this->table WHERE ci LIKE '$ci';";
+      $sql = "SELECT ts.idSocio FROM $this->table as ts
+      LEFT JOIN tblRegistro tr ON tr.idSocio = ts.idSocio
+      WHERE ts.ci LIKE '$ci' AND tr.estado like 'ACEPTADO';";
       $stmt = $this->pdo->prepare($sql);
       $stmt->execute();
       $res = $stmt->fetchAll(PDO::FETCH_ASSOC);

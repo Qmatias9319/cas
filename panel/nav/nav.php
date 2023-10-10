@@ -74,7 +74,7 @@ if (file_exists("../../images/logo.png")) {
           </a>
         </li>  
         <li class="nav-item">
-          <a href="#miCurso" onclick="(1)" <?php echo $text_movil ?> id="nav_miCurso" class="nav-link">
+          <a href="#prestamos" onclick="listarPrestamos()" <?php echo $text_movil ?> id="nav_prestamos" class="nav-link">
           <i class="nav-icon fas fa-address-book"></i>
             <p>
               Prestamos

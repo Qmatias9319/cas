@@ -88,6 +88,7 @@ session_start();
       include("../usuario/modal_eliminar.php");
       include('../afiliados/modalDetalle.php');
       include('../afiliados/modalAvisos.php');
+      include('../prestamos/modal_garantes.php');
     ?>
 
     <div id="shadow" class="popup"></div>

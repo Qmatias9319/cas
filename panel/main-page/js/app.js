@@ -81,8 +81,8 @@ function remove() {
     document.getElementById("nav_solicitudes").className = "nav-link";
   }
 
-  if (document.getElementById("nav_tema")) {
-    document.getElementById("nav_tema").className = "nav-link";
+  if (document.getElementById("nav_prestamos")) {
+    document.getElementById("nav_prestamos").className = "nav-link";
   }
 
   if (document.getElementById("nav_modulo")) {
