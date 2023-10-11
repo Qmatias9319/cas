@@ -3,3 +3,5 @@
 !/api/config/.gitkeep
 /api/documents/*
 !/api/documents/.gitkeep
+/docker-compose.yml
+/Dockerfile
