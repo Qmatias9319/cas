@@ -44,6 +44,7 @@ session_start();
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" />
     <link rel="stylesheet" href="../DataTables/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="../DataTables/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="../afiliados/custom.css">
     <script src="../DataTables/js/jquery.dataTables.min.js"></script>
     <script src="../DataTables/js/dataTables.bootstrap4.min.js"></script>
     <script src="../DataTables/js/dataTables.responsive.min.js"></script>
@@ -84,10 +85,10 @@ session_start();
 
 
     <?php      
-      include("../modulo/modal_eliminar.php");
       include("../usuario/modal_eliminar.php");
       include('../afiliados/modalDetalle.php');
       include('../afiliados/modalAvisos.php');
+      include('../prestamos/modal_garantes.php');
     ?>
 
     <div id="shadow" class="popup"></div>
@@ -112,7 +113,6 @@ session_start();
     <script src="js/abm.js"></script>
     <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
     <script src="../dist_pagination/jquery.simplePagination.js"></script>
-    <script src="../modulo/js/app.js"></script>
     <script src="../usuario/js/app.js"></script>
     <script src="../afiliados/js/app.js"></script>
     <script src="../prestamos/js/app.js"></script>

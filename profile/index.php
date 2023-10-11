@@ -63,8 +63,6 @@ Our Professionals, ​Start using Our App for free">
 							<th scope="col" style="min-width:100px;">MOTIVO</th>
 							<th scope="col">FECHA SOLICITUD</th>
 							<th scope="col">FECHA PAGO</th>
-							<th scope="col">GARANTE 1</th>
-							<th scope="col">GARANTE 2</th>
 							<th scope="col">ESTADO</th>
 						</tr>
 					</thead>

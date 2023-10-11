@@ -34,13 +34,7 @@ class PrestamoModel{
   public function getPrestamoUser($idUser){
     $res = null;
     try {
-      $sql = "SELECT  tp.idPrestamo, tp.tipoPrestamo, tp.monto, tp.plazo, tp.estado, tp.fechaSolicitud, tp.fechaPrestamo, tp.motivo,
-      concat(tc.paterno,' ',tc.materno, ' ', tc.nombres) as g1, concat(tc1.paterno, ' ',tc1.materno, ' ',tc1.nombres) as g2 FROM $this->table as tp 
-      LEFT JOIN tblSocio as tc
-      ON tp.garante1 = tc.idUsuario
-      LEFT JOIN tblCliente as tc1 
-      ON tc1.idUsuario = tp.garante2
-      WHERE tp.idSocio = ?;";
+      $sql = "SELECT * FROM $this->table WHERE idSocio = ?;";
       $stmt = $this->pdo->prepare($sql);
       $stmt->execute([$idUser]);
       $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -81,12 +75,28 @@ class PrestamoModel{
   public function getSolicitudes(){
     $res = null;
     try {
-      $sql = "SELECT concat(tc.paterno,' ', tc.materno, ' ', tc.nombres) as usuario, concat(tc.ci, ' ', tc.expedido) as ci, tp.* FROM $this->table as tp
-      INNER JOIN tblCliente as tc
-      ON tp.idCliente = tc.idUsuario
-      WHERE estado like 'SOLICITUD';";
+      $sql = "SELECT tp.*, concat(ts.nombre, ' ', ts.paterno, ' ', ts.materno) as usuario, concat(ts.ci,' ',te.detalle) as ci
+      FROM tblPrestamo tp
+      INNER JOIN tblSocio ts ON tp.idSocio = ts.idSocio
+      INNER JOIN tblExpedicion te ON ts.idExpedicion = te.idExpedicion
+      WHERE tp.estado LIKE 'SOLICITUD'; ";
       $stmt = $this->pdo->prepare($sql);
       $stmt->execute();
+      $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (\Throwable $th) {
+      print_r($th);
+    }
+    return $res;
+  }
+  public function getGarantes($idPrestamo){
+    $res = null;
+    try {
+      $sql = "SELECT tp.tipo, ts.nombre, concat(ts.paterno, ' ', ts.materno) as apellidos FROM tblPrestamo tp
+      LEFT JOIN tblGarante tg ON tp.idPrestamo = tg.idPrestamo
+      LEFT JOIN tblSocio ts ON ts.idSocio = tg.idSocio
+      WHERE tp.idPrestamo = ?;";
+      $stmt = $this->pdo->prepare($sql);
+      $stmt->execute([$idPrestamo]);
       $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
     } catch (\Throwable $th) {
       print_r($th);

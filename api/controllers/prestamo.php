@@ -55,5 +55,16 @@ class Prestamo
       echo json_encode(array('status'=>'success', 'prestamos'=>array()));
     }
   }
+
+  public function garantes($idPrestamo){
+    $prestamo = new PrestamoModel();
+    $res = $prestamo->getGarantes($idPrestamo);
+    if($res != null){
+      $tipo = $res[0]['tipo'];
+      echo json_encode(array('status'=>'success', 'garantes'=>$res, 'error', false, 'tipo'=>$tipo));  
+    }else{
+      echo json_encode(array('status'=>'success', 'garantes'=>array(), 'error'=>true));
+    }
+  }
 }
 ?>

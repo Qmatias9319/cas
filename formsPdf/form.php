@@ -86,7 +86,7 @@ if(count($res)>0){
     $pdo = connectToDatabase();
     $res = null;
     try {
-        $sql = "SELECT ts.*, te.detalle as expedido, tec.detalle as estadoCivil, tv.*, td.*, tf.detalle as fuerza, tg.detalle as grado, tp.*
+        $sql = "SELECT ts.*, te.detalle as expedido, tec.detalle as estadoCivil, tv.*, td.*, tf.detalle as fuerza, tg.detalle as grado, tp.*, ta.detalle as arma, ttd.detalle as ciudad
                 FROM tblSocio ts
                 LEFT JOIN tblExpedicion te ON te.idExpedicion = ts.idExpedicion
                 LEFT JOIN tblEstadoCivil tec ON tec.idEstadoCivil = ts.idEstadoCivil
@@ -96,6 +96,8 @@ if(count($res)>0){
                 LEFT JOIN tblGrado tg ON tg.idFuerza = tf.idFuerza
                 LEFT JOIN tblRegistro tr ON tr.idSocio = ts.idSocio
                 LEFT JOIN tblPrestamo tp ON tp.idSocio = ts.idSocio
+                LEFT JOIN tblArma ta ON ta.idArma = td.idArma
+                LEFT JOIN tblDepartamento ttd ON ttd.idDepartamento = tv.idDepartamento
                 WHERE ts.idSocio = ? 
                     AND tp.idPrestamo = ? ;";
         $stmt = $pdo->prepare($sql);

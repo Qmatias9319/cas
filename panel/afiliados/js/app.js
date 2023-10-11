@@ -24,7 +24,7 @@ async function listarAfiliadosEspera() {
     })
     $("#all-body").html(res)
     const tables = await $.ajax({
-      url: '../../api/socio/socioEspera',
+      url: '../../api/socio/pendientes',
       type: 'GET',
       dataType: 'json'
     });
@@ -38,6 +38,7 @@ async function listarAfiliadosEspera() {
         ],
         "info": false,
         "scrollX": true,
+        scrollY: '50vh'
       });
       // console.log(tables);
     }
@@ -72,8 +73,8 @@ async function listarAfiliados() {
         ],
         "info": false,
         "scrollX": true,
+        scrollY: '50vh'
       });
-      // console.log(tables);
     }
   } catch (error) {
     console.log(error)
@@ -85,25 +86,25 @@ function generaFilasEspera(data) {
   let filas = '';
   for (let index = 0; index < data.length; index++) {
     const element = data[index];
-    let fecha = new Date(element.fechaNac);
+    let fecha = new Date(element.fechaNacimiento);
     fecha = fecha.toLocaleDateString();
     filas += `
       <tr>
-        <td>${element.apellidos}</td>
-        <td>${element.nombres}</td>
+        <td>${element.paterno} ${element.materno}</td>
+        <td>${element.nombre}</td>
         <td>${element.ci}</td>
         <td>${fecha}</td>
         <td>${element.celular}</td>
-        <td>${element.provieneFuerza}</td>
+        <td>${element.detalleFuerza}</td>
         <td>
           <div class="dropdown">
             <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
             Acciones </button>
             <div class="dropdown-menu">
-              <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modal_detalle" data-id="${element.idUsuario}"><i class="fas fa-eye text-info"></i> &nbsp;&nbsp;Más detalles</a>
-              <a class="dropdown-item" href="#" onclick="revisarSocio(${element.idUsuario})"><i class="fas fa-check-square text-success"></i> &nbsp;&nbsp;Revisar</a>
-              <a class="dropdown-item" href="#"><i class="fas fa-edit text-primary"></i> &nbsp;&nbsp;Editar</a>
+              <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modal_detalle" data-id="${element.idSocio}"><i class="fas fa-eye text-info"></i> &nbsp;&nbsp;Más detalles</a>
+              <a class="dropdown-item" href="#" onclick="revisarSocio(${element.idSocio})"><i class="fas fa-check-square text-success"></i> &nbsp;&nbsp;Revisar</a>
             </div>
+          </div>
         </td>
       </tr>
     `;
@@ -114,18 +115,18 @@ function generaFilas(data){
   let filas = '';
   for (let index = 0; index < data.length; index++) {
     const element = data[index];
-    let fecha = new Date(element.fechaNac);
-    let fecha2 = new Date(element.fechaAceptado);
+    let fecha = new Date(element.fechaNacimiento);
+    let fecha2 = new Date(element.fechaAceptacion);
     fecha2 = fecha2.toLocaleDateString();
     fecha = fecha.toLocaleDateString();
     filas += `
       <tr>
-        <td>${element.apellidos}</td>
-        <td>${element.nombres}</td>
+        <td>${element.paterno} ${element.materno}</td>
+        <td>${element.nombre}</td>
         <td>${element.ci}</td>
         <td>${fecha}</td>
         <td>${element.celular}</td>
-        <td>${element.provieneFuerza}</td>
+        <td>${element.detalleFuerza}</td>
         <td>${element.observacion}</td>
         <td>${fecha2}</td>
         <td>
@@ -133,9 +134,10 @@ function generaFilas(data){
             <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
             Acciones </button>
             <div class="dropdown-menu">
-              <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modal_detalle" data-id="${element.idUsuario}"><i class="fas fa-eye text-info"></i> &nbsp;&nbsp; Detalles</a>
+              <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modal_detalle" data-id="${element.idSocio}"><i class="fas fa-eye text-info"></i> &nbsp;&nbsp; Detalles</a>
               <a class="dropdown-item" href="#"><i class="fas fa-edit text-primary"></i> &nbsp;&nbsp;Editar</a>
             </div>
+          </div>
         </td>
       </tr>
     `;
@@ -152,7 +154,7 @@ $('#modal_detalle').on('show.bs.modal', async function (event) {
       type: 'GET'
     })
     if (res.status == 'success') {
-      $("#tituloDetalle").html(`<b>Usuario:</b> ${res.socio.nombre}`);
+      $("#tituloDetalle").html(`<b>Usuario:</b> ${res.socio.nombre} ${res.socio.paterno} ${res.socio.materno}`);
       let cadena = '';
       let fecha = new Date(res.socio.fechaIncorporacion);
       fecha = fecha.toLocaleDateString();
@@ -160,22 +162,23 @@ $('#modal_detalle').on('show.bs.modal', async function (event) {
       <tr><td style="font-weight:bolder">Estado Civil</td>
       <td>${res.socio.estadoCivil}</td></tr>
       <tr><td style="font-weight:bolder">Correo Electrónico</td>
-      <td>${res.socio.correoElec}</td></tr>
+      <td>${res.socio.correo}</td></tr>
       <tr><td style="font-weight:bolder">Ciudad</td>
-      <td>${res.socio.ciudad}</td></tr>
+      <td>${res.socio.departamento}</td></tr>
       <tr><td style="font-weight:bolder">Localidad</td>
       <td>${res.socio.localidad}</td></tr>
       <tr><td style="font-weight:bolder">Dirección</td>
-      <td>${res.socio.direccion}</td></tr>
+      <td>${res.socio.zona} ${res.socio.calle} #${res.socio.numero}</td></tr>
       <tr><td style="font-weight:bolder">Fuerza</td>
-      <td>${res.socio.provieneFuerza}</td></tr>
+      <td>${res.socio.detalleFuerza}</td></tr>
       <tr><td style="font-weight:bolder">Fecha Incorporación</td>
       <td>${res.socio.fechaIncorporacion}</td></tr>
       <tr><td style="font-weight:bolder">Carnet Militar</td>
       <td>${res.socio.carnetMilitar}</td></tr>
       <tr><td style="font-weight:bolder">Carnet Cossmil</td>
       <td>${res.socio.carnetCossmil}</td></tr>
-      <tr><td style="font-weight:bolder">Arma</td><td>${res.socio.arma}</td></tr>
+      <tr><td style="font-weight:bolder">Arma</td><td>${res.socio.detalleArma}</td></tr>
+      <tr><td colspan="2" style="text-align:center;"><a href="../../api/documents/${res.socio.idSocio}/papeletapago.pdf" target="_blank" class="btn btn-info">Ver Boleta pago</a></td></tr>
       `;
       $("#tableDetail").html(cadena);
     } else {
@@ -203,15 +206,15 @@ async function revisarSocio(id) {
     <div class="d-flex justify-content-center mt-3">
       <button class="btn btn-secondary ml-2" onclick="listarAfiliadosEspera()">Volver</button>
       <button class="btn btn-danger ml-2" data-id="${id}" data-toggle="modal" data-target="#modal_rechazar">Rechazar</button>
-      <button class="btn btn-success ml-2" data-id="${id}" data-toggle="modal" data-target="#modal_aceptar">Aceptar</button>
+      <button id="aceptar_btn" class="btn btn-success ml-2" data-id="${id}" data-toggle="modal" data-target="#modal_aceptar" disabled>Aceptar</button>
     </div>`);
   } catch (error) {
     console.log(error)
   }
 }
 
+
 $("#modal_aceptar").on('show.bs.modal', function (e){
-  console.log(e.relatedTarget)
   $("#id_usuario_aceptar").val(e.relatedTarget.dataset.id)
 })
 
@@ -234,7 +237,7 @@ async function aceptarSocio(){
       const res = await $.ajax({
         url: `../../api/socio/aceptarSocio`,
         type: 'PUT',
-        data: {idUsuario: id, observacion: obs},
+        data: {idSocio: id, observacion: obs},
         dataType: 'json'
       });
       if(res.status == 'success'){
@@ -257,7 +260,7 @@ async function rechazarSocio(){
       const res = await $.ajax({
         url: `../../api/socio/rechazarSocio`,
         type: 'DELETE',
-        data: {idUsuario: id},
+        data: {idSocio: id},
         dataType: 'json'
       });
       if(res.status == 'success'){
