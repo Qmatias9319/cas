@@ -334,7 +334,6 @@ Our Professionals, ​Start using Our App for free">
                   <div class="input-group-text p-0" style="width:70px;">
                     <select id="extension_ci" title="Extendido en..." name="expedido" class="form-select px-1" required style="border:none">
                       <option value="" title="extensión">S/E</option>
-                      <option value="1" >LP</option>
                     </select>
                   </div>
                 </div>
@@ -363,7 +362,6 @@ Our Professionals, ​Start using Our App for free">
                   <span class="input-group-text"><i class="fas fa-ring"></i></span>
                   <select id="estado_civil" name="estadoCivil" class="form-select pl-2">
                     <option value="">- Sel. estado civil -</option>
-                    <option value="1">Prueba</option>
                   </select>
                 </div>
               </div>
@@ -385,27 +383,29 @@ Our Professionals, ​Start using Our App for free">
           <div class="form-container animated">
             <h4 class="text-center form-title">Verificación</h4>
             <form>
-              <p class="text-dark">Le enviamos un código de 4 digitos al correo <b></b> que ingresó en el paso anterior</p>
-              <p class="text-dark" id="correo_destino">correo@mail.com</p>
+              <p class="text-dark">Le enviamos un código de 4 digitos al correo <b></b> que ingresó en el paso anterior <b id="correo_destino"></b></p>
               <div class="row mb-4">
                 <div class="input-group flex-nowrap input-group-lg">
                   <span class="input-group-text"><i class="fas fa-unlock-alt"></i></span>
-                  <input type="text" class="form-control" placeholder="código" name="codigo" />
+                  <input type="text" class="form-control" id="codigo_email" placeholder="código" name="codigo" />
+                  <div class="invalid-feedback">
+                    Código no válido
+                  </div>
                 </div>
               </div>
               <div class="mb-4">
-                <button type="button" class="btn btn-info" disabled>Volver a enviar</button>
-                <span class="text-dark d-block">Volver a enviar en <b id="volver_enviar">7 </b>segundos</span>
+                <button type="button" class="btn btn-info" id="btn_volver_enviar" disabled>Volver a enviar</button>
+                <span class="text-dark d-block">Volver a enviar en <b id="volver_enviar">121</b> segundos</span>
               </div>
               <div class="form-group text-center mar-b-0">
-                <input type="button" value="ATRÁS" class="btn btn-default back">        
-                <input type="button" value="VERIFICAR" class="btn btn-primary next">        
+                <input type="button" value="ATRÁS" class="btn btn-secondary back">        
+                <input type="button" value="VERIFICAR" id="btn_codigo" class="btn btn-primary">        
               </div>
             </form>
           </div>
           <div class="form-container animated">
             <h4 class="text-center form-title">Registrar datos</h4>
-            <form>
+            <form id="form_02">
               <div class="row mb-2">
                 <span style="color:#C0C0C0;">Su dirección actual</span>
                 <div class="input-group flex-nowrap input-group-lg">
@@ -483,16 +483,21 @@ Our Professionals, ​Start using Our App for free">
                 <div class="input-group flex-nowrap input-group-lg">
                   <span class="input-group-text"><i class="fas fa-key"></i></span>
                   <input type="password" class="form-control" name="password" placeholder="Tu contraseña" id="pass" required />
+                  <div class="invalid-feedback">
+                    La contraseña debe tener al menos 8 caracteres y ser alfanumérica.
+                  </div>
                 </div>
-                <span id="verifyPass" style="color:orange;display:none">8 caracteres alfanuméricos</span>
+                
               </div>
               <div class="form-group text-center mar-b-0">
-                <input type="button" value="SIGUIENTE" class="btn btn-primary next">        
+                <input type="submit" id="btn_form02" value="SIGUIENTE" class="btn btn-primary next">        
               </div>
             </form>
           </div>
+
+
           <div class="form-container animated">
-            <h4 class="text-center form-title">Subbir archivos</h4>
+            <h4 class="text-center form-title">Subir archivos</h4>
             <form>
               <div class="row mb-4">
                 <span style="color:#8c95cc;text-align:left">- Fotocopia última papeleta de pago (Firmado con boligrafo azul)</span>
@@ -538,8 +543,8 @@ Our Professionals, ​Start using Our App for free">
                 </div>
               </div>
               <div class="form-group text-center mar-b-0"> 
-                <input type="button" value="BACK" class="btn btn-default back"> 
-                <input type="submit" value="SUBMIT" class="btn btn-primary submit">         
+                <input type="button" value="ATRÁS" class="btn btn-secondary back"> 
+                <input type="submit" value="REGISTRARME" class="btn btn-primary submit">         
               </div>
             </form>
           </div>
@@ -553,7 +558,7 @@ Our Professionals, ​Start using Our App for free">
   <script src="../static/js/sweetalert2.min.js"></script>
   <script type="text/javascript" charset="utf8" src="../static/js/jquery.js"></script>
   <!-- <script src="./js/register.js"></script> -->
-  <!-- <script src="./js/load-resources.js"></script> -->
+  <script src="./js/load-resources.js"></script>
   <script src="../static/js/bootstrap.min.js"></script>
   <script src="./js/app.js"></script>
   <script>

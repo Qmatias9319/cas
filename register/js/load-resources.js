@@ -8,14 +8,14 @@ const cargarDepartamentos = () => {
         dataType: 'JSON',
         success: function(response) {
           if(response.status == 'success'){
-            var select = document.getElementById('departamento');
+            // var select = document.getElementById('departamento');
             var select2 = document.getElementById('departamento_actual');
             response.departamentos.forEach((departamento) => {
               const option = document.createElement('option');
               option.value = departamento.idDepartamento;
               option.textContent = departamento.detalle;
               const option2 = option.cloneNode(true);
-              select.appendChild(option);
+              // select.appendChild(option);
               select2.appendChild(option2);
             });
 
