@@ -5,3 +5,4 @@
 !/api/documents/.gitkeep
 /docker-compose.yml
 /Dockerfile
+/api/vendor/PHPMailer-master

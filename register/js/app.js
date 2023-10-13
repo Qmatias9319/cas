@@ -3,12 +3,32 @@ let tiempo = 0;
 $(document).ready(() => {
   var totalSteps = $(".steps li").length;
 
-  $("#form_01").submit((e) => {
+  $("#form_01").submit(async (e) => {
     e.preventDefault();
+    $("#btn_form01").attr('disabled', 'disabled')
+    console.log(new Date().getTime())  
     if($('#email').attr('disabled') == undefined){
       //enviar correo $("#email").val()
-
-      console.log('enviar correo')
+      const email = $("#email").val()
+      const res = await $.ajax({
+        url: '../api/tokens/create',
+        type: 'POST',
+        data: {email},
+        dataType: 'json'
+      });
+      if(res.status === 'success'){
+        await Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: 'Correo enviado',
+          showConfirmButton: false,
+          timer: 1200
+        })
+        $(".steps li").eq($("#btn_form01").parents(".form-container").index() + 1).addClass("active");
+        $("#btn_form01").parents('.form-container').removeClass('active').next().addClass('active flipInX')
+      }else{
+        console.warn(res)
+      }
       tiempo = 120;
       tiempoEnviar();
     }
@@ -36,10 +56,20 @@ $(document).ready(() => {
   });
 
 
-  $("#btn_codigo").click(() => {
+  $("#btn_codigo").click(async () => {
     // hacemos peticion con valor
-    // $('#codigo_email').val() 
-    const data = true
+    const token = $('#codigo_email').val()
+    const email = $("#email").val()
+    const res = await $.ajax({
+      url: '../api/tokens/verify',
+      type: 'POST',
+      data: {token, email},
+      dataType: 'json'
+    });
+    let data = false;
+    if(res.status === 'success'){
+      data = res.valid
+    }
     if(data){
       Swal.fire({
         position: 'top-end',
@@ -178,7 +208,7 @@ function getDataForm(formId, disabled = true){
 function tiempoEnviar(){
   var intervalo = setInterval(() => {
     $("#volver_enviar").html(tiempo--)
-    if(tiempo < 0){
+    if(tiempo < 1){
       $("#btn_volver_enviar").attr('disabled',false)
       // terminar el intervalo
       clearInterval(intervalo)

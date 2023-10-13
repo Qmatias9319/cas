@@ -375,7 +375,7 @@ Our Professionals, ​Start using Our App for free">
                 </div>
               </div>
               <div class="form-group text-center mar-b-0">
-                <input type="submit" id="btn_form01" value="CONTINUAR" class="btn btn-primary next" disabled>        
+                <button type="submit" id="btn_form01" class="btn btn-primary" disabled>CONTINUAR</button>        
               </div>
             </form>
           </div>
@@ -397,8 +397,7 @@ Our Professionals, ​Start using Our App for free">
                 <button type="button" class="btn btn-info" id="btn_volver_enviar" disabled>Volver a enviar</button>
                 <span class="text-dark d-block">Volver a enviar en <b id="volver_enviar">121</b> segundos</span>
               </div>
-              <div class="form-group text-center mar-b-0">
-                <input type="button" value="ATRÁS" class="btn btn-secondary back">        
+              <div class="form-group text-center mar-b-0">      
                 <input type="button" value="VERIFICAR" id="btn_codigo" class="btn btn-primary">        
               </div>
             </form>
