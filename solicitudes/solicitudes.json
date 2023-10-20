@@ -3,6 +3,7 @@
     "title": "PRÉSTAMO DE CONSUMO",
     "garante":"NO",
     "tipo":"CONSUMO",
+    "id":"4",
     "formulario": [
       {
         "input":"number",
@@ -41,6 +42,7 @@
     "title": "PRÉSTAMO DE EMERGENCIA",
     "garante":"NO",
     "tipo":"EMERGENCIA",
+    "id":"3",
     "formulario": [
       {
         "input":"number",
@@ -79,6 +81,7 @@
     "title": "PRÉSTAMO AUXILIO",
     "garante":"NO",
     "tipo":"AUXILIO",
+    "id":"2",
     "formulario": [
       {
         "input":"number",
@@ -117,6 +120,7 @@
     "title": "PRÉSTAMO REGULAR",
     "garante":"SI",
     "tipo":"REGULAR",
+    "id":"1",
     "formulario": [
       {
         "input":"number",

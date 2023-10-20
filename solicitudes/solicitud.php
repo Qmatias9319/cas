@@ -10,6 +10,8 @@ if(isset($_SESSION['idUsuario']) && isset($_GET['nsp'])){
 $data = file_get_contents('./solicitudes.json');
 $data = json_decode($data, true);
 $soli = $data[$nroSol];
+
+// echo $soli['id'];
 ?>
 <!DOCTYPE html>
 <html style="font-size: 16px;" lang="es">
@@ -57,6 +59,7 @@ $soli = $data[$nroSol];
       <div class="row">
         <div class="col-md-8 p-3" style="background-color:rgba(0,0,0,0.02);">
           <h3>Los siguientes campos son requeridos</h3>
+
           <form id="formSoli" >
             <input type="hidden" id="tipoPrestamo" value="<?=$soli['tipo']?>" />
             <?php

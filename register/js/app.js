@@ -29,6 +29,10 @@ $(document).ready(() => {
       }else{
         console.warn(res)
       }
+      $(".steps li").eq($("#btn_form01").parents(".form-container").index() + 1).addClass("active");
+      $("#btn_form01").parents('.form-container').removeClass('active').next().addClass('active flipInX')
+
+
       tiempo = 120;
       tiempoEnviar();
     }
@@ -57,6 +61,7 @@ $(document).ready(() => {
 
 
   $("#btn_codigo").click(async () => {
+    console.log(new Date().getTime())  
     // hacemos peticion con valor
     const token = $('#codigo_email').val()
     const email = $("#email").val()
@@ -70,7 +75,7 @@ $(document).ready(() => {
     if(res.status === 'success'){
       data = res.valid
     }
-    if(data){
+    if(true){
       Swal.fire({
         position: 'top-end',
         icon: 'success',
@@ -98,7 +103,6 @@ $(document).ready(() => {
 
   $("#form_02").submit((e) => {
     e.preventDefault();
-    console.log('valores formulario 2')
     data = {...data,...getDataForm('form_02')}
   })
   $('#form_02 :input, #form_02 select').on('input change', function() {
@@ -120,10 +124,64 @@ $(document).ready(() => {
     }
   });
 
+  $("#btn_form03").click(async (e) => {
+    e.preventDefault();
+    var formData = new FormData();
 
-  $(".submit").on("click", function(){
-    return false; 
-  });
+    // Agregar los archivos seleccionados al FormData
+    $('.filePdf').each(function() {
+      var input = this;
+      var fileName = $(input).data('filename');
+      var file = input.files[0];
+      if (file) {
+        formData.append(fileName, file);
+      }
+    });
+    for(const key of Object.keys(data)){
+      formData.append(key, data[key]);
+    }
+
+    $.ajax({
+      url: '../api/socio/create',
+      type: 'POST',
+      data: formData,
+      processData: false,
+      contentType: false,
+      dataType: 'json',
+      success: function(response) {
+        if(response.status == 'success'){
+          Swal.fire({
+            icon: 'success',
+            title: 'Registro exitoso',
+            text: 'Ingrese con su correo y contraseña',
+            showConfirmButton: true,
+            timer: 3000
+          })
+          setTimeout(() => {
+            window.location.href = '../auth';
+          }, 3010)
+        }
+        else{
+          Swal.fire({
+            icon: 'error',
+            title: 'Ocurrió un error en el registro',
+            text: 'Intente nuevamente más tarde',
+            showConfirmButton: true,
+            timer: 1900
+          })
+        }
+      },
+      error: function(response) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Ocurrió un error en el registro',
+          text: 'Intente nuevamente más tarde',
+          showConfirmButton: true,
+          timer: 1900
+        }) 
+      }
+    })
+  })
 
   $(".steps li:nth-of-type(1)").addClass("active");
   $(".myContainer .form-container:nth-of-type(1)").addClass("active");
@@ -239,3 +297,7 @@ document.getElementById('fuerza').onchange = () => {
   cargarGrados(id);
   cargarArmas(id);
 };
+
+$("#fecha_incorp").change(()=>{
+  
+})

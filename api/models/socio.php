@@ -13,10 +13,10 @@ class SocioModel{
       //$vals = self::cadenaInsert($data);
       //$sql = "INSERT INTO tblSocio ".$vals[0]." VALUES".$vals[1];
       $sql = "INSERT INTO tblSocio 
-              (nombre,paterno,materno,ci,idExpedicion,fechaNacimiento,idEstadoCivil,celular,correo,password,idMunicipio)
+              (nombre,paterno,materno,ci,idExpedicion,fechaNacimiento,idEstadoCivil,celular,correo,password)
               VALUES
               ('".$data['nombres']."','".$data['paterno']."','".$data['materno']."','".$data['ci']."',".$data['expedido'].",'".$data['fechaNac']."',
-              ".$data['estadoCivil'].",'".$data['celular']."','".$data['correoElec']."','".$data['password']."',".$data['municipio'].");";
+              ".$data['estadoCivil'].",'".$data['celular']."','".$data['correoElec']."','".$data['password']."');";
       $stmt = $this->pdo->prepare($sql);
       //$stmt->execute($vals[2]);
       $stmt->execute();
@@ -27,17 +27,6 @@ class SocioModel{
         return -1;
       }
     } catch (\Throwable $th) {
-      return -1;
-    }
-  }
-  public function updateFks($idSocio, $idVivienda, $idDetalle, $idRegistro){
-    try {
-      $sql = "UPDATE $this->table SET idVivienda = ?, idDetalleMilitar = ?, idRegistro = ? WHERE idSocio = ?";
-      $stmt = $this->pdo->prepare($sql);
-      $stmt->execute([$idVivienda, $idDetalle, $idRegistro, $idSocio]);
-      return $stmt->rowCount();
-    } catch (\Throwable $th) {
-      print_r($th);
       return -1;
     }
   }
@@ -131,7 +120,7 @@ class SocioModel{
     $sql = "SELECT ts.*, tdm.idArma, tdm.idFuerza, tdm.grado, tr.estado, tr.fechaAceptacion, tr.observacion,
     ta.detalle as detalleArma, tf.detalle as detalleFuerza, tg.detalle as detalleGrado
     FROM tblsocio ts
-    LEFT JOIN tblDetalleMilitar tdm ON ts.idDetalleMilitar = tdm.idDetalleMilitar
+    LEFT JOIN tblDetalleMilitar tdm ON ts.idSocio = tdm.idSocio
     LEFT JOIN tblRegistro tr ON ts.idSocio = tr.idSocio 
     LEFT JOIN tblFuerza tf ON tf.idFuerza = tdm.idFuerza
     LEFT JOIN tblGrado tg ON tg.idGrado = tdm.grado 
@@ -166,7 +155,7 @@ class SocioModel{
       $sql = "SELECT ts.*, tdm.idArma, tdm.idFuerza, tdm.grado, tdm.carnetCossmil, tdm.carnetMilitar, tdm.codigoBoleta, tdm.fechaIncorporacion, te.detalle as estadoCivil,
       ta.detalle as detalleArma, tf.detalle as detalleFuerza, tg.detalle as detalleGrado, tv.calle, tv.localidad, tv.zona, tv.numero, td.detalle as departamento
       FROM tblsocio ts
-      LEFT JOIN tblDetalleMilitar tdm ON ts.idDetalleMilitar = tdm.idDetalleMilitar
+      LEFT JOIN tblDetalleMilitar tdm ON ts.idSocio = tdm.idSocio
       LEFT JOIN tblFuerza tf ON tf.idFuerza = tdm.idFuerza
       LEFT JOIN tblGrado tg ON tg.idGrado = tdm.grado 
       LEFT JOIN tblArma ta ON ta.idArma = tdm.idArma

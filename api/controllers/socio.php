@@ -23,12 +23,7 @@ class Socio {
         if ($vResponse == -1 || $dResponse == -1 || $rResponse == -1) {
           echo json_encode(array('status' => 'error', 'message' => 'Ocurrio un error durante el registro'));
         } else {
-          $resUpdate = $socioModel->updateFks($id, $vResponse, $dResponse, $rResponse);
-          if ($resUpdate == -1) {
-            echo json_encode(array('status' => 'error', 'message' => 'Ocurrio un error durante el registro de dependencias'));
-          } else {
-            echo json_encode(array('status' => 'success', 'message' => 'Socio creado correctamente'));
-          }
+          echo json_encode(array('status' => 'success', 'message' => 'Socio creado correctamente'));
         }
       } else {
         echo json_encode(array('status' => 'error', 'message' => 'Error al crear archivos'));

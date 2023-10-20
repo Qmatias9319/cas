@@ -122,9 +122,9 @@ $("#form_register").on('submit', (e)=>{
     }
   })
 
-  for (var pair of formData.entries()) {
-    console.log(pair[0] + ': ' + pair[1]);
-  }
+  // for (var pair of formData.entries()) {
+  //   console.log(pair[0] + ': ' + pair[1]);
+  // }
 })
 
 $(".filePdf").on('change', (e) => {
