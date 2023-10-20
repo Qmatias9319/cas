@@ -11,7 +11,27 @@ $data = file_get_contents('./solicitudes.json');
 $data = json_decode($data, true);
 $soli = $data[$nroSol];
 
-// echo $soli['id'];
+include('./functions.php');
+if($soli['restriccion'] == 'GRADO'){
+  $sql = 'SELECT tv.montoMax, tp.mesMin, tp.mesMax FROM tblTipoPrestamo tp
+  INNER JOIN tblRestriccion tr ON tp.idTipoPrestamo = tr.idTipoPrestamo
+  INNER JOIN tblValoresRestriccion tv ON tv.idRestriccion = tr.idRestriccion
+  WHERE tv.idGrado IN (
+    SELECT tm.grado FROM tblDetalleMilitar tm
+    WHERE idSocio = '.$_SESSION['idUsuario'].'
+  )';
+}elseif($soli['restriccion'] == 'ANTIGUEDAD'){
+  $antiguedad = antiguedad($_SESSION['idUsuario']);
+  $sql = 'SELECT TOP 1 tv.montoMax, tp.mesMin, tp.mesMax FROM tblTipoPrestamo tp
+  INNER JOIN tblRestriccion tr ON tp.idTipoPrestamo = tr.idTipoPrestamo
+  INNER JOIN tblValoresRestriccion tv ON tv.idRestriccion = tr.idRestriccion
+  WHERE tv.antiguedad <= '.$antiguedad.';';
+}else{
+  $sql = 'SELECT tv.montoMax, tp.mesMin, tp.mesMax FROM tblTipoPrestamo tp
+  INNER JOIN tblRestriccion tr ON tp.idTipoPrestamo = tr.idTipoPrestamo
+  INNER JOIN tblValoresRestriccion tv ON tv.idRestriccion = tr.idRestriccion
+  WHERE tp.idTipoPrestamo = '.$soli['id'].';';
+}
 ?>
 <!DOCTYPE html>
 <html style="font-size: 16px;" lang="es">

@@ -4,6 +4,7 @@
     "garante":"NO",
     "tipo":"CONSUMO",
     "id":"4",
+    "restriccion":"COMUN",
     "formulario": [
       {
         "input":"number",
@@ -43,6 +44,7 @@
     "garante":"NO",
     "tipo":"EMERGENCIA",
     "id":"3",
+    "restriccion":"COMUN",
     "formulario": [
       {
         "input":"number",
@@ -82,6 +84,7 @@
     "garante":"NO",
     "tipo":"AUXILIO",
     "id":"2",
+    "restriccion":"ANTIGUEDAD",
     "formulario": [
       {
         "input":"number",
@@ -121,6 +124,7 @@
     "garante":"SI",
     "tipo":"REGULAR",
     "id":"1",
+    "restriccion":"GRADO",
     "formulario": [
       {
         "input":"number",
