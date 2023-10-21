@@ -7,6 +7,7 @@ $dataUser = array();
 if(isset($_SESSION['idUsuario'])){
 	$img = file_exists('../images/users/'.$_SESSION['idUsuario'].'.jpg') ? '../images/users/'.$_SESSION['idUsuario'].'.jpg': '../images/users/default.jpg';
 	$dataUser = json_decode($_SESSION['usuario'], true);
+	$aceptado = $_SESSION['aceptado'];
 }else{
 	header("Location: ../auth/");
 	die();
@@ -107,10 +108,12 @@ Our Professionals, ​Start using Our App for free">
 								class="u-border-no-bottom u-border-no-left u-border-no-right u-border-no-top u-button-style u-nav-link u-text-active-palette-1-base u-text-withe u-text-hover-palette-2-base"
 								href="../home/" style="padding: 10px;">Inicio</a>
 						</li>
+						<?php if($aceptado): ?>
 						<li class="u-nav-item"><a
 								class="u-border-no-bottom u-border-no-left u-border-no-right u-border-no-top u-button-style u-nav-link u-text-active-palette-1-base u-text-white-90 u-text-hover-palette-2-base"
 								href="../solicitudes/" style="padding: 10px;">Solicitar</a>
 						</li>
+						<?php endif; ?>
 						<li class="u-nav-item"><a
 								class="u-border-no-bottom u-border-no-left u-border-no-right u-border-no-top u-button-style u-nav-link u-text-active-palette-1-base u-text-white-90 u-text-hover-palette-2-base"
 								href="#" type="button" data-toggle="modal" data-target="#modal_misprestamos" style="padding: 10px;">Mis prestamos</a>
@@ -142,8 +145,10 @@ Our Professionals, ​Start using Our App for free">
 								<li class="u-nav-item"><a class="u-button-style u-nav-link"
 										href="../home/" style="color:#fff">Inicio</a>
 								</li>
+								<?php if($aceptado): ?>
 								<li class="u-nav-item"><a class="u-button-style u-nav-link" href="../solicitudes/">Solicitar</a>
 								</li>
+								<?php endif; ?>
 								<li class="u-nav-item"><a class="u-button-style u-nav-link" href="#" type="button" data-toggle="modal" data-target="#modal_misprestamos">Mis prestamos</a>
 								</li>
 								<li class="u-nav-item"><a class="u-button-style u-nav-link"

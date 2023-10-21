@@ -11,7 +11,7 @@ function querySql($sql){
   } catch (\Throwable $th) {
     print_r($th);
   }
-  return '';
+  return array();
 }
 
 function antiguedad($id){

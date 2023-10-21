@@ -133,13 +133,13 @@ function numtoletras($xcifra)
                     break;
                 case 2:
                     if ($xcifra < 1) {
-                        $xcadena = " $xdecimales/100 Bolivianos.";
+                        $xcadena = " $xdecimales/100 Dólares Americanos.";
                     }
                     if ($xcifra >= 1 && $xcifra < 2) {
-                        $xcadena .= " $xdecimales/100 Bolivianos. ";
+                        $xcadena .= " $xdecimales/100 Dólares Americanos. ";
                     }
                     if ($xcifra >= 2) {
-                        $xcadena .= "  $xdecimales/100 Bolivianos. "; //
+                        $xcadena .= "  $xdecimales/100 Dólares Americanos. "; //
                     }
                     break;
             } // endswitch ($xz)

@@ -32,6 +32,12 @@ if($soli['restriccion'] == 'GRADO'){
   INNER JOIN tblValoresRestriccion tv ON tv.idRestriccion = tr.idRestriccion
   WHERE tp.idTipoPrestamo = '.$soli['id'].';';
 }
+$result = querySql($sql);
+$paramsRestrict = '';
+if(count($result) > 0){
+  $paramsRestrict = '<input type="hidden" id="restrict" data-max="'.$result['montoMax'].'" data-mesmin="'.$result['mesMin'].'" data-mesmax="'.$result['mesMax'].'" />';
+}
+
 ?>
 <!DOCTYPE html>
 <html style="font-size: 16px;" lang="es">
@@ -83,13 +89,22 @@ if($soli['restriccion'] == 'GRADO'){
           <form id="formSoli" >
             <input type="hidden" id="tipoPrestamo" value="<?=$soli['tipo']?>" />
             <?php
-
             $form = $soli['formulario'];
             foreach ($form as $value) {
             ?>
-            <div class="form-group mb-2">
+            <div class="form-group pt-3">
               <label><?=$value['label']?></label>
               <input type="<?=$value['input']?>" class="form-control" id="<?=$value['id']?>" placeholder="<?=$value['placeholder']?>" required>
+              <?php if($value['id'] == 'monto'):?>
+              <div class="invalid-feedback mb-3">
+                Monto no válido, excede el monto máximo permitido
+              </div>
+              <?php endif; ?>
+              <?php if($value['id'] == 'plazo'):?>
+              <div class="invalid-feedback mb-3">
+                Cantidad de meses fuera del rango permitido
+              </div>
+              <?php endif; ?>
             </div>
             <?php
             }
@@ -124,9 +139,10 @@ if($soli['restriccion'] == 'GRADO'){
             </div>
             <?php
             }?>
+            <?=$paramsRestrict?>
             <div style="float:right" class="mt-2">
               <button class="btn btn-secondary" type="buttom" onclick="history.back()">Cancelar</button>
-              <button class="btn btn-primary ml-2" type="submit" >Enviar</button>
+              <button class="btn btn-primary ml-2" type="submit" id="btn_soli" disabled>Enviar</button>
             </div>
           </form>
         </div>

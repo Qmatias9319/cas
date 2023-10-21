@@ -137,7 +137,7 @@ $pdf->SetAutoPageBreak(true, 13);
 
     $solicitud .= '<tr><td></td></tr><tr><td colspan="2">Cod. Pap. Pago: ' . $codigo . '</td><td colspan="2">C.I. ' . $ci . '</td><td colspan="2">C.M. ' . $cm . '</td></tr>';
 
-    $solicitud .= '<tr><td></td></tr><tr><td colspan="3">Préstamo Solicitado Bs. ' . $monto . ' </td><td colspan="3">Plazo: ' . $plazo . ' meses.</td></tr>';
+    $solicitud .= '<tr><td></td></tr><tr><td colspan="3">Préstamo Solicitado $SUS ' . $monto . ' </td><td colspan="3">Plazo: ' . $plazo . ' meses.</td></tr>';
 
     $solicitud .= '<tr><td></td></tr><tr><tdcolspan="6">Nro. Cuenta BANCO UNIÓN (Para Abono): ' . $cuentaAbono . '</td></tr>';
     
@@ -149,7 +149,7 @@ $pdf->SetAutoPageBreak(true, 13);
 
     $textBody .= '<b>PRIMERA.- (Antecedentes)</b> La Cooperativa de Ahorro y Crédito de Vínculo Laboral "Oficiales de Caballería Apóstol Santiago" R.L., tendrá como objeto único de realizar operaciones de ahorro y crédito únicamente con sus asociados y asociadas dentro del Ejercito Nacional de Bolivia y de acuerdo a reglamento de créditos del "C.A.S." R.L.<br>';
 
-    $textBody .= '<b>SEGUNDA.- (Objeto)</b> El PRESTATARIO declara que debe y pagará a la orden del ACREEDOR la suma de Bs. ' . $suma . ' (' . $sumaLiteral . ' Bolivianos), que ha recibido a su entera satisfacción en moneda actual y corriente como consta en el traspaso de la Cuenta De Ahorro del Banco Unión a nombre de loa Cooperativa de Ahorro y Crédito de Vínculo Laboral "Oficiales de Caballería Apóstol Santiago" R.L.<br>';
+    $textBody .= '<b>SEGUNDA.- (Objeto)</b> El PRESTATARIO declara que debe y pagará a la orden del ACREEDOR la suma de $US ' . $suma . ' (' . $sumaLiteral . '), que ha recibido a su entera satisfacción en moneda actual y corriente como consta en el traspaso de la Cuenta De Ahorro del Banco Unión a nombre de loa Cooperativa de Ahorro y Crédito de Vínculo Laboral "Oficiales de Caballería Apóstol Santiago" R.L.<br>';
 
     $textBody .= '<b>TERCERA.- (Interés)</b> El presente préstamo devengará al interés de 1 % mensual, sobre los saldos deudores, el mismo que será recargado con el interés penal de 2,5 % mensual, en caso de mora de una o más amortizaciones.<br>';
     

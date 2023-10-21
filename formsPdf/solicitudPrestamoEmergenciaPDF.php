@@ -137,7 +137,7 @@ $pdf->SetAutoPageBreak(true, 13);
 
     $solicitud .= '<tr><td></td></tr><tr><td colspan="2">Cod. Pap. Pago: ' . $codigo . ' </td><td colspan="2">C.I. ' . $ci . ' </td><td colspan="2">C.M. ' . $cm . '</td></tr>';
 
-    $solicitud .= '<tr><td></td></tr><tr><td colspan="3">Préstamo Solicitado Bs. ' . $monto . ' </td><td>Plazo: ' . $plazo . ' meses.</td></tr>';
+    $solicitud .= '<tr><td></td></tr><tr><td colspan="3">Préstamo Solicitado $US ' . $monto . ' </td><td>Plazo: ' . $plazo . ' meses.</td></tr>';
 
     $solicitud .= '<tr><td></td></tr><tr><td colspan="6">Nro. Cuenta BANCO UNIÓN (Para Abono): ' . $cuentaAbono . '</td></tr>';
     
@@ -149,7 +149,7 @@ $pdf->SetAutoPageBreak(true, 13);
 
     $textBody .= '<b>PRIMERA.- (Antecedentes)</b> El objetivo del presente Reglamento es el de establecer las directrices para la obtención de créditos a través de la otorgación de recursos económicos, para apoyar a los Asociados y sus familias a mejorar su calidad de vida.<br>';
 
-    $textBody .= '<b>SEGUNDA.- (Objeto)</b> El PRESTATARIO declara que debe y pagará a la orden del ACREEDOR la suma de Bs. ' . $suma . ' (' . $sumaLiteral . '), que ha recibido a su entera satisfacción en moneda actual y corriente como consta en el COMPROBANTE DE PAGO&nbsp;&nbsp;del “C.A.S.” R.L. No. ' . $nroComprobante . ' de fecha ' . $fecha . '<br>';
+    $textBody .= '<b>SEGUNDA.- (Objeto)</b> El PRESTATARIO declara que debe y pagará a la orden del ACREEDOR la suma de $US ' . $suma . ' (' . $sumaLiteral . '), que ha recibido a su entera satisfacción en moneda actual y corriente como consta en el COMPROBANTE DE PAGO&nbsp;&nbsp;del “C.A.S.” R.L. No. ' . $nroComprobante . ' de fecha ' . $fecha . '<br>';
     
     $textBody .= '<b>TERCERA.- (Interés)</b> El presente préstamo devengará al interés de 1 % mensual, sobre los saldos deudores, el mismo que será recargado con el interés penal de 2,5 % mensual, en caso de mora de una o más amortizaciones.<br>';
     

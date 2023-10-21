@@ -398,7 +398,7 @@ Our Professionals, ​Start using Our App for free">
                 <span class="text-dark d-block">Volver a enviar en <b id="volver_enviar">121</b> segundos</span>
               </div>
               <div class="form-group text-center mar-b-0">      
-                <button type="button" id="btn_codigo" class="btn btn-primary">VERIFICAR</button>      
+                <button type="button" id="btn_codigo" class="btn btn-primary" disabled>VERIFICAR</button>      
               </div>
             </form>
           </div>
@@ -457,6 +457,9 @@ Our Professionals, ​Start using Our App for free">
                 <div class="input-group flex-nowrap input-group-lg">
                   <span class="input-group-text"><i class="fas fa-regular fa-calendar"></i></span>
                   <input type="date" class="form-control" id="fecha_incorp" name="fechaIncorporacion" required/>
+                  <div class="invalid-feedback">
+                    Fecha fuera del rango permitido
+                  </div>
                 </div>
               </div>
               <div class="row mb-4">
@@ -486,14 +489,12 @@ Our Professionals, ​Start using Our App for free">
                     La contraseña debe tener al menos 8 caracteres y ser alfanumérica.
                   </div>
                 </div>
-                
               </div>
               <div class="form-group text-center mar-b-0">
-                <input type="submit" id="btn_form02" value="SIGUIENTE" class="btn btn-primary next">        
+                <input type="submit" id="btn_form02" value="SIGUIENTE" class="btn btn-primary next" disabled>        
               </div>
             </form>
           </div>
-
 
           <div class="form-container animated">
             <h4 class="text-center form-title">Subir archivos</h4>
@@ -511,24 +512,17 @@ Our Professionals, ​Start using Our App for free">
                 </div>
               </div>
               <div class="row mb-4">
-                <span style="color:#8c95cc;text-align:left">- Un cuadro de vinculación AFCOOP (Firmado con boligrafo azul y huellas dactilares del pulgar derecho con tampo azul)</span>
-                <div class="input-group">                      
-                  <input type="file" class="form-control filePdf" accept=".pdf" data-filename="afcoop" required>
-                </div>
-              </div>
-              <div class="row mb-4">
                 <span style="color:#8c95cc;text-align:left">- Fotocopia carnet COSSMIL (Firmado con boligrafo azul)</span>
                 <div class="input-group">                      
-                  <input type="file" class="form-control filePdf" accept=".pdf" data-filename="carnetcossmil" required>
+                  <input type="file" class="form-control filePdf" accept=".pdf" data-filename="carnetcossmil">
                 </div>
               </div>
               <div class="row mb-4">
                 <span style="color:#8c95cc;text-align:left">- Fotocopia Carnet militar (Firmado con boligrafo azul)</span>
                 <div class="input-group">                      
-                  <input type="file" class="form-control filePdf" accept=".pdf" data-filename="carnetMilitar" required>
+                  <input type="file" class="form-control filePdf" accept=".pdf" data-filename="carnetMilitar">
                 </div>
               </div>
-              
               <div class="row mb-4">
                 <span style="color:#8c95cc;text-align:left">- Fotocopia de memorándum de incorporación de las FF.AA. (Persona civil)</span>
                 <div class="input-group">                      
@@ -543,7 +537,7 @@ Our Professionals, ​Start using Our App for free">
               </div>
               <div class="form-group text-center mar-b-0"> 
                 <input type="button" value="ATRÁS" class="btn btn-secondary back"> 
-                <button type="button" id="btn_form03" class="btn btn-primary">REGISTRARME</button>       
+                <button type="button" id="btn_form03" class="btn btn-primary" disabled>REGISTRARME</button>       
               </div>
             </form>
           </div>

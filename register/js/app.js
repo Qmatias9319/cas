@@ -9,6 +9,19 @@ $(document).ready(() => {
     console.log(new Date().getTime())  
     if($('#email').attr('disabled') == undefined){
       //enviar correo $("#email").val()
+      Swal.fire({
+        title: 'Enviando código al correo',
+        html: 'Se está enviando el código a su correo.',
+        timer: 2800,
+        timerProgressBar: true,
+        didOpen: () => {
+          Swal.showLoading()
+        },
+      }).then((result) => {
+        if (result.dismiss === Swal.DismissReason.timer) {
+          console.log('Close timer')
+        }
+      })
       const email = $("#email").val()
       const res = await $.ajax({
         url: '../api/tokens/create',
@@ -29,10 +42,6 @@ $(document).ready(() => {
       }else{
         console.warn(res)
       }
-      $(".steps li").eq($("#btn_form01").parents(".form-container").index() + 1).addClass("active");
-      $("#btn_form01").parents('.form-container').removeClass('active').next().addClass('active flipInX')
-
-
       tiempo = 120;
       tiempoEnviar();
     }
@@ -59,6 +68,13 @@ $(document).ready(() => {
     }
   });
 
+  $("#codigo_email").on('input', (e) => {
+    if(e.target.value.length === 4){
+      $("#btn_codigo").attr('disabled', false)
+    }else{
+      $("#btn_codigo").attr('disabled', true)
+    }
+  })
 
   $("#btn_codigo").click(async () => {
     console.log(new Date().getTime())  
@@ -75,7 +91,7 @@ $(document).ready(() => {
     if(res.status === 'success'){
       data = res.valid
     }
-    if(true){
+    if(data){
       Swal.fire({
         position: 'top-end',
         icon: 'success',
@@ -123,9 +139,28 @@ $(document).ready(() => {
       $('#btn_form02').prop('disabled', true);
     }
   });
+  $('#form_03 :input').on('input change', function() {
+    var form = $("#form_03");
+    var isFormValid = true;
+    form.find(':input[required]').each(function() {
+      if ($(this).val() === '') {
+        isFormValid = false;
+        return false;
+      }
+    });
+    if(form.find('.is-invalid').length > 0){
+      isFormValid = false;
+    }
+    if (isFormValid) {
+      $('#btn_form03').prop('disabled', false);
+    } else {
+      $('#btn_form03').prop('disabled', true);
+    }
+  });
 
   $("#btn_form03").click(async (e) => {
     e.preventDefault();
+    $("#btn_form03").attr('disabled', 'disabled');
     var formData = new FormData();
 
     // Agregar los archivos seleccionados al FormData
@@ -298,6 +333,24 @@ document.getElementById('fuerza').onchange = () => {
   cargarArmas(id);
 };
 
-$("#fecha_incorp").change(()=>{
-  
+$("#fecha_incorp").on('change',(e)=>{
+  const hoy = new Date();
+  const fechaInc = new Date(e.target.value);
+  var aInc = fechaInc.getFullYear();
+  var mInc = fechaInc.getMonth();
+  var dInc = fechaInc.getDate() + 1;
+  var aHoy = hoy.getFullYear();
+  var mHoy = hoy.getMonth();
+  var dHoy = hoy.getDate();
+  var diff = aHoy - aInc;
+  if (mHoy < mInc) {
+    diff--;
+  } else if (mHoy == mInc && dHoy < dInc) {
+    diff--;
+  }
+  if(diff < 41 && hoy.getTime() > fechaInc.getTime()){
+    $(e.target).removeClass('is-invalid');
+  }else{
+    $(e.target).addClass('is-invalid');
+  }
 })

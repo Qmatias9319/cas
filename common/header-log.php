@@ -27,10 +27,12 @@
                 class="u-border-no-bottom u-border-no-left u-border-no-right u-border-no-top u-button-style u-nav-link u-text-active-palette-1-base u-text-grey-90 u-text-hover-palette-2-base"
                 href="../home/" style="padding: 10px;">Inicio</a>
             </li>
+            <?php if($_SESSION['aceptado']): ?>
             <li id="miscursos" class="u-nav-item"><a
                 class="u-border-no-bottom u-border-no-left u-border-no-right u-border-no-top u-button-style u-nav-link u-text-active-palette-1-base u-text-grey-90 u-text-hover-palette-2-base"
-                href="../solicitudes/" style="padding: 10px;">Solicitudes</a>
+                href="../solicitudes/" style="padding: 10px;">Solicitar</a>
             </li>
+            <?php endif; ?>
             <li class="u-nav-item"><a
                 class="u-border-no-bottom u-border-no-left u-border-no-right u-border-no-top u-button-style u-nav-link u-text-active-palette-1-base u-text-grey-90 u-text-hover-palette-2-base"
                 href="../about/" style="padding: 10px;">Acerca de</a>

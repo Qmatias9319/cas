@@ -49,15 +49,31 @@ class SocioModel{
   public function getSocio($correo, $pass){
     $res = null;
     try {
-      // $sql = "SELECT * FROM $this->table WHERE correo = ? AND password = ?";
-      $sql = "SELECT * FROM tblSocio ts
-      INNER JOIN tblRegistro tr on ts.idSocio = tr.idSocio
-      WHERE tr.estado like 'ACEPTADO'
-      AND ts.correo like ? AND ts.password like ?;";
+      $sql = "SELECT * FROM $this->table WHERE correo = ? AND password = ?";
+      // $sql = "SELECT * FROM tblSocio ts
+      // INNER JOIN tblRegistro tr on ts.idSocio = tr.idSocio
+      // WHERE tr.estado like 'ACEPTADO'
+      // AND ts.correo like ? AND ts.password like ?;";
       $stmt = $this->pdo->prepare($sql);
       $stmt->execute([$correo, $pass]);
       $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
     }catch (\Throwable $th) {
+      print_r($th);
+    }
+    return $res;
+  }
+
+  public function getAceptado($id){
+    $res = false;
+    try {
+      $sql = "SELECT estado FROM tblRegistro WHERE idSocio = ?;";
+      $stmt = $this->pdo->prepare($sql);
+      $stmt->execute([$id]);
+      $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+      if(count($data) > 0){
+        $res = $data[0]['estado'] == 'ACEPTADO' ? true : false;
+      }
+    } catch (\Throwable $th) {
       print_r($th);
     }
     return $res;

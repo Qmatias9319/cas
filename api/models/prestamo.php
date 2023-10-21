@@ -1,5 +1,6 @@
 <?php
 require_once('./config/database.php');
+require_once('./models/garante.php');
 class PrestamoModel{
   private $pdo;
   private $table = "tblPrestamo"; 
@@ -18,6 +19,15 @@ class PrestamoModel{
         $stmt->execute([$id, $data['tipoPrestamo'], $data['monto'], $data['motivo'], $data['plazo'], $data['nroCta'], 'SOLICITUD']);
         $lastInsert = $this->pdo->lastInsertId();
         if($lastInsert != false){
+          if(isset($data['idg1'])){
+            $garante = new GaranteModel();
+            $res = $garante->createGarantes($lastInsert, $data['idg1'], $data['idg2']);
+            if($res > 0){
+              return $lastInsert;
+            }else{
+              return -1;
+            }
+          }
           return $lastInsert;
         }else{
           return -1;

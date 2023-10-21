@@ -159,10 +159,10 @@ $("#modal_misprestamos").on('show.bs.modal', async () => {
 
 
 function armarTablaPrestamos(data){
-  let cadena = data.length > 0 ? '':'<td colspan="8">NO hay registros de prestamos</td>';
+  let cadena = data.length > 0 ? '':'<td colspan="8">No hay registros de prestamos</td>';
   for(let i = 0; i < data.length; i++){
     let fecha = new Date(data[i].fechaSolicitud);
-    fecha = fecha.toLocaleDateString();
+    fecha = `${fecha.getDate()+1}/${fecha.getMonth()+1}/${fecha.getFullYear()}`;
     let fecha2 = data[i].fechaPrestamo != null ? new Date(data[i].fechaPrestamo):null;
     fecha2 = fecha2 != null ? fecha2.toLocaleDateString() : 'Sin pago realizado';
     // /formsPdf/form.php?nid=${data[i].idPrestamo}

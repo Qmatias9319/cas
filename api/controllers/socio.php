@@ -41,8 +41,10 @@ class Socio {
       if ($socio != null) {
         session_start();
         $data = $socioModel->getAllData($socio[0]['idSocio']);
+        $aceptado = $socioModel->getAceptado($socio[0]['idSocio']);
         $_SESSION['idUsuario'] = $socio[0]['idSocio'];
         $_SESSION['usuario'] = json_encode($data[0]);
+        $_SESSION['aceptado'] = $aceptado;
         echo json_encode(array('status' => 'success', 'message' => 'Sesión iniciada'));
       } else {
         echo json_encode(array('status' => 'error', 'message' => 'Correo o contraseña incorrectos'));

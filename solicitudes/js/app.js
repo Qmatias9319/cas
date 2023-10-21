@@ -1,4 +1,4 @@
-
+const restrict = $("#restrict");
 $("#formSoli").submit(async (e)=>{
   e.preventDefault();
   const monto = $("#monto").val();
@@ -93,7 +93,47 @@ $('.cig').change(async (e) => {
     e.target.dataset.id = 0;
   }
 });
+
 $(".cig").on('focus', (e)=>{
   $(e.target).removeClass('is-invalid')
   $(e.target).removeClass('is-valid')
 })
+
+$("#monto").on('input', (e) => {
+  const max = Number(restrict.data('max'));
+  if(Number(e.target.value) > max){
+    $("#monto").addClass('is-invalid')
+  }else{
+    $("#monto").removeClass('is-invalid')
+  }
+});
+
+$("#plazo").on('input', (e) => {
+  const mesMin = Number(restrict.data('mesmin'));
+  const mesMax = Number(restrict.data('mesmax'));
+  if(Number(e.target.value) < mesMin || Number(e.target.value) > mesMax){
+    $("#plazo").addClass('is-invalid')
+  }else{
+    $("#plazo").removeClass('is-invalid');
+  }
+});
+
+$('#formSoli :input').on('input change', function() {
+  var form = $("#formSoli");
+  var isFormValid = true;
+  form.find(':input[required]').each(function() {
+    if ($(this).val() === '') {
+      isFormValid = false;
+      return false;
+    }
+  });
+  if(form.find('.is-invalid').length > 0){
+    isFormValid = false;
+  }
+  if (isFormValid) {
+    $('#btn_soli').prop('disabled', false);
+  } else {
+    $('#btn_soli').prop('disabled', true);
+  }
+});
+

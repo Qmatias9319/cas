@@ -8,7 +8,7 @@
     "formulario": [
       {
         "input":"number",
-        "label":"Monto de préstamo solicitado en <b>Bs.</b>",
+        "label":"Monto de préstamo solicitado en <b>$US.</b>",
         "placeholder":"Monto",
         "id":"monto"
       },
@@ -48,7 +48,7 @@
     "formulario": [
       {
         "input":"number",
-        "label":"Monto de préstamo solicitado en <b>Bs.</b>",
+        "label":"Monto de préstamo solicitado en <b>$US.</b>",
         "placeholder":"Monto",
         "id":"monto"
       },
@@ -88,7 +88,7 @@
     "formulario": [
       {
         "input":"number",
-        "label":"Monto de préstamo solicitado en <b>Bs.</b>",
+        "label":"Monto de préstamo solicitado en <b>$US.</b>",
         "placeholder":"Monto",
         "id":"monto"
       },
@@ -128,7 +128,7 @@
     "formulario": [
       {
         "input":"number",
-        "label":"Monto de préstamo solicitado en <b>Bs.</b>",
+        "label":"Monto de préstamo solicitado en <b>$US.</b>",
         "placeholder":"Monto",
         "id":"monto"
       },
