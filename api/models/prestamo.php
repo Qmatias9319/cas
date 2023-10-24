@@ -113,5 +113,44 @@ class PrestamoModel{
     }
     return $res;
   }
+
+  public function getDetalle($idPrestamo){
+    $res = null;
+    try {
+      $sql = "SELECT * FROM $this->table WHERE idPrestamo = ?";
+      $stmt = $this->pdo->prepare($sql);
+      $stmt->execute([$idPrestamo]);
+      $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+      if(count($res) > 0){
+        if($res[0]['tipo'] == 'REGULAR'){
+
+        }else{
+          return array('COMUN', self::prestamoComun($idPrestamo, $this->pdo));
+        }
+      }
+    }catch (\Throwable $th) {
+      //throw $th;
+    }
+    return $res;
+  }
+  public static function prestamoRegular(){
+
+  }
+  public static function prestamoComun($idPrestamo, $pdo){
+    $res = null;
+    $sql = "SELECT tp.*, ts.nombre, ts.paterno, ts.materno, ts.celular, ts.correo, tr.fechaAceptacion 
+    FROM tblPrestamo tp INNER JOIN tblSocio ts ON ts.idSocio = tp.idSocio
+    INNER JOIN tblRegistro tr ON tr.idSocio = ts.idSocio
+    WHERE tp.idPrestamo = $idPrestamo;";
+    try{
+      $stmt = $pdo->prepare($sql);
+      $stmt->execute();
+      $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+      return $res;
+    }catch(\Throwable $th){
+      print_r($th);
+    }
+    return $res;
+  }
 }
 ?>

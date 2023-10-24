@@ -59,7 +59,7 @@ Our Professionals, ​Start using Our App for free">
 						<tr>
 							<th scope="col">IMPRIMIR FORM</th>
 							<th scope="col">TIPO PRÉSTAMO</th>
-							<th scope="col">MONTO Bs.</th>
+							<th scope="col">MONTO $US.</th>
 							<th scope="col" style="min-width:90px;">PLAZO</th>
 							<th scope="col" style="min-width:100px;">MOTIVO</th>
 							<th scope="col">FECHA SOLICITUD</th>

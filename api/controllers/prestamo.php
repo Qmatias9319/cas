@@ -63,4 +63,16 @@ class Prestamo {
       echo json_encode(array('status' => 'success', 'garantes' => array(), 'error' => true));
     }
   }
+  public function detalleHtml($idPrestamo){
+    $prestamo = new PrestamoModel();
+    $res = $prestamo->getDetalle($idPrestamo);
+    if ($res != null) {
+      if($res[0] != 'REGULAR'){
+        
+      }else{
+
+      }
+    } else {
+    }
+  }
 }

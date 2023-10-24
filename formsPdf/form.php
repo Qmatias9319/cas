@@ -74,4 +74,20 @@ function getGarantesPrestamo($idPrestamo){
   $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
   return $res;
 }
+
+function esGarante($idSocio){
+  $pdo = connectToDatabase();
+  $sql = "SELECT concat(ts.paterno, ' ', ts.nombre) as nombre FROM tblPrestamo tp
+  INNER JOIN (
+    SELECT idSocio, idPrestamo FROM tblGarante
+    WHERE idSocio = $idSocio
+  ) tmp
+  ON tp.idPrestamo = tmp.idPrestamo
+  INNER JOIN tblSocio ts
+  ON ts.idSocio = tp.idSocio;";
+  $stmt = $pdo->prepare($sql);
+  $stmt->execute();
+  $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+  return $res;
+}
 ?>

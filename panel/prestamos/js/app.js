@@ -13,7 +13,7 @@ $("#modal_garante").on('show.bs.modal', async function(e){
       res.garantes.forEach(element => {
         $("#t_body_gar").append(`
         <tr>
-          <td>${element.nombres}</td>
+          <td>${element.nombre}</td>
           <td>${element.apellidos}</td>
         </tr>
         `)
@@ -75,15 +75,10 @@ function generaFilasSoli(data) {
         <td>${element.plazo} meses</td>
         <td>${fecha}</td>
         <td>
-          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_garante" data-id="${element.idPrestamo}"><i class="fas fa-eye"></i> Ver </button>
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_garante" data-id="${element.idPrestamo}" ${element.tipo != 'REGULAR' ? 'disabled' : ''}><i class="fas fa-eye"></i> Ver </button>
         </td>
         <td>
-          <div class="dropdown">
-            <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
-            Acciones </button>
-            <div class="dropdown-menu">
-              <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modal_" data-id="${element.idPrestamo}"><i class="fas fa-eye text-info"></i> &nbsp;&nbsp;Revisar</a>
-            </div>
+          <button type="button" class="btn btn-info" onclick="revisarPrestamo(${element.idPrestamo})"><i class="fas fa-clipboard-check"></i> Revisar </button>
         </td>
       </tr>
     `;
@@ -123,5 +118,29 @@ async function listarPrestamos(){
     // }
   } catch (error) {
     console.log(error);
+  }
+}
+
+async function revisarPrestamo(idPrestamo){
+  try {
+    const htmlDatos = await $.ajax({
+      url: `../../api/prestamo/detalleHtml/${idPrestamo}`,
+      dataType: 'html',
+      type: 'GET'
+    })
+    const htmlArchivos = await $.ajax({
+      url: `../../api/socio/socioArchivosHtml/${id}`,
+      dataType: 'html',
+      type: 'GET'
+    })
+    $("#prestamos").html(`<div class="row">
+    ${htmlDatos} ${htmlArchivos}</div>
+    <div class="d-flex justify-content-center mt-3">
+      <button class="btn btn-secondary ml-2" onclick="listarAfiliadosEspera()">Volver</button>
+      <button class="btn btn-danger ml-2" data-id="${id}" data-toggle="modal" data-target="#modal_rechazar">Rechazar</button>
+      <button id="aceptar_btn" class="btn btn-success ml-2" data-id="${id}" data-toggle="modal" data-target="#modal_aceptar" disabled>Aceptar</button>
+    </div>`);
+  } catch (error) {
+    console.log(error)
   }
 }

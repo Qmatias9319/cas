@@ -73,12 +73,26 @@ $pdf->MultiCell(37, 4, 'TELÉFONO', 0, 'C', false,1, 164, 74, true, 0, true, tru
 
 $pdf->SetFont('helvetica', 'N', 11);
 $pdf->MultiCell(0, 5, 'Cod. papeleta de pago. '.$data['codigoBoleta'].', C.I. '.$data['ci'].' '.$data['expedido'].', C.M. '.$data['carnetMilitar'], 0, 'J', false,1, 14, 78, true, 0, false, true, 0, 'J', true );
-$pdf->MultiCell(0, 5, 'Préstamo Solicitado $US. '.$data['monto'].' Plazo: '.$data['plazo'].' meses, motivo: '.$data['motivo'], 0, 'J', false,1, 14, 83, true, 0, false, true, 0, 'J', true );
-$pdf->MultiCell(0, 5, 'Nro. Cuenta BANCO UNION (Para Abono): '.$data['numeroCuenta'], 0, 'L', false,1, 14, 88, true, 0, false, true, 0, 'L', true );
+$pdf->MultiCell(0, 15, 'Préstamo Solicitado $US. '.$data['monto'].' Plazo: '.$data['plazo'].' meses, motivo: '.$data['motivo'].".\n".'Nro. Cuenta BANCO UNION (Para Abono): '.$data['numeroCuenta'], 0, 'J', false, 1, 14, 83, true, 0, false, true, 0, 'J', true );
 
 
 $garante1 = $garantes[0];
 $garante2 = $garantes[1];
+$esGarante1 = esGarante($garante1['idSocio']);
+$esGarante2 = esGarante($garante2['idSocio']);
+
+$cadNombres = ['',''];
+foreach($esGarante1 as $g){
+  $cadNombres[0] .= $g['nombre']. ', ';
+}
+foreach($esGarante2 as $g){
+  $cadNombres[1] .= $g['nombre']. ', ';
+}
+$cadNombres[0] = $cadNombres[0] != '' ? 'Garante de los socios: '.substr($cadNombres[0], 0, -2) : '---';
+$cadNombres[1] = $cadNombres[1] != '' ? 'Garante de los socios: '.substr($cadNombres[1], 0, -2) : '---';
+
+$cantidad1 = count($esGarante1) > 0 ? 'SI. Cantidad '.count($esGarante1) : 'NO. Cantidad 0';
+$cantidad2 = count($esGarante2) > 0 ? 'SI. Cantidad '.count($esGarante2) : 'NO. Cantidad 0';
 
 $pdf->SetFont('helvetica', 'N', 11);
 $border = 0;
@@ -99,8 +113,8 @@ $pdf->MultiCell(46, 5, 'NOMBRE (S)', $border, 'C', false,1, 159, 118, true, 0, t
 $pdf->SetFont('helvetica', 'N', 11);
 $pdf->MultiCell(0, 5, 'Cod. papeleta pago. '.$garante1['codigoBoleta'].', C.I. '.$garante1['ci'].' '.$garante1['expedido'].', C.M. '.$garante1['carnetMilitar'], 0, 'J', false,1, 14, 123, true, 0, false, true, 0, 'J', true );
 $pdf->MultiCell(0, 5, 'Destino Actual: '.$garante1['ciudad'].' Teléfono: '.$garante1['celular'], 0, 'J', false,1, 14, 128, true, 0, false, true, 0, 'J', true );
-$pdf->MultiCell(0, 5, '¿Es garante en el "C.A.S." R.L.? SI|NO ¿De quiénes?. {{Poner la cantidad de garantes}}', 0, 'L', false,1, 14, 133, true, 0, false, true, 0, 'L', true );
-$pdf->MultiCell(0, 5, 'Cadena de nombres de los que garantiza', 0, 'L', false,1, 14, 138, true, 0, false, true, 0, 'L', true );
+$pdf->MultiCell(0, 5, '¿Es garante en el "C.A.S." R.L.? '.$cantidad1, 0, 'L', false,1, 14, 133, true, 0, false, true, 0, 'L', true );
+$pdf->MultiCell(0, 10, $cadNombres[0], 0, 'L', false,1, 14, 138, true, 0, false, true, 0, 'L', true );
 
 
 $pdf->MultiCell(0, 5, '<b>3. Garante 2:</b> (Asociado(a)): Oficial del Arma de: '.$garante2['arma'], 0, 'L', false,1, 12, 155, true, 0, true, true, 0, 'C', true );
@@ -118,8 +132,8 @@ $pdf->MultiCell(46, 5, 'NOMBRE (S)', $border, 'C', false,1, 159, 165, true, 0, t
 $pdf->SetFont('helvetica', 'N', 11);
 $pdf->MultiCell(0, 5, 'Cod. papeleta pago. '.$garante2['codigoBoleta'].', C.I. '.$garante2['ci'].' '.$garante2['expedido'].', C.M. '.$garante2['carnetMilitar'], 0, 'J', false,1, 14, 170, true, 0, false, true, 0, 'J', true );
 $pdf->MultiCell(0, 5, 'Destino Actual: '.$garante2['ciudad'].' Teléfono: '.$garante2['celular'], 0, 'J', false,1, 14, 175, true, 0, false, true, 0, 'J', true );
-$pdf->MultiCell(0, 5, '¿Es garante en el "C.A.S." R.L.? SI|NO ¿De quiénes?. {{Poner la cantidad de garantes}}', 0, 'L', false,1, 14, 180, true, 0, false, true, 0, 'L', true );
-$pdf->MultiCell(0, 5, 'Cadena de nombres de los que garantiza', 0, 'L', false,1, 14, 185, true, 0, false, true, 0, 'L', true );
+$pdf->MultiCell(0, 5, '¿Es garante en el "C.A.S." R.L.? '.$cantidad2, 0, 'L', false,1, 14, 180, true, 0, false, true, 0, 'L', true ); 
+$pdf->MultiCell(0, 10, $cadNombres[1], 0, 'L', false,1, 14, 185, true, 0, false, true, 0, 'L', true );
 
 // $pdf->MultiCell(60, 5, '.........................................................', 1, 'C', false,1, 120, 200, true, 0, false, true, 0, 'L', true );
 $pdf->MultiCell(60, 5, '.........................................................', 0, 'C', false,1, 37, 204, true, 0, false, true, 0, 'L', true );

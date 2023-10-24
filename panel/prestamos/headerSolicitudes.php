@@ -23,7 +23,7 @@
           </div>
           <div class="card-body">
             <div id="for-pagination1" style="text-align:center"></div>
-            <div id="afiliados" style="margin:0 10px;">
+            <div id="prestamos" style="margin:0 10px;">
               <table id="t_prestamos_sol" class="table table-bordered table-striped" style="width:100%">
                 <thead>
                   <tr>
@@ -34,7 +34,7 @@
                     <th>Plazo Solcicitado</th>
                     <th>Fecha Solicitud</th>
                     <th>Garantes</th>
-                    <th>Opciones</th>
+                    <th>Revisar</th>
                   </tr>
                 </thead>
                 <tbody id="t_body_prest">

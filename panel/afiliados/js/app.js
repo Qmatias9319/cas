@@ -201,8 +201,7 @@ async function revisarSocio(id) {
       dataType: 'html',
       type: 'GET'
     })
-    $("#afiliadosEspera").html(`<div class="row">
-    ${htmlDatos} ${htmlArchivos}</div>
+    $("#afiliadosEspera").html(`<div class="row">${htmlDatos} ${htmlArchivos}</div>
     <div class="d-flex justify-content-center mt-3">
       <button class="btn btn-secondary ml-2" onclick="listarAfiliadosEspera()">Volver</button>
       <button class="btn btn-danger ml-2" data-id="${id}" data-toggle="modal" data-target="#modal_rechazar">Rechazar</button>

@@ -12,7 +12,7 @@
  Target Server Version : 15002000
  File Encoding         : 65001
 
- Date: 21/10/2023 17:34:39
+ Date: 24/10/2023 19:42:07
 */
 
 
@@ -237,6 +237,9 @@ GO
 INSERT INTO [dbo].[tblDetalleMilitar] ([idDetalleMilitar], [codigoBoleta], [grado], [carnetMilitar], [carnetCossmil], [idArma], [fechaIncorporacion], [destinoActual], [idFuerza], [idSocio]) VALUES (N'18', N'654654', N'87', N'554654', N'654654', N'29', N'1999-12-12', NULL, N'4', N'27')
 GO
 
+INSERT INTO [dbo].[tblDetalleMilitar] ([idDetalleMilitar], [codigoBoleta], [grado], [carnetMilitar], [carnetCossmil], [idArma], [fechaIncorporacion], [destinoActual], [idFuerza], [idSocio]) VALUES (N'19', N'546548', N'31', N'87987987', N'98796', N'14', N'2000-02-12', NULL, N'2', N'28')
+GO
+
 SET IDENTITY_INSERT [dbo].[tblDetalleMilitar] OFF
 GO
 
@@ -401,6 +404,24 @@ INSERT INTO [dbo].[tblGarante] ([idGarante], [idSocio], [idPrestamo]) VALUES (N'
 GO
 
 INSERT INTO [dbo].[tblGarante] ([idGarante], [idSocio], [idPrestamo]) VALUES (N'2', N'24', N'13')
+GO
+
+INSERT INTO [dbo].[tblGarante] ([idGarante], [idSocio], [idPrestamo]) VALUES (N'3', N'22', N'14')
+GO
+
+INSERT INTO [dbo].[tblGarante] ([idGarante], [idSocio], [idPrestamo]) VALUES (N'4', N'24', N'14')
+GO
+
+INSERT INTO [dbo].[tblGarante] ([idGarante], [idSocio], [idPrestamo]) VALUES (N'5', N'24', N'15')
+GO
+
+INSERT INTO [dbo].[tblGarante] ([idGarante], [idSocio], [idPrestamo]) VALUES (N'6', N'23', N'15')
+GO
+
+INSERT INTO [dbo].[tblGarante] ([idGarante], [idSocio], [idPrestamo]) VALUES (N'7', N'23', N'16')
+GO
+
+INSERT INTO [dbo].[tblGarante] ([idGarante], [idSocio], [idPrestamo]) VALUES (N'8', N'22', N'16')
 GO
 
 SET IDENTITY_INSERT [dbo].[tblGarante] OFF
@@ -810,6 +831,15 @@ GO
 INSERT INTO [dbo].[tblPrestamo] ([idPrestamo], [idSocio], [tipo], [monto], [motivo], [plazo], [numeroCuenta], [estado], [fechaSolicitud], [fechaPrestamo]) VALUES (N'13', N'22', N'REGULAR', N'7855.00', N'Prueba garantes', N'32', N'1000000252525', N'SOLICITUD', N'2023-10-21', NULL)
 GO
 
+INSERT INTO [dbo].[tblPrestamo] ([idPrestamo], [idSocio], [tipo], [monto], [motivo], [plazo], [numeroCuenta], [estado], [fechaSolicitud], [fechaPrestamo]) VALUES (N'14', N'23', N'REGULAR', N'7000.00', N'comando para viaje de recursos', N'13', N'100000123123', N'SOLICITUD', N'2023-10-24', NULL)
+GO
+
+INSERT INTO [dbo].[tblPrestamo] ([idPrestamo], [idSocio], [tipo], [monto], [motivo], [plazo], [numeroCuenta], [estado], [fechaSolicitud], [fechaPrestamo]) VALUES (N'15', N'25', N'REGULAR', N'13000.00', N'Esta es una descripcion de prestamo solicitud', N'36', N'10000032132', N'SOLICITUD', N'2023-10-24', NULL)
+GO
+
+INSERT INTO [dbo].[tblPrestamo] ([idPrestamo], [idSocio], [tipo], [monto], [motivo], [plazo], [numeroCuenta], [estado], [fechaSolicitud], [fechaPrestamo]) VALUES (N'16', N'28', N'REGULAR', N'20000.00', N'Motivo para prestamo de nuevas especialidades de oficiales de la fuerza aerea', N'12', N'100002356', N'SOLICITUD', N'2023-10-24', NULL)
+GO
+
 SET IDENTITY_INSERT [dbo].[tblPrestamo] OFF
 GO
 
@@ -943,10 +973,13 @@ GO
 INSERT INTO [dbo].[tblRegistro] ([idRegistro], [estado], [fechaAceptacion], [observacion], [idSocio]) VALUES (N'15', N'ACEPTADO', N'2023-10-10', N'', N'25')
 GO
 
-INSERT INTO [dbo].[tblRegistro] ([idRegistro], [estado], [fechaAceptacion], [observacion], [idSocio]) VALUES (N'16', N'PENDIENTE', NULL, NULL, N'26')
+INSERT INTO [dbo].[tblRegistro] ([idRegistro], [estado], [fechaAceptacion], [observacion], [idSocio]) VALUES (N'16', N'ACEPTADO', N'2023-10-24', N'asdfadadf', N'26')
 GO
 
 INSERT INTO [dbo].[tblRegistro] ([idRegistro], [estado], [fechaAceptacion], [observacion], [idSocio]) VALUES (N'17', N'PENDIENTE', NULL, NULL, N'27')
+GO
+
+INSERT INTO [dbo].[tblRegistro] ([idRegistro], [estado], [fechaAceptacion], [observacion], [idSocio]) VALUES (N'18', N'ACEPTADO', N'2023-10-24', N'Observacion para usuario', N'28')
 GO
 
 SET IDENTITY_INSERT [dbo].[tblRegistro] OFF
@@ -1051,6 +1084,9 @@ GO
 INSERT INTO [dbo].[tblSocio] ([idSocio], [nombre], [paterno], [materno], [ci], [idExpedicion], [fechaNacimiento], [idEstadoCivil], [celular], [correo], [password], [idMunicipio]) VALUES (N'27', N'Carlos', N'ASdasdasd', N'Conmoasn', N'789879', N'4', N'1990-09-08', N'3', N'79656868', N'rcchambi4@gmail.com', N'654654654w', NULL)
 GO
 
+INSERT INTO [dbo].[tblSocio] ([idSocio], [nombre], [paterno], [materno], [ci], [idExpedicion], [fechaNacimiento], [idEstadoCivil], [celular], [correo], [password], [idMunicipio]) VALUES (N'28', N'Joaquin', N'Gerbacio', N'Colodro', N'123123', N'2', N'1985-05-14', N'4', N'79657899', N'lasidod829@wermink.com', N'qwer1234', NULL)
+GO
+
 SET IDENTITY_INSERT [dbo].[tblSocio] OFF
 GO
 
@@ -1133,6 +1169,9 @@ INSERT INTO [dbo].[tblToken] ([idToken], [email], [token], [created_at], [confir
 GO
 
 INSERT INTO [dbo].[tblToken] ([idToken], [email], [token], [created_at], [confirmed_at], [confirmed]) VALUES (N'14', N'rcchambi4@gmail.com', N'1693', N'2023-10-21', N'2023-10-21', N'Y')
+GO
+
+INSERT INTO [dbo].[tblToken] ([idToken], [email], [token], [created_at], [confirmed_at], [confirmed]) VALUES (N'15', N'lasidod829@wermink.com', N'3315', N'2023-10-24', N'2023-10-24', N'Y')
 GO
 
 SET IDENTITY_INSERT [dbo].[tblToken] OFF
@@ -1449,6 +1488,9 @@ GO
 INSERT INTO [dbo].[tblVivienda] ([idVivienda], [calle], [avenida], [zona], [numero], [detalle], [localidad], [idSocio], [idDepartamento]) VALUES (N'21', N'Coripata', NULL, N'La Paz', N'898', NULL, N'Oruro', N'27', N'1')
 GO
 
+INSERT INTO [dbo].[tblVivienda] ([idVivienda], [calle], [avenida], [zona], [numero], [detalle], [localidad], [idSocio], [idDepartamento]) VALUES (N'22', N'Local', NULL, N'Marcet', N'9090', NULL, N'Federico Suazo', N'28', N'3')
+GO
+
 SET IDENTITY_INSERT [dbo].[tblVivienda] OFF
 GO
 
@@ -1488,7 +1530,7 @@ GO
 -- ----------------------------
 -- Auto increment value for tblDetalleMilitar
 -- ----------------------------
-DBCC CHECKIDENT ('[dbo].[tblDetalleMilitar]', RESEED, 18)
+DBCC CHECKIDENT ('[dbo].[tblDetalleMilitar]', RESEED, 19)
 GO
 
 
@@ -1552,7 +1594,7 @@ GO
 -- ----------------------------
 -- Auto increment value for tblGarante
 -- ----------------------------
-DBCC CHECKIDENT ('[dbo].[tblGarante]', RESEED, 2)
+DBCC CHECKIDENT ('[dbo].[tblGarante]', RESEED, 8)
 GO
 
 
@@ -1616,7 +1658,7 @@ GO
 -- ----------------------------
 -- Auto increment value for tblPrestamo
 -- ----------------------------
-DBCC CHECKIDENT ('[dbo].[tblPrestamo]', RESEED, 13)
+DBCC CHECKIDENT ('[dbo].[tblPrestamo]', RESEED, 16)
 GO
 
 
@@ -1648,7 +1690,7 @@ GO
 -- ----------------------------
 -- Auto increment value for tblRegistro
 -- ----------------------------
-DBCC CHECKIDENT ('[dbo].[tblRegistro]', RESEED, 17)
+DBCC CHECKIDENT ('[dbo].[tblRegistro]', RESEED, 18)
 GO
 
 
@@ -1680,7 +1722,7 @@ GO
 -- ----------------------------
 -- Auto increment value for tblSocio
 -- ----------------------------
-DBCC CHECKIDENT ('[dbo].[tblSocio]', RESEED, 27)
+DBCC CHECKIDENT ('[dbo].[tblSocio]', RESEED, 28)
 GO
 
 
@@ -1712,7 +1754,7 @@ GO
 -- ----------------------------
 -- Auto increment value for tblToken
 -- ----------------------------
-DBCC CHECKIDENT ('[dbo].[tblToken]', RESEED, 14)
+DBCC CHECKIDENT ('[dbo].[tblToken]', RESEED, 15)
 GO
 
 
@@ -1760,7 +1802,7 @@ GO
 -- ----------------------------
 -- Auto increment value for tblVivienda
 -- ----------------------------
-DBCC CHECKIDENT ('[dbo].[tblVivienda]', RESEED, 21)
+DBCC CHECKIDENT ('[dbo].[tblVivienda]', RESEED, 22)
 GO
 
 
