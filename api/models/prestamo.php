@@ -123,9 +123,9 @@ class PrestamoModel{
       $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
       if(count($res) > 0){
         if($res[0]['tipo'] == 'REGULAR'){
-
+          return array('REGULAR', self::prestamoData($idPrestamo, $this->pdo), self::prestamoGarantes($idPrestamo, $this->pdo));
         }else{
-          return array('COMUN', self::prestamoComun($idPrestamo, $this->pdo));
+          return array('COMUN', self::prestamoData($idPrestamo, $this->pdo));
         }
       }
     }catch (\Throwable $th) {
@@ -136,20 +136,53 @@ class PrestamoModel{
   public static function prestamoRegular(){
 
   }
-  public static function prestamoComun($idPrestamo, $pdo){
+  public static function prestamoData($idPrestamo, $pdo){
     $res = null;
-    $sql = "SELECT tp.*, ts.nombre, ts.paterno, ts.materno, ts.celular, ts.correo, tr.fechaAceptacion 
+    $sql = "SELECT tp.*, ts.nombre, ts.paterno, ts.materno, ts.celular, ts.correo, tr.fechaAceptacion, tg.detalle AS grado 
     FROM tblPrestamo tp INNER JOIN tblSocio ts ON ts.idSocio = tp.idSocio
     INNER JOIN tblRegistro tr ON tr.idSocio = ts.idSocio
+    INNER JOIN tblDetalleMilitar tdm ON tdm.idSocio = ts.idSocio
+    INNER JOIN tblGrado tg ON tg.idGrado = tdm.grado
     WHERE tp.idPrestamo = $idPrestamo;";
     try{
       $stmt = $pdo->prepare($sql);
       $stmt->execute();
       $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
-      return $res;
+      return $res[0];
     }catch(\Throwable $th){
       print_r($th);
+      return null;
     }
+  }
+  public static function prestamoGarantes($idPrestamo, $pdo){
+    $res = null;
+    try {
+      $sql1 = "SELECT tg.idSocio, concat(ts.paterno, ' ', ts.materno, ' ', ts.nombre) as nombre, ts.ci, tr.fechaAceptacion, tgg.detalle
+      FROM tblgarante tg INNER JOIN tblSocio ts ON tg.idSocio = ts.idSocio
+      INNER JOIN tblRegistro tr ON tr.idSocio = ts.idSocio
+      INNER JOIN tblDetalleMilitar td ON td.idSocio = ts.idSocio
+      INNER JOIN tblGrado tgg ON tgg.idGrado = td.grado
+      WHERE tg.idPrestamo = $idPrestamo;";
+      $stmt = $pdo->prepare($sql1);
+      $stmt->execute();
+      $garantes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+      return $garantes;
+    } catch (\Throwable $th) {
+      return null;
+    }
+  }
+  public function esGarante($idSocio){
+    $sql = "SELECT concat(ts.paterno, ' ', ts.nombre) as nombre FROM tblPrestamo tp
+    INNER JOIN (
+      SELECT idSocio, idPrestamo FROM tblGarante
+      WHERE idSocio = $idSocio
+    ) tmp
+    ON tp.idPrestamo = tmp.idPrestamo
+    INNER JOIN tblSocio ts
+    ON ts.idSocio = tp.idSocio;";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute();
+    $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
     return $res;
   }
 }

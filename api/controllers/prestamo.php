@@ -66,11 +66,56 @@ class Prestamo {
   public function detalleHtml($idPrestamo){
     $prestamo = new PrestamoModel();
     $res = $prestamo->getDetalle($idPrestamo);
+    $cadHTML = '
+    <div class="col-md-6">
+      <div class="card card-default">
+        <div class="card-header">
+          <h3 class="card-title">
+            <i class="fas fa-exclamation-triangle"></i>
+            Datos del préstamo
+          </h3>
+        </div>
+        <div class="card-body">
+          <table class="table">
+            <thead>
+              <tr align="center">
+                <th scope="col">Detalle</th>
+                <th scope="col">Valor </th>
+              </tr>
+            </thead>
+            <tbody>'; 
+    $tabla = '';   
     if ($res != null) {
-      if($res[0] != 'REGULAR'){
+      $tabla .= '<tr><td>Solicitante: </td><td>'.$res[1]['paterno'].' '.$res[1]['materno'].' '.$res[1]['nombre'].'</td></tr>'.
+      '<tr><td>Grado: </td><td>'.$res[1]['grado'].'</td></tr>'.
+      '<tr><td>Correo Electrónico: </td><td>'.$res[1]['correo'].'</td></tr>'.
+      '<tr><td>Celular: </td><td>'.$res[1]['celular'].'</td></tr>'.
+      '<tr><td>Tipo de préstamo</td><td>'.$res[1]['tipo'].'</td></tr>'.
+      '<tr><td>Monto: </td><td>'.$res[1]['monto'].'</td></tr>'.
+      '<tr><td>Motivo: </td><td>'.$res[1]['motivo'].'</td></tr>'.
+      '<tr><td>Fecha solicitud: </td><td>'.date('d-m-Y',strtotime($res[1]['fechaSolicitud'])).'</td></tr>';
+      $tabla .= '<tr><td>Antigüedad: </td><td>'.$res[1]['tipo'].'</td></tbody></table></div></div></div>';
+      print_r($cadHTML.$tabla);
+      if($res[0] == 'REGULAR'){
+        $cadHTML2 = '
+        <div class="col-md-6">
+          <div class="card card-default">
+            <div class="card-header">
+              <h3 class="card-title">
+                <i class="fas fa-exclamation-triangle"></i>
+                Datos del préstamo
+              </h3>
+            </div>
+            <div class="card-body">
+              <table class="table">
+                <thead>
+                  <tr align="center">
+                    <th scope="col">Detalle</th>
+                    <th scope="col">Valor </th>
+                  </tr>
+                </thead>
+                <tbody>';
         
-      }else{
-
       }
     } else {
     }
