@@ -148,4 +148,17 @@ class Prestamo {
       echo json_encode(array('status'=> 'error','message'=> 'Ocurrio un error al rechazar prestamo'));
     }
   }
+  public function aceptados() {
+    $prestamo = new PrestamoModel();
+    $res = $prestamo->getAceptados();
+    if ($res != null) {
+      if (count($res) > 0) {
+        echo json_encode(array('status' => 'success', 'prestamos' => $res));
+      } else {
+        echo json_encode(array('status' => 'success', 'prestamos' => array()));
+      }
+    } else {
+      echo json_encode(array('status' => 'success', 'prestamos' => array()));
+    }
+  }
 }

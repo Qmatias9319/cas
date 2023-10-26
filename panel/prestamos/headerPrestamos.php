@@ -24,7 +24,7 @@
           <div class="card-body">
             <div id="for-pagination1" style="text-align:center"></div>
             <div id="afiliados" style="margin:0 10px;">
-              <table id="t_prestamos_sol" class="table table-bordered table-striped" style="width:100%">
+              <table id="t_prestamos_aceptados" class="table table-bordered table-striped" style="width:100%">
                 <thead>
                   <tr>
                     <th>Socio</th>
@@ -32,8 +32,8 @@
                     <th>Tipo de préstamo</th>
                     <th>Monto solicitado</th>
                     <th>Plazo Solcicitado</th>
-                    <th>Fecha Solicitud</th>
-                    <th>Garantes</th>
+                    <th>Fecha Aceptada</th>
+                    <!-- <th>Garantes</th> -->
                     <th>Opciones</th>
                   </tr>
                 </thead>

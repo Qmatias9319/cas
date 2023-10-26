@@ -188,5 +188,22 @@ class PrestamoModel{
     }
     return array('cantidad'=>count($res), 'cad'=>$cad);
   }
+
+  public function getAceptados(){
+    $res = null;
+    try {
+      $sql = "SELECT tp.*, concat(ts.nombre, ' ', ts.paterno, ' ', ts.materno) as usuario, concat(ts.ci,' ',te.detalle) as ci
+      FROM tblPrestamo tp
+      INNER JOIN tblSocio ts ON tp.idSocio = ts.idSocio
+      INNER JOIN tblExpedicion te ON ts.idExpedicion = te.idExpedicion
+      WHERE tp.estado LIKE 'ACEPTADO'; ";
+      $stmt = $this->pdo->prepare($sql);
+      $stmt->execute();
+      $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (\Throwable $th) {
+      print_r($th);
+    }
+    return $res;
+  }
 }
 ?>

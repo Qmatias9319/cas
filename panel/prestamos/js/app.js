@@ -86,39 +86,73 @@ function generaFilasSoli(data) {
   return filas;
 }
 
-async function listarPrestamos(){
+async function listarPrestamos() {
   remove();
   document.getElementById("nav_prestamos").className += " active";
   document.getElementById("carpeta-activa").value = "prestamos";
   try {
     const res = await $.ajax({
-      url: '../prestamos/headerPrestamos.php',
-      type: 'GET',
-      dataType: 'html'
-    })
+      url: "../prestamos/headerPrestamos.php",
+      type: "GET",
+      dataType: "html",
+    });
     $("#all-body").html(res);
 
-    // const tables = await $.ajax({
-    //   url: '../../api/prestamo/all',
-    //   type: 'GET',
-    //   dataType: 'json'
-    // });
-    // if (tables.status == 'success') {
-    //   const contenido = generaFilasSoli(tables.prestamos);
-    //   $("#t_body_prest").html(contenido);
-    //   $('#t_prestamos_sol').DataTable({
-    //     language: lenguaje,
-    //     columnDefs: [
-    //       { orderable: false, targets: [1,4,5,7] }
-    //     ],
-    //     "info": false,
-    //     "scrollX": true,
-    //   });
-    //   // console.log(tables);
-    // }
+    const tables = await $.ajax({
+      url: "../../api/prestamo/aceptados",
+      type: "GET",
+      dataType: "json",
+    });
+    if (tables.status == "success") {
+      const contenido = generaFilasAceptados(tables.prestamos);
+      $("#t_body_prest").html(contenido);
+      $("#t_prestamos_aceptados").DataTable({
+        language: lenguaje,
+        columnDefs: [{ orderable: false, targets: [1, 4, 5, 6] }],
+        info: false,
+        scrollX: true,
+      });
+      // console.log(tables);
+    }
   } catch (error) {
     console.log(error);
   }
+}
+
+function generaFilasAceptados(data) {
+  let filas = "";
+  for (let index = 0; index < data.length; index++) {
+    const element = data[index];
+    let fecha = new Date(element.fechaSolicitud);
+    let fecha2 = new Date(element.fechaAceptacion);
+    fecha = fecha.toLocaleDateString();
+    fecha2 = fecha2.toLocaleDateString();
+    filas += `
+      <tr>
+        <td>${element.usuario}</td>
+        <td>${element.ci}</td>
+        <td>${element.tipo}</td>
+        <td>${element.monto}</td>
+        <td>${element.plazo} meses</td>
+        <td>${fecha2}</td>
+        <td>
+        <div class="dropdown">
+          <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+          Acciones </button>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modal_aceptados" data-id="${element.idSocio}"><i class="fas fa-eye text-info"></i> &nbsp;&nbsp; Detalles</a>
+            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modal_garante" data-id="${
+              element.idPrestamo
+            }" ${
+        element.tipo != "REGULAR" ? "disabled" : ""
+      }><i class="fas fa-user-friends text-primary"></i> &nbsp;&nbsp;Garantes</a>
+          </div>
+        </div>
+        </td>
+      </tr>
+    `;
+  }
+  return filas;
 }
 
 async function revisarPrestamo(idPrestamo){
@@ -189,3 +223,46 @@ async function rechazarPres(){
     listarSolicitudes();
   }, 1700);
 }
+
+$('#modal_aceptados').on('show.bs.modal', async function (event) {
+  const id = event.relatedTarget.dataset.id;
+  console.log('vemos lo que pasa en la modal', id)
+  try {
+    const res = await $.ajax({
+      url: `../../api/socio/socioEsperaDetalle/${id}`,
+      dataType: 'json',
+      type: 'GET'
+    })
+    if (res.status == 'success') {
+      $("#tituloAceptados").html(`<b>Usuario:</b> ${res.socio.nombre} ${res.socio.paterno} ${res.socio.materno}`);
+      let cadena = '';
+      let fecha = new Date(res.socio.fechaIncorporacion);
+      fecha = fecha.toLocaleDateString();
+      cadena += `
+      <tr><td style="font-weight:bolder">Estado Civil</td>
+      <td>${res.socio.estadoCivil}</td></tr>
+      <tr><td style="font-weight:bolder">Correo Electrónico</td>
+      <td>${res.socio.correo}</td></tr>
+      <tr><td style="font-weight:bolder">Ciudad</td>
+      <td>${res.socio.departamento}</td></tr>
+      <tr><td style="font-weight:bolder">Localidad</td>
+      <td>${res.socio.localidad}</td></tr>
+      <tr><td style="font-weight:bolder">Dirección</td>
+      <td>${res.socio.zona} ${res.socio.calle} #${res.socio.numero}</td></tr>
+      <tr><td style="font-weight:bolder">Fuerza</td>
+      <td>${res.socio.detalleFuerza}</td></tr>
+      <tr><td style="font-weight:bolder">Fecha Incorporación</td>
+      <td>${res.socio.fechaIncorporacion}</td></tr>
+      <tr><td style="font-weight:bolder">Carnet Militar</td>
+      <td>${res.socio.carnetMilitar}</td></tr>
+      <tr><td style="font-weight:bolder">Carnet Cossmil</td>
+      <td>${res.socio.carnetCossmil}</td></tr>
+      <tr><td style="font-weight:bolder">Arma</td><td>${res.socio.detalleArma}</td></tr>`;
+      $("#tableModalAceptados").html(cadena);
+    } else {
+      $("#tituloAceptados").html('Upps, ocurrió un error')
+    }
+  } catch (error) {
+    console.log(error);
+  }
+})
