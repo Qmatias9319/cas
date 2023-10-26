@@ -140,7 +140,7 @@ function generaFilasAceptados(data) {
           <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
           Acciones </button>
           <div class="dropdown-menu">
-            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modal_aceptados" data-id="${element.idSocio}"><i class="fas fa-eye text-info"></i> &nbsp;&nbsp; Detalles</a>
+            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modal_aceptados" data-id="${element.idPrestamo}"><i class="fas fa-eye text-info"></i> &nbsp;&nbsp; Detalles</a>
             <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modal_garante" data-id="${
               element.idPrestamo
             }" ${
@@ -229,12 +229,13 @@ $('#modal_aceptados').on('show.bs.modal', async function (event) {
   console.log('vemos lo que pasa en la modal', id)
   try {
     const res = await $.ajax({
-      url: `../../api/socio/socioEsperaDetalle/${id}`,
+      url: `../../api/prestamo/aceptadoDetalle/${id}`,
       dataType: 'json',
       type: 'GET'
     })
     if (res.status == 'success') {
       $("#tituloAceptados").html(`<b>Usuario:</b> ${res.socio.nombre} ${res.socio.paterno} ${res.socio.materno}`);
+      console.log('vemos el resultado', res)
       let cadena = '';
       let fecha = new Date(res.socio.fechaIncorporacion);
       fecha = fecha.toLocaleDateString();
@@ -251,13 +252,12 @@ $('#modal_aceptados').on('show.bs.modal', async function (event) {
       <td>${res.socio.zona} ${res.socio.calle} #${res.socio.numero}</td></tr>
       <tr><td style="font-weight:bolder">Fuerza</td>
       <td>${res.socio.detalleFuerza}</td></tr>
-      <tr><td style="font-weight:bolder">Fecha Incorporación</td>
-      <td>${res.socio.fechaIncorporacion}</td></tr>
-      <tr><td style="font-weight:bolder">Carnet Militar</td>
-      <td>${res.socio.carnetMilitar}</td></tr>
-      <tr><td style="font-weight:bolder">Carnet Cossmil</td>
-      <td>${res.socio.carnetCossmil}</td></tr>
-      <tr><td style="font-weight:bolder">Arma</td><td>${res.socio.detalleArma}</td></tr>`;
+      <tr><td style="font-weight:bolder">Número de cuenta</td>
+      <td>${res.socio.numeroCuenta}</td></tr>
+      <tr><td style="font-weight:bolder">Boleta de pago</td>
+      <td>${res.socio.codigoBoleta}</td></tr>
+      <tr><td style="font-weight:bolder">Observación</td>
+      <td>${res.socio.observacion}</td></tr>`;
       $("#tableModalAceptados").html(cadena);
     } else {
       $("#tituloAceptados").html('Upps, ocurrió un error')

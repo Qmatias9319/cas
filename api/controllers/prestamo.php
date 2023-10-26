@@ -161,4 +161,15 @@ class Prestamo {
       echo json_encode(array('status' => 'success', 'prestamos' => array()));
     }
   }
+
+  public function aceptadoDetalle($id) {
+    $socioModel = new PrestamoModel();
+    $res = $socioModel->getDetallesByIdAceptados($id);
+    if (count($res) > 0) {
+      $res = $res[0];
+      echo json_encode(array('status' => 'success', 'socio' => $res));
+    } else {
+      echo json_encode(array('status' => 'error', 'message' => 'No se encontro socio'));
+    }
+  }
 }

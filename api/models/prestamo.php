@@ -205,5 +205,29 @@ class PrestamoModel{
     }
     return $res;
   }
+
+  public function getDetallesByIdAceptados($id){
+    $res = array();
+    try {
+      $sql = "SELECT tp.*, ts.*, tdm.idArma, tdm.idFuerza, tdm.grado, tdm.carnetCossmil, tdm.carnetMilitar, tdm.codigoBoleta, tdm.fechaIncorporacion, te.detalle as estadoCivil,
+      ta.detalle as detalleArma, tf.detalle as detalleFuerza, tg.detalle as detalleGrado, tv.calle, tv.localidad, tv.zona, tv.numero, td.detalle as departamento
+      FROM tblsocio ts
+      LEFT JOIN tblDetalleMilitar tdm ON ts.idSocio = tdm.idSocio
+      LEFT JOIN tblFuerza tf ON tf.idFuerza = tdm.idFuerza
+      LEFT JOIN tblGrado tg ON tg.idGrado = tdm.grado 
+      LEFT JOIN tblArma ta ON ta.idArma = tdm.idArma
+      LEFT JOIN tblVivienda tv ON tv.idSocio = ts.idSocio
+      LEFT JOIN tblDepartamento td ON tv.idDepartamento = td.idDepartamento
+      LEFT JOIN tblEstadoCivil te ON te.idEstadoCivil = ts.idEstadoCivil
+			LEFT JOIN tblPrestamo tp ON tp.idSocio = ts.idSocio
+      WHERE tp.idPrestamo = ?;";
+      $stmt = $this->pdo->prepare($sql);
+      $stmt->execute([$id]);
+      $res = $stmt->fetchAll(PDO::FETCH_OBJ);
+    } catch (\Throwable $th) {
+      print_r($th);
+    }
+    return $res;
+  }
 }
 ?>
