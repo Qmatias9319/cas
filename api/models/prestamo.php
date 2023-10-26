@@ -123,7 +123,7 @@ class PrestamoModel{
         }
       }
     }catch (\Throwable $th) {
-      //throw $th;
+      $res = null;
     }
     return $res;
   }
