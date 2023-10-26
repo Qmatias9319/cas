@@ -75,7 +75,7 @@ session_start();
 
       <!-- /.content-wrapper -->
       <footer class="main-footer" style="text-align:center">
-      <strong>Copyright &copy;2023 &nbsp;<a href="https://stisbolivia.com">Stis - Bolivia</a>.</strong>
+      <strong>Copyright &copy;2023 &nbsp;.</strong>
       <div class="float-right d-none d-sm-inline-block">
       </div>
       </footer>
@@ -89,6 +89,7 @@ session_start();
       include('../afiliados/modalDetalle.php');
       include('../afiliados/modalAvisos.php');
       include('../prestamos/modal_garantes.php');
+      include('../prestamos/modal_aceptar_rechazar.php');
     ?>
 
     <div id="shadow" class="popup"></div>

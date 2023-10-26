@@ -30,12 +30,6 @@ class Prestamo {
     }
   }
 
-  public function getAll() {
-    $prestamos = new PrestamoModel();
-    $res = $prestamos->getSociosAceptados();
-    echo json_encode(array('status' => 'success', 'socios' => $res));
-  }
-
   public function prestamoUsuario() {
     session_start();
     $prestamo = new PrestamoModel();
@@ -68,7 +62,7 @@ class Prestamo {
     $res = $prestamo->getDetalle($idPrestamo);
     $cadHTML = '
     <div class="col-md-6">
-      <div class="card card-default">
+      <div class="card card-default shadow">
         <div class="card-header">
           <h3 class="card-title">
             <i class="fas fa-exclamation-triangle"></i>
@@ -94,30 +88,64 @@ class Prestamo {
       '<tr><td>Monto: </td><td>'.$res[1]['monto'].'</td></tr>'.
       '<tr><td>Motivo: </td><td>'.$res[1]['motivo'].'</td></tr>'.
       '<tr><td>Fecha solicitud: </td><td>'.date('d-m-Y',strtotime($res[1]['fechaSolicitud'])).'</td></tr>';
-      $tabla .= '<tr><td>Antigüedad: </td><td>'.$res[1]['tipo'].'</td></tbody></table></div></div></div>';
-      print_r($cadHTML.$tabla);
+      $tabla .= '<tr><td>Antigüedad: </td><td>'.$prestamo->antiguedad($res[1]['fechaAceptacion']).'</td></tbody></table></div></div></div>';
+      echo $cadHTML.$tabla;
+      $cadHTML2 = '';
       if($res[0] == 'REGULAR'){
         $cadHTML2 = '
         <div class="col-md-6">
-          <div class="card card-default">
+          <div class="card card-default shadow">
             <div class="card-header">
               <h3 class="card-title">
                 <i class="fas fa-exclamation-triangle"></i>
-                Datos del préstamo
+                GARANTES
               </h3>
             </div>
             <div class="card-body">
               <table class="table">
                 <thead>
                   <tr align="center">
-                    <th scope="col">Detalle</th>
-                    <th scope="col">Valor </th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Grado </th>
+                    <th scope="col">Antigüedad</th>
+                    <th scope="col">¿De quiénes es garante?</th>
                   </tr>
                 </thead>
                 <tbody>';
-        
+        $table2 = '';
+        foreach ($res[2] as $garante) {
+          $tieneGarante = $prestamo->esGarante($garante['idSocio'], $garante['idPrestamo']);
+          $table2 .= '<tr><td>'.$garante['nombre'].'</td><td>'.$garante['detalle'].'</td><td>'.
+          $prestamo->antiguedad($garante['fechaAceptacion']).'</td><td><b>'.$tieneGarante['cantidad'].'</b> <span>'.$tieneGarante['cad'].'</span></td></tr>';
+        }
+        $cadHTML2 = $cadHTML2.$table2.'</tbody></table></div></div></div>';
       }
+      echo $cadHTML2;
     } else {
+    }
+  }
+
+  public function aceptar($data){
+    $idPrestamo = $data['idPrestamo'];
+    $obs = $data['observacion'];
+    $prestamo = new PrestamoModel();
+    $res = $prestamo->aceptarPrestamo($idPrestamo, $obs);
+    // echo $res;
+    if($res){
+      echo json_encode(array('status'=> 'success','message'=> 'Prestamo aceptado'));
+    }else{
+      echo json_encode(array('status'=> 'error','message'=> 'Ocurrio un error al rechazar prestamo'));
+    }
+  }
+  public function rechazar($data){
+    $idPrestamo = $data['idPrestamo'];
+    $obs = $data['observacion'];
+    $prestamo = new PrestamoModel();
+    $res = $prestamo->rechazarPrestamo($idPrestamo, $obs);
+    if($res){
+      echo json_encode(array('status'=> 'success','message'=> 'Prestamo rechazado'));
+    }else{
+      echo json_encode(array('status'=> 'error','message'=> 'Ocurrio un error al rechazar prestamo'));
     }
   }
 }

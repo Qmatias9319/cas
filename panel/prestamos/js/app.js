@@ -128,20 +128,64 @@ async function revisarPrestamo(idPrestamo){
       dataType: 'html',
       type: 'GET'
     })
-    console.log(htmlDatos)
-    // const htmlArchivos = await $.ajax({
-    //   url: `../../api/socio/socioArchivosHtml/${idPrestamo}`,
-    //   dataType: 'html',
-    //   type: 'GET'
-    // });
-
-    // $("#prestamos").html(`<div class="row">${htmlDatos} ${htmlArchivos}</div>
-    // <div class="d-flex justify-content-center mt-3">
-    //   <button class="btn btn-secondary ml-2" onclick="listar()">Volver</button>
-    //   <button class="btn btn-danger ml-2" data-id="${id}" data-toggle="modal" data-target="#modal_rechazar">Rechazar</button>
-    //   <button id="aceptar_btn" class="btn btn-success ml-2" data-id="${id}" data-toggle="modal" data-target="#modal_aceptar" disabled>Aceptar</button>
-    // </div>`);
+    $("#prestamos").html(`<div class="row">${htmlDatos}</div>
+    <div class="d-flex justify-content-center mt-3">
+      <button class="btn btn-secondary ml-2" onclick="listarSolicitudes()">Volver</button>
+      <button class="btn btn-danger ml-2" data-id="${idPrestamo}" data-toggle="modal" data-target="#modal_rechazar_pres">Rechazar</button>
+      <button id="btn_aceptar_pres" class="btn btn-success ml-2" data-id="${idPrestamo}" data-toggle="modal" data-target="#modal_aceptar_pres">Aceptar</button>
+    </div>`);
   } catch (error) {
     console.log(error)
   }
+}
+
+$('#modal_rechazar_pres').on('show.bs.modal', (e) => {
+  const id = e.relatedTarget.dataset.id;
+  $('#id_prestamo_rechazar').val(id)
+})
+$('#modal_rechazar_pres').on('hide.bs.modal', () => {
+  $("#observacion_pres_rechazar").val('')
+})
+$("#modal_aceptar_pres").on('show.bs.modal', (e) => {
+  const id = e.relatedTarget.dataset.id;
+  $("#id_prestamo_aceptar").val(id)
+})
+$("#modal_aceptar_pres").on('show.bs.modal', () => {
+  $("#observacion_pres_aceptar").val('')
+})
+
+async function aceptarPres(){
+  const res = await $.ajax({
+    url: '../../api/prestamo/aceptar',
+    type: 'PUT',
+    data: {idPrestamo: $("#id_prestamo_aceptar").val(), observacion: $("#observacion_pres_aceptar").val()},
+    dataType: 'json'
+  });
+  if(res.status == 'success'){
+    alertify.success('Se aceptó la solicitud de préstamo');
+  }else{
+    alertify.error('Ocurrió un error al aceptar el préstamo');
+  }
+
+  setTimeout(() => {
+    listarSolicitudes();
+  }, 1700);
+}
+
+async function rechazarPres(){
+  const res = await $.ajax({
+    url: '../../api/prestamo/rechazar',
+    type: 'PUT',
+    data: {idPrestamo: $("#id_prestamo_rechazar").val(), observacion: $("#observacion_pres_rechazar").val()},
+    dataType: 'json'
+  });
+  if(res.status == 'success'){
+    alertify.success('Se rechazó la solicitud de préstamo');
+  }else{
+    alertify.error('Ocurrio un error al rechazar la solicitud de préstamo');
+  }
+
+  setTimeout(() => {
+    listarSolicitudes();
+  }, 1700);
 }

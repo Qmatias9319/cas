@@ -53,33 +53,27 @@ class PrestamoModel{
     }
     return $res;
   }
-
-
-  public function getSociosAceptados(){
-    $sql = "SELECT idUsuario, concat(paterno, ' ', materno) as apellidos, nombres, concat(ci,' ',expedido) as ci, fechaNac, celular, provieneFuerza, observacion, fechaAceptado FROM tblCliente WHERE aceptado LIKE 'SI';";
+  public function aceptarPrestamo($idPrestamo, $obs){
+    date_default_timezone_set("America/La_Paz");
+    $fecha = date('Y-m-d');
     try {
+      $sql = "UPDATE $this->table SET estado = 'ACEPTADO', observacion = ?, fechaAceptacion = ? WHERE idPrestamo = ?";
       $stmt = $this->pdo->prepare($sql);
-      $stmt->execute();
-      $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }catch (\Throwable $th) {
-      print_r($th);
+      $stmt->execute([$obs, $fecha, $idPrestamo]);
+      return $stmt->rowCount();
+    } catch (\Throwable $th) {
+      return -1;
     }
-    return $res;
   }
-
-
-  public function getByCI($ci){
-    $res = null;
+  public function rechazarPrestamo($idPrestamo, $obs){
     try {
-      $sql = "SELECT ci FROM tblCliente WHERE ci LIKE '$ci';";
+      $sql = "UPDATE $this->table SET estado = 'RECHAZADO', observacion = ? WHERE idPrestamo = ?";
       $stmt = $this->pdo->prepare($sql);
-      $stmt->execute();
-      $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+      $stmt->execute([$obs, $idPrestamo]);
+      return $stmt->rowCount();
     }catch (\Throwable $th) {
-      print_r($th);
+      return -1;
     }
-    return $res;
-
   }
 
   public function getSolicitudes(){
@@ -133,9 +127,6 @@ class PrestamoModel{
     }
     return $res;
   }
-  public static function prestamoRegular(){
-
-  }
   public static function prestamoData($idPrestamo, $pdo){
     $res = null;
     $sql = "SELECT tp.*, ts.nombre, ts.paterno, ts.materno, ts.celular, ts.correo, tr.fechaAceptacion, tg.detalle AS grado 
@@ -154,10 +145,15 @@ class PrestamoModel{
       return null;
     }
   }
+  public function antiguedad($fecha){
+    date_default_timezone_set("America/La_Paz");
+    $f_fin = date_create(date('Y-m-d'));
+    $res = date_diff(date_create($fecha), $f_fin);
+    return $res->format("%y años %m meses %d dias");
+  }
   public static function prestamoGarantes($idPrestamo, $pdo){
-    $res = null;
     try {
-      $sql1 = "SELECT tg.idSocio, concat(ts.paterno, ' ', ts.materno, ' ', ts.nombre) as nombre, ts.ci, tr.fechaAceptacion, tgg.detalle
+      $sql1 = "SELECT tg.idPrestamo, tg.idSocio, concat(ts.paterno, ' ', ts.materno, ' ', ts.nombre) as nombre, ts.ci, tr.fechaAceptacion, tgg.detalle
       FROM tblgarante tg INNER JOIN tblSocio ts ON tg.idSocio = ts.idSocio
       INNER JOIN tblRegistro tr ON tr.idSocio = ts.idSocio
       INNER JOIN tblDetalleMilitar td ON td.idSocio = ts.idSocio
@@ -171,7 +167,7 @@ class PrestamoModel{
       return null;
     }
   }
-  public function esGarante($idSocio){
+  public function esGarante($idSocio, $idPrestamo){
     $sql = "SELECT concat(ts.paterno, ' ', ts.nombre) as nombre FROM tblPrestamo tp
     INNER JOIN (
       SELECT idSocio, idPrestamo FROM tblGarante
@@ -179,11 +175,18 @@ class PrestamoModel{
     ) tmp
     ON tp.idPrestamo = tmp.idPrestamo
     INNER JOIN tblSocio ts
-    ON ts.idSocio = tp.idSocio;";
+    ON ts.idSocio = tp.idSocio
+    WHERE tp.idPrestamo != $idPrestamo;";
     $stmt = $this->pdo->prepare($sql);
     $stmt->execute();
     $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    return $res;
+    $cad = '';
+    if(count($res) > 0){
+      foreach($res as $r){
+        $cad .= ' | '.$r['nombre'];
+      }
+    }
+    return array('cantidad'=>count($res), 'cad'=>$cad);
   }
 }
 ?>
