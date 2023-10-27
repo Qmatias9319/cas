@@ -145,7 +145,8 @@ function generaFilasAceptados(data) {
               element.idPrestamo
             }" ${
         element.tipo != "REGULAR" ? "disabled" : ""
-      }><i class="fas fa-user-friends text-primary"></i> &nbsp;&nbsp;Garantes</a>
+      }><i class="fas fa-user-friends text-primary"></i> &nbsp;&nbsp; Garantes</a>
+            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modalDocumentos" onclick="revisarSocioAceptado(${element.idSocio})"><i class="fas fa-file text-success"></i> &nbsp;&nbsp; Documentos</a>
           </div>
         </div>
         </td>
@@ -153,6 +154,21 @@ function generaFilasAceptados(data) {
     `;
   }
   return filas;
+}
+
+async function revisarSocioAceptado(id) {
+  try {
+    const htmlArchivos = await $.ajax({
+      url: `../../api/prestamo/prestamoArchivosHtml/${id}`,
+      dataType: 'html',
+      type: 'GET'
+    })
+    $("#bobyModalDocumentos").html(`<div class="row">${htmlArchivos}</div>
+    <div class="d-flex justify-content-center mt-3">
+    </div>`);
+  } catch (error) {
+    console.log(error)
+  }
 }
 
 async function revisarPrestamo(idPrestamo){

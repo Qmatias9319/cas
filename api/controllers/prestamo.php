@@ -172,4 +172,43 @@ class Prestamo {
       echo json_encode(array('status' => 'error', 'message' => 'No se encontro socio'));
     }
   }
+
+  public function prestamoArchivosHtml($id) {
+    $arrFiles = array('AFCOOP' => 'afcoop.pdf', 'CARNET COSSMIL' => 'carnetcossmil.pdf', 'CARNET MILITAR' => 'carnetMilitar.pdf', 'CI' => 'ci.pdf', 'FOTO 4X4' => 'foto4x4.pdf', 'PAPELETA DE PAGO' => 'papeletapago.pdf', 'MEMORANDUM (Persona civil)' => 'memorandum.pdf');
+    $htmlRes = '
+    <div class="col-md-12">
+
+        ';
+    $cad = '';
+    foreach ($arrFiles as $key => $value) {
+      // echo __DIR__.'/../documents/' . $id . '/' . $value;
+      if (file_exists(__DIR__ . '/../documents/' . $id . '/' . $value)) {
+        $cad .= '
+        <div class="callout callout-info d-flex justify-content-between">
+          <h5>Archivo: <b>' . $key . '</b></h5>
+          <div class="d-flex justify-content-between" style="gap: 25px;align-content: center;align-items: center;">
+            <a href="../../api/documents/' . $id . '/' . $value . '" target="_blank" class="btn btn-primary text-white"> <i class="fas fa-eye"></i>  Ver archivo</a>
+          </div>
+        </div>';
+      }
+    }
+    $htmlRes .= $cad . '</div>
+    <!-- --- js Injection --- -->
+    <script>
+      $("input[type=\'checkbox\'][name=\'check_file\']").on(\'change\', function (e) {
+      const checkBoxes = $("input[type=\'checkbox\'][name=\'check_file\']");
+      const res = checkBoxes.toArray().reduce((acc, e)=>{
+        return acc && e.checked
+      }, true);
+    
+      if(res){
+        $(\'#aceptar_btn\').attr(\'disabled\', false)
+      }else{
+        $(\'#aceptar_btn\').attr(\'disabled\', true)
+      }
+      })
+    </script>
+    ';
+    echo $htmlRes;
+  }
 }

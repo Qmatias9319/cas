@@ -90,6 +90,7 @@ session_start();
       include('../afiliados/modalAvisos.php');
       include('../prestamos/modal_garantes.php');
       include('../prestamos/modalAceptados.php');
+      include('../prestamos/modalDocumentos.php');
       include('../prestamos/modal_aceptar_rechazar.php');
     ?>
 
