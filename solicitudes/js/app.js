@@ -101,6 +101,7 @@ $(".cig").on('focus', (e)=>{
 
 $("#monto").on('input', (e) => {
   const max = Number(restrict.data('max'));
+  console.log('MONTO maximo', max)
   if(Number(e.target.value) > max){
     $("#monto").addClass('is-invalid')
   }else{
@@ -111,6 +112,8 @@ $("#monto").on('input', (e) => {
 $("#plazo").on('input', (e) => {
   const mesMin = Number(restrict.data('mesmin'));
   const mesMax = Number(restrict.data('mesmax'));
+  console.log('Mes minimo', mesMin)
+  console.log('Mes maximo', mesMax)
   if(Number(e.target.value) < mesMin || Number(e.target.value) > mesMax){
     $("#plazo").addClass('is-invalid')
   }else{
