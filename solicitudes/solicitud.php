@@ -34,8 +34,10 @@ if($soli['restriccion'] == 'GRADO'){
 }
 $result = querySql($sql);
 $paramsRestrict = '';
+$montoMax = 0;
 if(count($result) > 0){
   $paramsRestrict = '<input type="hidden" id="restrict" data-max="'.$result['montoMax'].'" data-mesmin="'.$result['mesMin'].'" data-mesmax="'.$result['mesMax'].'" />';
+  $montoMax = $result['montoMax'];
 }
 
 ?>
@@ -84,8 +86,10 @@ if(count($result) > 0){
       <h2 class="u-align-center u-text u-text-palette-1-base u-text-1">SOLICITUD <?=$soli['title']?></h2>
       <div class="row">
         <div class="col-md-8 p-3" style="background-color:rgba(0,0,0,0.02);">
+          <div class="alert alert-primary" role="alert">
+            El monto máximo permitido para este préstamo es de $US. <b><?=$montoMax?></b>
+          </div>
           <h3>Los siguientes campos son requeridos</h3>
-
           <form id="formSoli" >
             <input type="hidden" id="tipoPrestamo" value="<?=$soli['tipo']?>" />
             <?php

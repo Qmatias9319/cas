@@ -135,7 +135,8 @@ function generaFilas(data){
             Acciones </button>
             <div class="dropdown-menu">
               <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modal_detalle" data-id="${element.idSocio}"><i class="fas fa-eye text-info"></i> &nbsp;&nbsp; Detalles</a>
-              <a class="dropdown-item" href="#"><i class="fas fa-edit text-primary"></i> &nbsp;&nbsp;Editar</a>
+              <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modal_edit_user" data-id="${element.idSocio}"><i class="fas fa-edit text-primary"></i> &nbsp;&nbsp;Editar</a>
+              <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modal_delete_user" data-id="${element.idSocio}" data-name="${element.paterno} ${element.materno} ${element.nombre}"><i class="fas fa-trash text-danger"></i> &nbsp;&nbsp;Eliminar</a>
             </div>
           </div>
         </td>
@@ -189,6 +190,13 @@ $('#modal_detalle').on('show.bs.modal', async function (event) {
   }
 })
 
+$("#modal_delete_user").on('show.bs.modal', (e) => {
+  const id = e.relatedTarget.dataset.id;
+  const nombre = e.relatedTarget.dataset.name;
+  $("#id_socio_delete").val(id)
+  $("#nombre_delete").html(nombre)
+})
+
 async function revisarSocio(id) {
   try {
     const htmlDatos = await $.ajax({
@@ -212,7 +220,40 @@ async function revisarSocio(id) {
   }
 }
 
-
+$("#modal_edit_user").on('show.bs.modal', async function (event) {
+  const id = event.relatedTarget.dataset.id;
+  $("#id_socio_edit").val(id)
+  $("#body_edit").html(`<div class="spinner-border text-info" role="status">
+    <span class="sr-only">Loading...</span></div>`)
+  try {
+    const res = await $.ajax({
+      url: `../../api/socio/dataEdit/${id}`,
+      type: 'GET',
+      dataType: 'json',
+    })
+    if(res.status == 'success'){
+      $("#body_edit").html('')
+      const data = JSON.parse(res.data);
+      $("#nombre_edit").val(`${data.nombre} ${data.paterno} ${data.materno}`);
+      $("#fuerza_edit").val(`${data.detalleFuerza}`);
+      $("#correo_edit").val(data.correo);
+      $("#celular_edit").val(data.celular);
+      $("#calle_edit").val(data.calle);
+      $("#nro_edit").val(data.numero);
+      $("#localidad_edit").val(data.localidad);
+      $("#grado_edit").html(res.htmlGrados);
+      $("#ciudad_edit").html(res.htmlDptos);
+      $("#estado_civil_edit").html(res.htmlEstadoCivil)
+    }else{
+      $("#modal_edit_user").modal('hide');
+      alertify.error('Ocurrio un error al obtener los datos del usuario');
+    }
+  } catch (error) {
+    console.warn(error)
+  } finally {
+    $("#body_edit").html('')
+  }
+})
 $("#modal_aceptar").on('show.bs.modal', function (e){
   $("#id_usuario_aceptar").val(e.relatedTarget.dataset.id)
 })
@@ -273,5 +314,47 @@ async function rechazarSocio(){
     }
   }else{
     alertify.error('Ocurrio un error con el usuario');
+  }
+}
+async function guardarEdit(){
+  const data = $("#form_edit_user").serialize();
+  try {
+    const res = await $.ajax({
+      url: '../../api/socio/saveEdit',
+      type: 'PUT',
+      data: data,
+      dataType: 'json'
+    });
+    if(res.status == 'success'){
+      alertify.success('Los datos del usuario fueron actualizados con éxito');
+      setTimeout(() => {
+        listarAfiliados();
+      }, 1800)
+    }else{
+      alertify.error('Ocurrio un error al actualizar los datos del usuario');
+    }    
+  } catch (error) {
+    console.log(error)
+  }
+}
+async function deleteSocio(){
+  const id = $("#id_socio_delete").val();
+  try {
+    const res = await $.ajax({
+      url: '../../api/socio/delete',
+      type: 'DELETE',
+      data: {idSocio: id},
+      dataType: 'json'
+    });
+    if(res.status == 'success'){
+      alertify.success('El socio fue eliminado');
+      setTimeout(() => {
+        listarAfiliados();
+      }, 1500);
+    }else{
+      alertify.error('Ocurrio un error al al eliminar socio');
+    }    
+  } catch (error) {
+    console.log(error)
   }
 }

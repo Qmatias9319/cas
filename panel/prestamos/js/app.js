@@ -130,8 +130,8 @@ function generaFilasAceptados(data) {
     filas += `
       <tr>
         <td>${element.usuario}</td>
-        <td>${element.ci}</td>
         <td>${element.tipo}</td>
+        <td>${element.estado}</td>
         <td>${element.monto}</td>
         <td>${element.plazo} meses</td>
         <td>${fecha2}</td>

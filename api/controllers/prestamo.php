@@ -211,4 +211,14 @@ class Prestamo {
     ';
     echo $htmlRes;
   }
+  public function cancel($request) {
+    $id = $request['idPrestamo'];
+    $prestamo = new PrestamoModel();
+    $res = $prestamo->cancelarPrestamo($id);
+    if($res == 1){
+      echo json_encode(array('status'=> 'success','message'=> 'Prestamo cancelado'));
+    }else{
+      echo json_encode(array('status'=> 'error','message'=> 'Ocurrio un error'));
+    }
+  }
 }

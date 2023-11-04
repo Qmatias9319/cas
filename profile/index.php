@@ -26,7 +26,8 @@ Our Professionals, ​Start using Our App for free">
 	<script type="text/javascript" src="../static/js/jquery.js"></script>
 	<link rel="stylesheet" href="../static/css/nicepage.css" media="screen">
 	<link rel="stylesheet" href="../static/css/Inicio.css" media="screen">
-	<link rel="stylesheet" href="../fontawesome/css/fontawesome.min.css">
+	<!-- <link rel="stylesheet" href="../fontawesome/css/fontawesome.min.css"> -->
+	<link rel="stylesheet" href="../panel/js_lib/plugins/fontawesome-free/css/all.min.css">
 	<link rel="stylesheet" href="./style.css">
 	<script class="u-script" type="text/javascript" src="../static/js/nicepage.js" defer=""></script>
 	<link href="../static/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
@@ -40,10 +41,37 @@ Our Professionals, ​Start using Our App for free">
 		div.file input{
 			cursor:pointer;			
 		}
+		#swal2-title{
+			font-size: 30px !important;
+			font-weight: bold !important;
+			color: var(--gray-dark) !important;
+		}
 	</style>
 </head>
 
 <body class="u-body u-xl-mode" data-lang="es">
+	<!-- modal aviso cancelar solicitud -->
+	<div class="modal fade" id="modal_cancelar_solicitud" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="z-index:10;">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title font-weight-bold">Cancelar solicitud de préstamo</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<input type="hidden" id="id_prestamo_cancelar">
+					¿Está seguro de cancelar la solicitud de préstamo?<br>
+					<small class="form-text text-muted"></small>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal"> Cancelar</button>
+					<button type="button" class="btn btn-danger" onclick="cancelarPrestamo()" data-dismiss="modal">Rechazar</button>
+				</div>
+			</div>
+		</div>
+	</div>
 	<div class="modal fade" id="modal_misprestamos" tabindex="-1" role="dialog" aria-hidden="true">
 		<div class="modal-dialog modal-lg" role="document">
 			<div class="modal-content">
@@ -58,13 +86,14 @@ Our Professionals, ​Start using Our App for free">
 					<thead>
 						<tr>
 							<th scope="col">IMPRIMIR FORM</th>
+							<th scope="col">CANCELAR SOLICITUD</th>
 							<th scope="col">TIPO PRÉSTAMO</th>
+							<th scope="col">ESTADO</th>
 							<th scope="col">MONTO $US.</th>
 							<th scope="col" style="min-width:90px;">PLAZO</th>
 							<th scope="col" style="min-width:100px;">MOTIVO</th>
 							<th scope="col">FECHA SOLICITUD</th>
 							<th scope="col">FECHA PAGO</th>
-							<th scope="col">ESTADO</th>
 						</tr>
 					</thead>
 					<tbody id="t_body_prestamos">

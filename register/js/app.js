@@ -265,11 +265,29 @@ $("#fecha_nac").on('change', (e) => {
     $(e.target).addClass('is-invalid');
   }
 });
-$("#email").on('input change', () => {
+$("#email").on('input', async () => {
   $('#email').removeClass('is-invalid')
   var regexCorreo = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
   if(!regexCorreo.test($('#email').val())){
     $('#email').addClass('is-invalid')
+    $("#feed-email").html('Ingrese un correo electrónico válido.');
+  }else{
+    try {
+      const res = await $.ajax({
+        url: '../api/socio/existeCorreo',
+        type: 'POST',
+        data: {email: $('#email').val()},
+        dataType: 'json'
+      })
+      if(res.status === 'error'){
+        $('#email').addClass('is-invalid')
+        $('#feed-email').html('El correo electrónico ya existe.');
+      }else{
+        $('#email').removeClass('is-invalid')
+      }
+    } catch (error) {
+      console.log(error)
+    }
   }
 })
 

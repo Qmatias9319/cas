@@ -28,12 +28,11 @@
                 <thead>
                   <tr>
                     <th>Socio</th>
-                    <th>C.I.</th>
                     <th>Tipo de préstamo</th>
+                    <th>Estado</th>
                     <th>Monto solicitado</th>
                     <th>Plazo Solcicitado</th>
                     <th>Fecha Aceptada</th>
-                    <!-- <th>Garantes</th> -->
                     <th>Opciones</th>
                   </tr>
                 </thead>

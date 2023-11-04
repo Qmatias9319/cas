@@ -192,7 +192,7 @@ class PrestamoModel{
   public function getAceptados(){
     $res = null;
     try {
-      $sql = "SELECT tp.*, concat(ts.nombre, ' ', ts.paterno, ' ', ts.materno) as usuario, concat(ts.ci,' ',te.detalle) as ci
+      $sql = "SELECT tp.*, concat(ts.nombre, ' ', ts.paterno, ' ', ts.materno) as usuario
       FROM tblPrestamo tp
       INNER JOIN tblSocio ts ON tp.idSocio = ts.idSocio
       INNER JOIN tblExpedicion te ON ts.idExpedicion = te.idExpedicion
@@ -228,6 +228,20 @@ class PrestamoModel{
       print_r($th);
     }
     return $res;
+  }
+  public function cancelarPrestamo($id){
+    try {
+      $sql = "UPDATE $this->table SET estado = 'CANCELADO' WHERE idPrestamo = ?";
+      $stmt = $this->pdo->prepare($sql);
+      if($stmt->execute([$id])){
+        return 1;
+      }else{
+        return -1;
+      }
+    } catch (\Throwable $th) {
+      print_r($th);
+      return -1;
+    }
   }
 }
 ?>

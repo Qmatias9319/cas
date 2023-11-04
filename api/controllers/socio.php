@@ -3,6 +3,9 @@ require_once('./models/socio.php');
 require_once('./models/vivienda.php');
 require_once('./models/detalleMilitar.php');
 require_once('./models/registro.php');
+require_once('./models/grado.php');
+require_once('./models/departamento.php');
+require_once('./models/estadoCivil.php');
 class Socio {
   public function __construct() {
   }
@@ -234,5 +237,65 @@ class Socio {
       }
     }
     return $res;
+  }
+
+  public function dataEdit($idSocio){
+    $socio = new SocioModel();
+    $data = $socio->getDetallesById($idSocio);
+    if(count($data) > 0){
+      $grados = new GradoModel();
+      $deps = new DepartamentoModel();
+      $estCivil = new EstadoCivilModel();
+      $data = $data[0];
+      unset($data->password);
+      unset($data->idMunicipio);
+      $htmlDptos = '<label>Ciudad Actual</label><select class="form-control" name="idDepartamento">';
+      foreach ($deps->getAllDepartamentos() as $dpto) {
+        $selected = $data->idDepartamento == $dpto['idDepartamento'] ? 'selected' : '';
+        $htmlDptos .= '<option value="'.$dpto['idDepartamento'].'" '.$selected.'>'. $dpto['detalle'] .'</option>';
+      }
+      $htmlDptos .= '</select>';
+      $htmlGrados = '<label>Grado</label><select class="form-control" name="idGrado">';
+      foreach($grados->getAllGrados($data->idFuerza) as $grado){
+        $selected = $data->grado == $grado['idGrado'] ? 'selected' : '';
+        $htmlGrados .= '<option value="'.$grado['idGrado'].'" '.$selected.'>'.$grado['detalle'].'</option>';
+      }
+      $htmlEstCivil = '<label>Estado civil</label><select class="form-control" name="idEstadoCivil">';
+      foreach ($estCivil->getAllEstadosCiviles() as $estadoc) {
+        $selected = $data->idEstadoCivil == $estadoc['idEstadoCivil'] ? 'selected': '';
+        $htmlEstCivil .= '<option value="'.$estadoc['idEstadoCivil'].'" '.$selected.'>'.$estadoc['detalle'].'</option>';
+      }
+      $htmlEstCivil .= '</select>';
+      $htmlGrados .= '</select>';
+      // print_r($grados->getAllGrados($data->idFuerza));
+      echo json_encode(array('status' => 'success','data'=> json_encode($data), 'htmlEstadoCivil' => $htmlEstCivil,'htmlGrados'=> $htmlGrados, 'htmlDptos' => $htmlDptos));
+    }else{
+      echo json_encode(array('status' => 'error', 'message' => 'No se encontro socio'));
+    }
+  }
+  public function saveEdit($request){
+    $socio = new SocioModel();
+    if($socio->saveEditSocio($request) != -1){
+      echo json_encode(array('status' => 'success', 'message' => 'Socio editado correctamente'));
+    }else{
+      echo json_encode(array('status' => 'error', 'message' => 'No se pudo editar el socio'));
+    }
+  }
+  public function delete($request){
+    $socio = new SocioModel();
+    if($socio->deleteSocio($request['idSocio']) != -1){
+      echo json_encode(array('status' => 'success', 'message' => 'Socio eliminado correctamente'));
+    }else{
+      echo json_encode(array('status'=> 'error', 'message'=> 'No se elimino al socio'));
+    }
+  }
+  public function existeCorreo($request, $files=null){
+    $socio = new SocioModel();
+    if($socio->emailExist($request['email'])){
+      echo json_encode(array('status' => 'error', 'message' => 'Correo ya existe'));
+    }else{
+      echo json_encode(array('status'=> 'success', 'message'=> 'Correo no existe'));
+    }
+
   }
 }

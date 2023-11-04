@@ -166,18 +166,40 @@ function armarTablaPrestamos(data){
     let fecha2 = data[i].fechaPrestamo != null ? new Date(data[i].fechaPrestamo):null;
     fecha2 = fecha2 != null ? fecha2.toLocaleDateString() : 'Sin pago realizado';
     // /formsPdf/form.php?nid=${data[i].idPrestamo}
+    let disabled = data[i].estado == 'SOLICITUD' ? '':'disabled';
     cadena += `
     <tr>
-      <td><a href="../formsPdf/form.php?nid=${data[i].idPrestamo}" class="btn btn-secondary" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><path d="M448 192V77.25c0-8.49-3.37-16.62-9.37-22.63L393.37 9.37c-6-6-14.14-9.37-22.63-9.37H96C78.33 0 64 14.33 64 32v160c-35.35 0-64 28.65-64 64v112c0 8.84 7.16 16 16 16h48v96c0 17.67 14.33 32 32 32h320c17.67 0 32-14.33 32-32v-96h48c8.84 0 16-7.16 16-16V256c0-35.35-28.65-64-64-64zm-64 256H128v-96h256v96zm0-224H128V64h192v48c0 8.84 7.16 16 16 16h48v96zm48 72c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24z"/></svg></a></td>
+      <td style="text-align:center;"><a href="../formsPdf/form.php?nid=${data[i].idPrestamo}" class="btn btn-secondary" target="_blank"><i class="fas fa-print"></i></a></td>
+      <td style="text-align:center;"><button type="button" class="btn btn-info" onclick="modalAviso(${data[i].idPrestamo})" ${disabled}><i class="fas fa-times-circle"></i></button></td>
       <td>${data[i].tipo}</td>
+      <td>${data[i].estado}</td>
       <td>${data[i].monto}</td>
       <td>${data[i].plazo} meses</td>
       <td>${data[i].motivo}</td>
       <td>${fecha}</td>
       <td>${fecha2}</td>
-      <td>${data[i].estado}</td>
     </tr>
     `
   }
   return cadena;
+}
+
+async function modalAviso(idPrestamo){
+  Swal.fire({
+    title: '¿Está seguro de cancelar la solicitud?',
+    showCancelButton: true,
+    confirmButtonText: 'Cancelar Préstamo',
+    cancelButtonText:'Volver',
+  }).then(async (result) => {
+    /* Read more about isConfirmed, isDenied below */
+    if (result.isConfirmed) {
+      const res = await $.ajax({url:'../api/prestamo/cancel', data: {idPrestamo}, dataType: 'json', type:'PUT'});
+      if(res.status === 'success'){
+        Swal.fire('Solicitud cancelada con éxito');
+        setTimeout(() => {
+          location.reload();
+        }, 1000);
+      }
+    }
+  })
 }

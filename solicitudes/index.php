@@ -14,7 +14,7 @@ if(isset($_SESSION['idUsuario'])){
   <meta charset="utf-8">
   <meta name="keywords" content="">
   <meta name="description" content="">
-  <title>Mis Cursos</title>
+  <title>Préstamos</title>
   <link rel="stylesheet" href="../static/css/nicepage.css" media="screen">
   <link rel="stylesheet" href="./css/soli.css" media="screen">
   <script class="u-script" type="text/javascript" src="../static/js/jquery.js"></script>

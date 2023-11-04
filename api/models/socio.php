@@ -169,7 +169,7 @@ class SocioModel{
     $res = array();
     try {
       $sql = "SELECT ts.*, tdm.idArma, tdm.idFuerza, tdm.grado, tdm.carnetCossmil, tdm.carnetMilitar, tdm.codigoBoleta, tdm.fechaIncorporacion, te.detalle as estadoCivil,
-      ta.detalle as detalleArma, tf.detalle as detalleFuerza, tg.detalle as detalleGrado, tv.calle, tv.localidad, tv.zona, tv.numero, td.detalle as departamento
+      ta.detalle as detalleArma, tf.detalle as detalleFuerza, tg.detalle as detalleGrado, tv.calle, tv.localidad, tv.zona, tv.numero, td.detalle as departamento, tv.idDepartamento
       FROM tblsocio ts
       LEFT JOIN tblDetalleMilitar tdm ON ts.idSocio = tdm.idSocio
       LEFT JOIN tblFuerza tf ON tf.idFuerza = tdm.idFuerza
@@ -233,6 +233,73 @@ class SocioModel{
     }
     return $res;
 
+  }
+  public function saveEditSocio($data){
+    try {
+      $sql = "UPDATE $this->table SET idEstadoCivil = ?, celular = ?, correo = ? WHERE idSocio = ?";
+      $stmt = $this->pdo->prepare($sql);
+      if($stmt->execute([$data['idEstadoCivil'], $data['celular'], $data['correo'], $data['idSocio']])){
+        $sql2 = "UPDATE tblVivienda SET numero = ?, localidad = ?, calle = ?, idDepartamento = ? WHERE idSocio = ?;";
+        $stmt2 = $this->pdo->prepare($sql2);
+        if($stmt2->execute([$data['numero'], $data['localidad'], $data['calle'], $data['idDepartamento'], $data['idSocio']])){
+          $sql3 = 'UPDATE tblDetalleMilitar SET grado = ? WHERE idSocio = ?;';
+          $stmt3 = $this->pdo->prepare($sql3);
+          if($stmt3->execute([$data['idGrado'], $data['idSocio']])){
+            return 1;
+          }else{
+            return -1;
+          }
+        }else{
+          return -1;
+        }
+      }else{
+        return -1;
+      }
+    } catch (\Throwable $th) {
+      print_r($th);
+      return -1;
+    }
+  }
+  public function deleteSocio($id){
+    try {
+      $sql = "DELETE FROM $this->table WHERE idSocio = ?";
+      $stmt = $this->pdo->prepare($sql);
+      if($stmt->execute([$id])){
+        $sql2 = "DELETE FROM tblDetalleMilitar WHERE idSocio = ?";
+        $stmt2 = $this->pdo->prepare($sql2);
+        if($stmt2->execute([$id])){
+          $sql3 = "DELETE FROM tblVivienda WHERE idSocio = ?";
+          $stmt3 = $this->pdo->prepare($sql3);
+          if($stmt3->execute([$id])){
+            return 1;
+          }else{
+            return -1;
+          }
+        }else{
+          return -1;
+        }
+      }else{
+        return -1;
+      }
+    } catch (\Throwable $th) {
+      print_r($th);
+      return -1;
+    }
+  }
+  public function emailExist(string $email){
+    try {
+      $sql = "SELECT count(*) FROM $this->table WHERE correo LIKE '$email';";
+      $stmt = $this->pdo->prepare($sql);
+      $stmt->execute();
+      if($stmt->fetchColumn() > 0){
+        return true;
+      }else{
+        return false;
+      }
+    } catch (\Throwable $th) {
+      print_r($th);
+      return false;
+    }
   }
 }
 ?>

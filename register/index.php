@@ -369,8 +369,7 @@ Our Professionals, ​Start using Our App for free">
                 <div class="input-group flex-nowrap input-group-lg">
                   <span class="input-group-text"><i class="fas fa-envelope"></i></span>
                   <input type="email" class="form-control" placeholder="Tu correo electrónico" name="correoElec" id="email" required />
-                  <div class="invalid-feedback">
-                    Ingrese un correo electrónico válido.
+                  <div class="invalid-feedback" id="feed-email">
                   </div>
                 </div>
               </div>
