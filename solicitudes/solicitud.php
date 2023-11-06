@@ -35,9 +35,13 @@ if($soli['restriccion'] == 'GRADO'){
 $result = querySql($sql);
 $paramsRestrict = '';
 $montoMax = 0;
+$plazoMin = 0;
+$plazoMax = 0;
 if(count($result) > 0){
   $paramsRestrict = '<input type="hidden" id="restrict" data-max="'.$result['montoMax'].'" data-mesmin="'.$result['mesMin'].'" data-mesmax="'.$result['mesMax'].'" />';
   $montoMax = $result['montoMax'];
+  $plazoMin = $result['mesMin'];
+  $plazoMax = $result['mesMax'];
 }
 
 ?>
@@ -87,7 +91,8 @@ if(count($result) > 0){
       <div class="row">
         <div class="col-md-8 p-3" style="background-color:rgba(0,0,0,0.02);">
           <div class="alert alert-primary" role="alert">
-            El monto máximo permitido para este préstamo es de $US. <b><?=$montoMax?></b>
+            El monto máximo permitido para este préstamo es de $US. <b><?=$montoMax?></b><br>
+            El plazo mínimo es <b><?=$plazoMin?></b> meses y el plazo máximo es <b><?=$plazoMax?></b> meses.
           </div>
           <h3>Los siguientes campos son requeridos</h3>
           <form id="formSoli" >

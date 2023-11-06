@@ -90,7 +90,7 @@ class SocioModel{
       LEFT JOIN tblDepartamento tdd ON tdd.idDepartamento = tv.idDepartamento
       LEFT JOIN tblDetalleMilitar td ON td.idSocio = ts.idSocio
       LEFT JOIN tblFuerza tf ON tf.idFuerza = td.idFuerza
-      LEFT JOIN tblGrado tg ON tg.idFuerza = tf.idFuerza
+      LEFT JOIN tblGrado tg ON tg.idGrado = td.grado
       LEFT JOIN tblRegistro tr ON tr.idSocio = ts.idSocio
       LEFT JOIN tblPrestamo tp ON tp.idSocio = ts.idSocio
       LEFT JOIN tblArma taa ON taa.idArma = td.idArma
