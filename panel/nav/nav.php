@@ -59,7 +59,7 @@ if (file_exists("../../images/logo.png")) {
           <a href="#afiliados" onclick="listarAfiliados()" <?php echo $text_movil ?> id="nav_afiliados" class="nav-link">
           <i class="nav-icon fas fa-users"></i>
             <p>
-              Socios
+              Asociados
             </p>
           </a>
         </li> 

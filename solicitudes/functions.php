@@ -7,7 +7,9 @@ function querySql($sql){
     $stmt = $pdo->prepare($sql);
     $stmt->execute();
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    return $result[0];
+    if($result){
+      return $result[0];
+    }
   } catch (\Throwable $th) {
     print_r($th);
   }

@@ -10,7 +10,7 @@ if(isset($_SESSION['idUsuario']) && isset($_GET['nsp'])){
 $data = file_get_contents('./solicitudes.json');
 $data = json_decode($data, true);
 $soli = $data[$nroSol];
-
+$auxilioAntiguedad = true;
 include('./functions.php');
 if($soli['restriccion'] == 'GRADO'){
   $sql = 'SELECT tv.montoMax, tp.mesMin, tp.mesMax FROM tblTipoPrestamo tp
@@ -22,6 +22,9 @@ if($soli['restriccion'] == 'GRADO'){
   )';
 }elseif($soli['restriccion'] == 'ANTIGUEDAD'){
   $antiguedad = antiguedad($_SESSION['idUsuario']);
+  if($antiguedad < 6){
+    $auxilioAntiguedad = false;
+  }
   $sql = 'SELECT TOP 1 tv.montoMax, tp.mesMin, tp.mesMax FROM tblTipoPrestamo tp
   INNER JOIN tblRestriccion tr ON tp.idTipoPrestamo = tr.idTipoPrestamo
   INNER JOIN tblValoresRestriccion tv ON tv.idRestriccion = tr.idRestriccion
@@ -37,11 +40,13 @@ $paramsRestrict = '';
 $montoMax = 0;
 $plazoMin = 0;
 $plazoMax = 0;
-if(count($result) > 0){
-  $paramsRestrict = '<input type="hidden" id="restrict" data-max="'.$result['montoMax'].'" data-mesmin="'.$result['mesMin'].'" data-mesmax="'.$result['mesMax'].'" />';
-  $montoMax = $result['montoMax'];
-  $plazoMin = $result['mesMin'];
-  $plazoMax = $result['mesMax'];
+if($result){
+  if(count($result) > 0){
+    $paramsRestrict = '<input type="hidden" id="restrict" data-max="'.$result['montoMax'].'" data-mesmin="'.$result['mesMin'].'" data-mesmax="'.$result['mesMax'].'" />';
+    $montoMax = $result['montoMax'];
+    $plazoMin = $result['mesMin'];
+    $plazoMax = $result['mesMax'];
+  }
 }
 
 ?>
@@ -90,6 +95,14 @@ if(count($result) > 0){
       <h2 class="u-align-center u-text u-text-palette-1-base u-text-1">SOLICITUD <?=$soli['title']?></h2>
       <div class="row">
         <div class="col-md-8 p-3" style="background-color:rgba(0,0,0,0.02);">
+          <?php if($auxilioAntiguedad == false):?>
+            <div class="alert alert-warning" role="alert">
+              Debe tener una antigüedad mínima de <b>6 meses</b> en la cooperativa, intente con otro tipo de préstamo.<br><br>
+              <div class="d-flex justify-content-center">
+                <button class="btn btn-secondary" onclick="history.back()">Volver</button>
+              </div>
+            </div>
+          <?php else: ?>
           <div class="alert alert-primary" role="alert">
             El monto máximo permitido para este préstamo es de $US. <b><?=$montoMax?></b><br>
             El plazo mínimo es <b><?=$plazoMin?></b> meses y el plazo máximo es <b><?=$plazoMax?></b> meses.
@@ -154,6 +167,7 @@ if(count($result) > 0){
               <button class="btn btn-primary ml-2" type="submit" id="btn_soli" disabled>Enviar</button>
             </div>
           </form>
+          <?php endif; ?>
         </div>
         <div class="col-md-4 p-3">
           <h3>Requisitos físicos</h3>
