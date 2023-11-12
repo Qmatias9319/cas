@@ -6,6 +6,9 @@ require_once('./models/registro.php');
 require_once('./models/grado.php');
 require_once('./models/departamento.php');
 require_once('./models/estadoCivil.php');
+require_once('./models/arma.php');
+require_once('./models/fuerza.php');
+require_once('./models/expedicion.php');
 class Socio {
   public function __construct() {
   }
@@ -246,7 +249,13 @@ class Socio {
       $grados = new GradoModel();
       $deps = new DepartamentoModel();
       $estCivil = new EstadoCivilModel();
+      $armaObj = new ArmaModel();
+      $fuerzaObj = new FuerzaModel();
+      $expedidoObj = new ExpedicionModel();
+      $expedidos = $expedidoObj->getAllExpediciones();
       $data = $data[0];
+      $armas = $armaObj->getAllArmas($data->idFuerza);
+      $fuerzas = $fuerzaObj->getAllFuerzas();
       unset($data->password);
       unset($data->idMunicipio);
       $htmlDptos = '<label>Ciudad Actual</label><select class="form-control" name="idDepartamento">';
@@ -255,9 +264,9 @@ class Socio {
         $htmlDptos .= '<option value="'.$dpto['idDepartamento'].'" '.$selected.'>'. $dpto['detalle'] .'</option>';
       }
       $htmlDptos .= '</select>';
-      $htmlGrados = '<label>Grado</label><select class="form-control" name="idGrado">';
+      $htmlGrados = '<label>Grado</label><select class="form-control" name="idGrado" id="grado_edit_s">';
       foreach($grados->getAllGrados($data->idFuerza) as $grado){
-        $selected = $data->grado == $grado['idGrado'] ? 'selected' : '';
+        $selected = $data->idGrado == $grado['idGrado'] ? 'selected' : '';
         $htmlGrados .= '<option value="'.$grado['idGrado'].'" '.$selected.'>'.$grado['detalle'].'</option>';
       }
       $htmlEstCivil = '<label>Estado civil</label><select class="form-control" name="idEstadoCivil">';
@@ -267,8 +276,25 @@ class Socio {
       }
       $htmlEstCivil .= '</select>';
       $htmlGrados .= '</select>';
+      $htmlArmas = '<label>Arma</label><select class="form-control" name="idArma" id="armas_edit_s">';
+      foreach ($armas as $arma) {
+        $selected = $data->idArma == $arma['idArma'] ? 'selected' : '';
+        $htmlArmas .= '<option value="'.$arma['idArma'].'" '.$selected.'>'.$arma['detalle'].'</option>';
+      }
+      $htmlArmas .= '</select>';
+      $htmlFuerza = '<label>Fuerza</label><select class="form-control" name="idFuerza" id="fuerza_select">';
+      foreach ($fuerzas as $fuerza) {
+        $selected = $data->idFuerza == $fuerza['idFuerza'] ? 'selected' : '';
+        $htmlFuerza .= '<option value="'.$fuerza['idFuerza'].'" '.$selected.'>'.$fuerza['detalle'].'</option>';
+      }
+      $htmlFuerza .= '</select>';
+      $htmlExp = '<option value="">--EXPEDIDO--</option>';
+      foreach ($expedidos as $exp) {
+        $selected = $data->idExpedicion == $exp['idExpedicion'] ? 'selected':'';
+        $htmlExp .= '<option value="'.$exp['idExpedicion'].'" '.$selected.'>'.$exp['detalle'].'</option>';
+      }
       // print_r($grados->getAllGrados($data->idFuerza));
-      echo json_encode(array('status' => 'success','data'=> json_encode($data), 'htmlEstadoCivil' => $htmlEstCivil,'htmlGrados'=> $htmlGrados, 'htmlDptos' => $htmlDptos));
+      echo json_encode(array('status' => 'success','data'=> json_encode($data), 'htmlEstadoCivil' => $htmlEstCivil,'htmlGrados'=> $htmlGrados, 'htmlDptos' => $htmlDptos, 'htmlArmas' => $htmlArmas, 'htmlFuerza' => $htmlFuerza, 'htmlExp' => $htmlExp));
     }else{
       echo json_encode(array('status' => 'error', 'message' => 'No se encontro socio'));
     }

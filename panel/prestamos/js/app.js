@@ -47,7 +47,7 @@ async function listarSolicitudes(){
       $('#t_prestamos_sol').DataTable({
         language: lenguaje,
         columnDefs: [
-          { orderable: false, targets: [1,4,5,7] }
+          { orderable: false, targets: [2,5,6,8] }
         ],
         "info": false,
         "scrollX": true,
@@ -68,6 +68,7 @@ function generaFilasSoli(data) {
     fecha = fecha.toLocaleDateString();
     filas += `
       <tr>
+        <td class="text-bold text-center">${element.idPrestamo}</td>
         <td>${element.usuario}</td>
         <td>${element.ci}</td>
         <td>${element.tipo}</td>

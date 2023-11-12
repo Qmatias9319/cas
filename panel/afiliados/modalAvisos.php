@@ -58,19 +58,37 @@
       </div>
       <div class="modal-body">
         <div class="d-flex justify-content-center" id="body_edit"></div>
-        <div class="form-group">
-          <label>Nombre y fuerza</label>
-          <!-- <small class="form-text text-info">Observaciones sobre los documentos presentados, datos personales, etc. (No es obligatorio)</small> -->
-          <input type="text" id="nombre_edit" class="form-control" readonly>
-          <input type="text" id="fuerza_edit" class="form-control mt-2" readonly>
-        </div>
         <form onsubmit="return false;" id="form_edit_user">
-        <input type="hidden" name="idSocio" id="id_socio_edit">
+          <div class="form-group">
+            <label>Nombres</label>
+            <input type="text" id="nombre_edit" class="form-control" name="nombre">
+          </div>
+          <div class="form-group">
+            <label for="paterno_edit">Apellidos Paterno y Materno</label><br>
+            <div class="input-group">
+              <input class="form-control" type="text" name="paterno" id="paterno_edit">
+              <input class="form-control" type="text" name="materno" id="materno_edit">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="ci_edit">C.I.</label><br>
+              <div class="input-group">
+                <input class="form-control" type="text" name="ci" id="ci_edit">
+                <select class="form-control" style="width:40px" type="text" name="extencion" id="extendido"></select>
+              </div>
+          </div>
+          <input type="hidden" name="idSocio" id="id_socio_edit">
+          <div class="form-group" id="fuerza_edit"></div>
           <div class="form-group" id="grado_edit"></div>
+          <div class="form-group" id="arma_edit"></div>
           <div class="form-group" id="ciudad_edit"></div>
           <div class="form-group">
             <label for="localidad_edit">Localidad</label>
             <input type="text" class="form-control" name="localidad" id="localidad_edit">
+          </div>
+          <div class="form-group">
+            <label for="zona_edit">Zona</label>
+            <input type="text" class="form-control" name="zona" id="zona_edit">
           </div>
           <div class="form-group">
             <label for="calle_edit">Calle/Avenida y Número</label><br>
@@ -87,6 +105,18 @@
           <div class="form-group">
             <label for="celular_edit">Número de celular</label>
             <input type="text" class="form-control" name="celular" id="celular_edit">
+          </div>
+          <div class="form-group">
+            <label for="celular_edit">Cod. Boleta de Pago</label>
+            <input type="text" class="form-control" name="codBoleta" id="boleta_edit">
+          </div>
+          <div class="form-group">
+            <label for="codMilitar_edit">Cod. Carnet Militar</label>
+            <input type="text" class="form-control" name="codCarnetMilitar" id="codMilitar_edit">
+          </div>
+          <div class="form-group">
+            <label for="codCossmil_edit">Cod. Cossmil</label>
+            <input type="text" class="form-control" name="cossmil" id="codCossmil_edit">
           </div>
         </form>        
       </div>

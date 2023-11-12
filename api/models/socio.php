@@ -168,7 +168,7 @@ class SocioModel{
   public function getDetallesById($id){
     $res = array();
     try {
-      $sql = "SELECT ts.*, tdm.idArma, tdm.idFuerza, tdm.grado, tdm.carnetCossmil, tdm.carnetMilitar, tdm.codigoBoleta, tdm.fechaIncorporacion, te.detalle as estadoCivil,
+      $sql = "SELECT ts.*, tdm.idArma, tdm.idFuerza, tg.detalle as grado, tg.idGrado, tdm.carnetCossmil, tdm.carnetMilitar, tdm.codigoBoleta, tdm.fechaIncorporacion, te.detalle as estadoCivil,
       ta.detalle as detalleArma, tf.detalle as detalleFuerza, tg.detalle as detalleGrado, tv.calle, tv.localidad, tv.zona, tv.numero, td.detalle as departamento, tv.idDepartamento
       FROM tblsocio ts
       LEFT JOIN tblDetalleMilitar tdm ON ts.idSocio = tdm.idSocio
@@ -236,15 +236,15 @@ class SocioModel{
   }
   public function saveEditSocio($data){
     try {
-      $sql = "UPDATE $this->table SET idEstadoCivil = ?, celular = ?, correo = ? WHERE idSocio = ?";
+      $sql = "UPDATE $this->table SET nombre = ?, paterno= ?, materno = ?, idEstadoCivil = ?, celular = ?, correo = ?, ci = ?, idExpedicion = ? WHERE idSocio = ?";
       $stmt = $this->pdo->prepare($sql);
-      if($stmt->execute([$data['idEstadoCivil'], $data['celular'], $data['correo'], $data['idSocio']])){
-        $sql2 = "UPDATE tblVivienda SET numero = ?, localidad = ?, calle = ?, idDepartamento = ? WHERE idSocio = ?;";
+      if($stmt->execute([$data['nombre'], $data['paterno'], $data['materno'], $data['idEstadoCivil'], $data['celular'], $data['correo'], $data['ci'], $data['extencion'], $data['idSocio']])){
+        $sql2 = "UPDATE tblVivienda SET numero = ?, localidad = ?, calle = ?, idDepartamento = ?, zona = ? WHERE idSocio = ?;";
         $stmt2 = $this->pdo->prepare($sql2);
-        if($stmt2->execute([$data['numero'], $data['localidad'], $data['calle'], $data['idDepartamento'], $data['idSocio']])){
-          $sql3 = 'UPDATE tblDetalleMilitar SET grado = ? WHERE idSocio = ?;';
+        if($stmt2->execute([$data['numero'], $data['localidad'], $data['calle'], $data['idDepartamento'], $data['zona'], $data['idSocio']])){
+          $sql3 = 'UPDATE tblDetalleMilitar SET grado = ?, idArma = ?, idFuerza = ?, codigoBoleta = ?, carnetMilitar = ?, carnetCossmil = ? WHERE idSocio = ?;';
           $stmt3 = $this->pdo->prepare($sql3);
-          if($stmt3->execute([$data['idGrado'], $data['idSocio']])){
+          if($stmt3->execute([$data['idGrado'], $data['idArma'], $data['idFuerza'], $data['codBoleta'], $data['codCarnetMilitar'], $data['cossmil'], $data['idSocio']])){
             return 1;
           }else{
             return -1;

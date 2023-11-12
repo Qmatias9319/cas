@@ -27,6 +27,7 @@
               <table id="t_afiliados_espera" class="table table-bordered table-striped" style="width:100%">
                 <thead>
                   <tr align="center">
+                    <th>ID</th>
                     <th>Apellidos</th>
                     <th>Nombres</th>
                     <th>C.I.</th>

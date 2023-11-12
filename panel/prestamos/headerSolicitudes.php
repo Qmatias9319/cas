@@ -27,6 +27,7 @@
               <table id="t_prestamos_sol" class="table table-bordered table-striped" style="width:100%">
                 <thead>
                   <tr>
+                    <th>ID</th>
                     <th>Socio</th>
                     <th>C.I.</th>
                     <th>Tipo de préstamo</th>
