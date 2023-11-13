@@ -32,6 +32,7 @@
                     <th>Estado</th>
                     <th>Monto solicitado</th>
                     <th>Plazo Solcicitado</th>
+                    <th>Motivo</th>
                     <th>Fecha Aceptada</th>
                     <th>Opciones</th>
                   </tr>

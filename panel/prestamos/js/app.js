@@ -109,7 +109,7 @@ async function listarPrestamos() {
       $("#t_body_prest").html(contenido);
       $("#t_prestamos_aceptados").DataTable({
         language: lenguaje,
-        columnDefs: [{ orderable: false, targets: [1, 4, 5, 6] }],
+        columnDefs: [{ orderable: false, targets: [1, 4, 6, 7] }],
         info: false,
         scrollX: true,
       });
@@ -124,10 +124,8 @@ function generaFilasAceptados(data) {
   let filas = "";
   for (let index = 0; index < data.length; index++) {
     const element = data[index];
-    let fecha = new Date(element.fechaSolicitud);
-    let fecha2 = new Date(element.fechaAceptacion);
-    fecha = fecha.toLocaleDateString();
-    fecha2 = fecha2.toLocaleDateString();
+    let fecha = new Date(element.fechaAceptacion);
+    fecha = `${fecha.getDate()+1}/${fecha.getMonth() + 1}/${fecha.getFullYear()}`;
     filas += `
       <tr>
         <td>${element.usuario}</td>
@@ -135,7 +133,8 @@ function generaFilasAceptados(data) {
         <td>${element.estado}</td>
         <td>${element.monto}</td>
         <td>${element.plazo} meses</td>
-        <td>${fecha2}</td>
+        <td>${element.motivo}</td>
+        <td>${fecha}</td>
         <td>
         <div class="dropdown">
           <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
