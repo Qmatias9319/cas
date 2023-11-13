@@ -330,7 +330,7 @@ Our Professionals, ​Start using Our App for free">
               <div class="row mb-4">
                 <div class="input-group flex-nowrap input-group-lg">
                   <span class="input-group-text"><i class="fas fa-regular fa-id-card"></i></span>
-                  <input type="text" class="form-control" placeholder="Carnet de identidad" name="ci" required />
+                  <input type="text" class="form-control" placeholder="Carnet de identidad" name="ci" required id="ci_rq" />
                   <div class="input-group-text p-0" style="width:70px;">
                     <select id="extension_ci" title="Extendido en..." name="expedido" class="form-select px-1" required style="border:none">
                       <option value="" title="extensión">S/E</option>

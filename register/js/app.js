@@ -372,3 +372,19 @@ $("#fecha_incorp").on('change',(e)=>{
     $(e.target).addClass('is-invalid');
   }
 })
+
+$('#ci_rq').on('change', async () => {
+  const res = await $.ajax({
+    url: '../api/socio/existeCI',
+    type: 'POST',
+    data: {ci: $('#ci_rq').val()},
+    dataType: 'json'
+  });
+  if(res.status === 'error'){
+    $('#ci_rq').addClass('is-invalid');
+    // $('#feed-ci').html('El número de cédula ya existe.');
+  }else{
+    $('#ci_rq').removeClass('is-invalid');
+    // $('#feed-ci').html('Debe ser un valor numerico');
+  }
+})

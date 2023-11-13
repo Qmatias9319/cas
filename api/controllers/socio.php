@@ -322,6 +322,14 @@ class Socio {
     }else{
       echo json_encode(array('status'=> 'success', 'message'=> 'Correo no existe'));
     }
+  }
 
+  public function existeCI($request, $files=null){
+    $socio = new SocioModel();
+    if($socio->ciExist($request['ci'])){
+      echo json_encode(array('status'=> 'success', 'message'=> 'CI no existe'));
+    }else{
+      echo json_encode(array('status' => 'error', 'message' => 'CI ya existe'));
+    }
   }
 }

@@ -301,5 +301,20 @@ class SocioModel{
       return false;
     }
   }
+  public function ciExist(string $ci){
+    try {
+      $sql = "SELECT count(*) FROM $this->table WHERE ci LIKE '$ci';";
+      $stmt = $this->pdo->prepare($sql);
+      $stmt->execute();
+      if($stmt->fetchColumn() > 0){
+        return true;
+      }else{
+        return false;
+      }
+    } catch (\Throwable $th) {
+      print_r($th);
+      return false;
+    }
+  }
 }
 ?>
