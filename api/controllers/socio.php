@@ -327,9 +327,9 @@ class Socio {
   public function existeCI($request, $files=null){
     $socio = new SocioModel();
     if($socio->ciExist($request['ci'])){
-      echo json_encode(array('status'=> 'success', 'message'=> 'CI no existe'));
+      echo json_encode(array('status'=> 'error', 'message'=> 'CI ya existe'));
     }else{
-      echo json_encode(array('status' => 'error', 'message' => 'CI ya existe'));
+      echo json_encode(array('status' => 'success', 'message' => 'CI no existe'));
     }
   }
 }
